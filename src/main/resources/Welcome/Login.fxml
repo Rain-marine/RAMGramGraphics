@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.welcome.LoginGuiController">
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="500.0" fitWidth="325.0">
+                           <image>
+                              <Image url="@../Images/welcome.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="500.0" prefWidth="430.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="registerButton" layoutX="259.0" layoutY="429.0" mnemonicParsing="false" onAction="#registerButtonClicked" style="-fx-background-color: #4b016e;" text="Register" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Label layoutX="65.0" layoutY="29.0" prefHeight="34.0" prefWidth="285.0" text="Welcome To RAMGram" textAlignment="CENTER" textFill="#c400fa">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Label layoutX="82.0" layoutY="431.0" text="Don't have an Account?" textFill="#be3dff">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="usernameTextField" layoutX="102.0" layoutY="141.0" prefHeight="30.0" prefWidth="220.0" promptText="username" style="-fx-background-color: gray;">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Button fx:id="loginButton" layoutX="272.0" layoutY="224.0" mnemonicParsing="false" onAction="#loginButtonClicked" style="-fx-background-color: #4b016e;" text="Login" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <PasswordField fx:id="passwordTextField" layoutX="102.0" layoutY="182.0" prefHeight="30.0" prefWidth="220.0" promptText="password" style="-fx-background-color: gray;">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></PasswordField>
+            <Label fx:id="errorMessage" layoutX="98.0" layoutY="319.0" prefHeight="30.0" prefWidth="220.0" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </right>
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </center>
+</BorderPane>

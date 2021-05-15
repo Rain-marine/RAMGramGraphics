@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainMenuGuiController">
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Region prefHeight="47.0" prefWidth="326.0" VBox.vgrow="ALWAYS" />
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="500.0" fitWidth="325.0">
+                           <image>
+                              <Image url="@Images/welcome.png" />
+                           </image>
+                        </ImageView>
+                        <ToolBar orientation="VERTICAL" prefHeight="500.0" prefWidth="71.0" style="-fx-background-color: none;">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                           <items>
+                              <Button fx:id="mainMenuButton" alignment="CENTER" mnemonicParsing="false" onAction="#mainMenuButtonClicked" prefHeight="38.0" prefWidth="95.0" style="-fx-background-color: #4b016e;" text="Main Menu" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <font>
+                                    <Font name="Gabriola" size="18.0" />
+                                 </font>
+                                 <effect>
+                                    <ColorAdjust />
+                                 </effect>
+                              </Button>
+                              <Button fx:id="backButton" alignment="CENTER" mnemonicParsing="false" onAction="#backButtonClicked" prefHeight="38.0" prefWidth="95.0" style="-fx-background-color: #4b016e;" text="Back" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <font>
+                                    <Font name="Gabriola" size="18.0" />
+                                 </font>
+                                 <effect>
+                                    <ColorAdjust />
+                                 </effect>
+                              </Button>
+                              <Button fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" onAction="#logoutButtonClicked" prefHeight="38.0" prefWidth="95.0" style="-fx-background-color: #4b016e;" text="Log Out" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <font>
+                                    <Font name="Gabriola" size="18.0" />
+                                 </font>
+                                 <effect>
+                                    <ColorAdjust />
+                                 </effect>
+                              </Button>
+                           </items>
+                        </ToolBar>
+                     </children>
+                  </AnchorPane>
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="500.0" prefWidth="430.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" fillWidth="false" layoutX="-22.0" prefHeight="500.0" prefWidth="460.0" spacing="15.0">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="10.0" top="20.0" />
+               </padding>
+               <children>
+                  <Button fx:id="personalPageButton" alignment="CENTER" blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#personalPageButtonClicked" prefHeight="114.0" prefWidth="475.0" style="-fx-background-color: #4b016e;" text="Personal Page" textAlignment="CENTER" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Gabriola" size="38.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="53.0" fitWidth="45.0">
+                           <image>
+                              <Image url="@Images/persIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="timeLineButton" alignment="CENTER" blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#timeLineButtonClicked" prefHeight="114.0" prefWidth="475.0" style="-fx-background-color: #4b016e;" text="TimeLine" textAlignment="CENTER" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Gabriola" size="38.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="42.0" fitWidth="42.0">
+                           <image>
+                              <Image url="@Images/hicon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="explorerButton" alignment="CENTER" blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#explorerButtonClicked" prefHeight="114.0" prefWidth="475.0" style="-fx-background-color: #4b016e;" text="Explorer" textAlignment="CENTER" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Gabriola" size="38.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="40.0">
+                           <image>
+                              <Image url="@Images/sicon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="messagingButton" alignment="CENTER" blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#messagingButtonClicked" prefHeight="114.0" prefWidth="475.0" style="-fx-background-color: #4b016e;" text="Messaging" textAlignment="CENTER" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Gabriola" size="38.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="42.0" fitWidth="48.0">
+                           <image>
+                              <Image url="@Images/micon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="settingButton" alignment="CENTER" blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#settingButtonClicked" prefHeight="114.0" prefWidth="475.0" style="-fx-background-color: #4b016e;" text="Setting" textAlignment="CENTER" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Gabriola" size="38.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="38.0">
+                           <image>
+                              <Image url="@Images/icon3.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </AnchorPane>
+   </right>
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Region prefHeight="500.0" prefWidth="18.0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </center>
+</BorderPane>

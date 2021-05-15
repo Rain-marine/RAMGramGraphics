@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <File name="FileAppender" fileName="./src/main/resources/logs/rain.log" immediateFlush="true" append="false">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+
+        <File name="File" fileName="./src/main/resources/logs/hibernate.log" immediateFlush="true" append="false">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+
+        <File name="Transaction" fileName="./src/main/resources/logs/hibernateTrans.log" immediateFlush="true" append="false">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+
+        <File name="Sql" fileName="./src/main/resources/logs/sql.log" immediateFlush="true" append="false">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+
+        <File name="Pretty" fileName="./src/main/resources/logs/pretty.log" immediateFlush="true" append="false">
+            <PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
+        </File>
+
+    </Appenders>
+
+    <Loggers>
+
+        <!-- Log everything in hibernate -->
+        <Logger name="org.hibernate" level="info" additivity="false">
+            <AppenderRef ref="File" />
+        </Logger>
+
+        <Logger name="org.hibernate.SQL" level="debug" additivity="false">
+            <AppenderRef ref="Sql" />
+        </Logger>
+
+        <Logger name="org.hibernate.pretty" level="debug" additivity="false">
+            <AppenderRef ref="Pretty" />
+        </Logger>
+
+        <Logger name="org.hibernate.transaction" level="debug" additivity="false">
+            <AppenderRef ref="Transaction" />
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="FileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
