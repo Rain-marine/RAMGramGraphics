@@ -130,7 +130,7 @@ public class RegisterGuiController {
 
     public void backButtonClicked(ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("Welcome/Login.fxml"));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/Welcome/Login.fxml"));
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

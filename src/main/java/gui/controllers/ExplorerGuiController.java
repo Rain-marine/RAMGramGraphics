@@ -1,17 +1,16 @@
 package gui.controllers;
 
-import gui.controllers.interfaces.InitializableController;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ExplorerGuiController implements InitializableController {
+public class ExplorerGuiController implements Initializable {
 
 
     @Override
-    public void initialize(int id) {
-        System.out.println("you did it!");
+    public void initialize(URL location, ResourceBundle resources) {
 
     }
 }

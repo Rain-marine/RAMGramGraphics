@@ -39,7 +39,7 @@ public class MainMenuGuiController {
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("MainMenu.fxml"));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/MainMenu.fxml"));
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -59,7 +59,7 @@ public class MainMenuGuiController {
         if (answer) {
             settingsController.logout();
             try {
-                root = FXMLLoader.load(getClass().getClassLoader().getResource("Welcome/Login.fxml"));
+                root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/Welcome/Login.fxml"));
                 stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
@@ -74,7 +74,8 @@ public class MainMenuGuiController {
 
     public void personalPageButtonClicked(ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("PersonalPage/PersonalPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("FXMLs/PersonalPage/PersonalPageMenu.fxml"));
+            root = loader.load();
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -91,18 +92,7 @@ public class MainMenuGuiController {
     }
 
     public void explorerButtonClicked(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Welcome/Explorer.fxml"));
-            System.out.println(loader.getLocation());
-            Parent p = loader.load();
 
-            ExplorerGuiController controller = loader.getController();
-            controller.initialize(1234);
-
-            //explorerGuiController.initialize();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void messagingButtonClicked(ActionEvent actionEvent) { //messagesMenuGuiController.initialize();
@@ -110,7 +100,7 @@ public class MainMenuGuiController {
 
     public void settingButtonClicked(ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("Setting/SettingMenu.fxml"));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/Setting/SettingMenu.fxml"));
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

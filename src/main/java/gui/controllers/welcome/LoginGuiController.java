@@ -50,7 +50,7 @@ public class LoginGuiController {
                 if(user.isActive()) {
                     log.info(username + " logged in");
                     try {
-                        root = FXMLLoader.load(getClass().getClassLoader().getResource("MainMenu.fxml"));
+                        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/MainMenu.fxml"));
                         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                         scene = new Scene(root);
                         stage.setScene(scene);
@@ -72,7 +72,7 @@ public class LoginGuiController {
 
     public void registerButtonClicked(ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("Welcome/Register.fxml"));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/Welcome/Register.fxml"));
             stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

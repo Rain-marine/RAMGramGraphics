@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainMenuGuiController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.PersonalPageGuiController">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -104,11 +104,7 @@
                         </ToolBar>
                         <AnchorPane fx:id="profilePhotoPane" layoutX="137.0" layoutY="14.0" prefHeight="114.0" prefWidth="113.0">
                            <children>
-                              <ImageView fx:id="profilePhotoImage" fitHeight="136.0" fitWidth="133.0" layoutX="4.0">
-                                 <image>
-                                    <Image url="@../../../../../icon2.png" />
-                                 </image>
-                              </ImageView>
+                              <ImageView fx:id="profilePhotoImage" fitHeight="136.0" fitWidth="133.0" layoutX="4.0" />
                            </children>
                         </AnchorPane>
                         <VBox layoutY="152.0" prefHeight="341.0" prefWidth="344.0" spacing="15.0">
@@ -123,7 +119,7 @@
                                           <Font size="19.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="usernameField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
+                                    <TextField fx:id="usernameTextField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
@@ -143,7 +139,7 @@
                                           <Insets left="40.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="nameField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
+                                    <TextField fx:id="nameTextField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
@@ -160,7 +156,7 @@
                                           <Insets left="40.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="emailField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
+                                    <TextField fx:id="emailTextField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
@@ -177,7 +173,7 @@
                                           <Insets left="40.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="phoneNumberField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
+                                    <TextField fx:id="phoneNumberTextField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
@@ -194,7 +190,7 @@
                                           <Insets left="40.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="birthdayField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
+                                    <TextField fx:id="birthdayTextField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
                                        <font>
                                           <Font size="17.0" />
                                        </font>
@@ -211,7 +207,7 @@
                                           <Insets left="40.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="bioTextfield" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
+                                    <TextField fx:id="bioTextField" prefHeight="38.0" prefWidth="194.0" style="-fx-background-color: black; -fx-border-radius: 0; -fx-background-radius: 0; -fx-text-fill: #ffffff;" text="username">
                                        <font>
                                           <Font size="17.0" />
                                        </font>

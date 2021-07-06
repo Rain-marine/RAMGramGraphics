@@ -8,14 +8,13 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import util.ConfigLoader;
 
 
 public class Main extends Application {
     static Logger log = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
        log.info("Application Started");
-//        MenuManager manager = new MenuManager(new Scanner(System.in));
-//        manager.run();
         launch(args);
 
     }
@@ -23,7 +22,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         final SettingController settingsController = new SettingController();
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLs/Welcome/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource(ConfigLoader.readProperty("loginFXMLAddress")));
         primaryStage.setTitle("RAMGram");
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
@@ -33,8 +32,8 @@ public class Main extends Application {
                 primaryStage.close();
             }
         });
-
-        primaryStage.getIcons().add(new Image("file:resources/Images/icon.jpg"));
+        Image icon = new Image(String.valueOf(getClass().getResource(ConfigLoader.readProperty("appIconAddress"))));
+        primaryStage.getIcons().add(icon);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
