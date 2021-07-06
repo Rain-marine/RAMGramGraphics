@@ -28,7 +28,7 @@
                      <children>
                         <ImageView fitHeight="500.0" fitWidth="325.0">
                            <image>
-                              <Image url="@../Images/welcome.png" />
+                              <Image url="@../../Images/welcome.png" />
                            </image>
                         </ImageView>
                         <AnchorPane prefHeight="500.0" prefWidth="353.0">

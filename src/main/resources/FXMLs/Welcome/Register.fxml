@@ -105,7 +105,7 @@
          <children>
             <ImageView fitHeight="512.0" fitWidth="342.0" layoutX="-7.0">
                <image>
-                  <Image url="@../Images/welcome.png" />
+                  <Image url="@../../Images/welcome.png" />
                </image>
             </ImageView>
             <Button fx:id="backButton" layoutX="14.0" layoutY="472.0" mnemonicParsing="false" onAction="#backButtonClicked" style="-fx-background-color: #4b016e;" text="Back" textFill="WHITE">

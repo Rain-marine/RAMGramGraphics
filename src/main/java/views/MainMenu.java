@@ -2,14 +2,13 @@ package views;
 
 import views.Message.MessageMenu;
 import views.Setting.SettingMenu;
-import views.profiles.FollowingProfile;
 
 import java.util.Arrays;
 
 public class MainMenu extends Menu {
 
     public MainMenu() {
-        options = Arrays.asList("Personal page", "Timeline", "Explorer", "Message", "Setting");
+        options = Arrays.asList("Personal page", "Timeline", "Explorer", "Message", "FXMLs/Setting");
     }
 
     @Override

@@ -23,7 +23,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         final SettingController settingsController = new SettingController();
-        Parent root = FXMLLoader.load(getClass().getResource("Welcome/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLs/Welcome/Login.fxml"));
         primaryStage.setTitle("RAMGram");
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
