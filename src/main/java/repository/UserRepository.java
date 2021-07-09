@@ -515,6 +515,8 @@ public class UserRepository {
     }
 
     public void changeProfilePhoto(long userId, byte[] newPhoto) {
-
+        User user = getById(userId);
+        user.setProfilePhoto(newPhoto);
+        save(user);
     }
 }

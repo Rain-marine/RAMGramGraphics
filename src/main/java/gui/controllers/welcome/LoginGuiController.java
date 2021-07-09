@@ -2,6 +2,7 @@ package gui.controllers.welcome;
 
 import controllers.AuthController;
 import exceptions.InvalidInputException;
+import gui.controllers.Toolbar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.User;
 import org.apache.log4j.LogManager;
@@ -37,7 +39,7 @@ public class LoginGuiController {
 
 
     public void loginButtonClicked(ActionEvent actionEvent) {
-        System.out.println("logging in....");
+        System.out.println("Checking Login validation. please wait...");
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
         if(username.isEmpty())
@@ -49,15 +51,7 @@ public class LoginGuiController {
                 User user = authController.login(username, password);
                 if(user.isActive()) {
                     log.info(username + " logged in");
-                    try {
-                        root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/MainMenu.fxml"));
-                        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                        scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Toolbar.getInstance().mainMenuButtonClicked(actionEvent);
                 }
                 else{
                     //todo : deActive profile

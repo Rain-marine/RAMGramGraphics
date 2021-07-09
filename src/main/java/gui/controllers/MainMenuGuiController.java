@@ -38,16 +38,7 @@ public class MainMenuGuiController {
     private final SettingController settingsController = new SettingController();
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/MainMenu.fxml"));
-            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
+        AlertBox.display("Nerd Alert","You \"are\" in main menu idiot");
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {

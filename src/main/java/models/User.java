@@ -431,4 +431,12 @@ public class User {
     public void setUserChats(List<UserChat> userChats) {
         this.userChats = userChats;
     }
+
+    public byte[] getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(byte[] profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
 }

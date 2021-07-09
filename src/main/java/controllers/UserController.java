@@ -8,87 +8,104 @@ import repository.NotificationRepository;
 import repository.UserRepository;
 
 import java.util.Date;
-import java.util.List;
 
 public class UserController {
-    private final UserRepository userRepository;
-    private final FactionRepository factionRepository;
-    private final NotificationRepository notificationRepository;
+    private final UserRepository USER_REPOSITORY;
+    private final FactionRepository FACTION_REPOSITORY;
+    private final NotificationRepository NOTIFICATION_REPOSITORY;
+    private final RegisterManager REGISTER_MANAGER;
 
     public UserController() {
-        this.userRepository = new UserRepository();
-        factionRepository = new FactionRepository();
-        notificationRepository = new NotificationRepository();
+        USER_REPOSITORY = new UserRepository();
+        FACTION_REPOSITORY = new FactionRepository();
+        NOTIFICATION_REPOSITORY = new NotificationRepository();
+        REGISTER_MANAGER = new RegisterManager();
     }
 
     public void blockUser(User userToBlock) {
-        User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
+        User loggedUser = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
         for (User user : loggedUser.getFollowers())
             if(user.getUsername().equals(userToBlock.getUsername())) {
-                notificationRepository.removeFromFollowers(loggedUser.getId(), user.getId());
+                NOTIFICATION_REPOSITORY.removeFromFollowers(loggedUser.getId(), user.getId());
                 break;
             }
-        for (User user : userRepository.getById(LoggedUser.getLoggedUser().getId()).getFollowings())
+        for (User user : USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId()).getFollowings())
             if(user.getUsername().equals(userToBlock.getUsername())) {
-                notificationRepository.removeFromFollowings(loggedUser.getId(), user.getId());
+                NOTIFICATION_REPOSITORY.removeFromFollowings(loggedUser.getId(), user.getId());
                 break;
             }
-        for (Group group : userRepository.getById(LoggedUser.getLoggedUser().getId()).getGroups()) {
+        for (Group group : USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId()).getGroups()) {
             for (User member : group.getMembers()) {
                 if(member.getUsername().equals(userToBlock.getUsername())) {
-                    factionRepository.removeUserFromGroup(member.getId(), group.getId());
+                    FACTION_REPOSITORY.removeUserFromGroup(member.getId(), group.getId());
                     break;
                 }
             }
         }
-        factionRepository.addUserToBlackList(loggedUser.getId(), userToBlock.getId());
+        FACTION_REPOSITORY.addUserToBlackList(loggedUser.getId(), userToBlock.getId());
     }
 
     public void muteUser(User user) {
-        userRepository.mute(LoggedUser.getLoggedUser().getId(), user.getId());
+        USER_REPOSITORY.mute(LoggedUser.getLoggedUser().getId(), user.getId());
     }
 
     public User getUserByUsername(String usernameToFind) {
-        return userRepository.getByUsername(usernameToFind);
+        return USER_REPOSITORY.getByUsername(usernameToFind);
     }
 
     public void reportUser(User user) {
-        userRepository.increaseReportCount(user.getId());
+        USER_REPOSITORY.increaseReportCount(user.getId());
     }
 
-    public void ChangeUsername(String newUsername) {
-        userRepository.changeUsername(LoggedUser.getLoggedUser().getId(), newUsername);
+    public boolean ChangeUsername(String newUsername) {
+        if (REGISTER_MANAGER.isUsernameAvailable(newUsername)) {
+            USER_REPOSITORY.changeUsername(LoggedUser.getLoggedUser().getId(), newUsername);
+            return true;
+        }
+        return false;
     }
 
     public void changeBio(String newBio) {
-        userRepository.changeBio(LoggedUser.getLoggedUser().getId(), newBio);
+        USER_REPOSITORY.changeBio(LoggedUser.getLoggedUser().getId(), newBio);
     }
 
     public void changeName(String newName) {
-        userRepository.changeFullName(LoggedUser.getLoggedUser().getId(), newName);
+        USER_REPOSITORY.changeFullName(LoggedUser.getLoggedUser().getId(), newName);
     }
 
     public void changeBirthday(Date birthday) {
-        userRepository.changeBirthdayDate(LoggedUser.getLoggedUser().getId(), birthday);
+        USER_REPOSITORY.changeBirthdayDate(LoggedUser.getLoggedUser().getId(), birthday);
     }
 
-    public void changeEmail(String newEmail) {
-        userRepository.changeEmail(LoggedUser.getLoggedUser().getId(), newEmail);
+    public boolean changeEmail(String newEmail) {
+        if (REGISTER_MANAGER.isEmailAvailable(newEmail)) {
+            USER_REPOSITORY.changeEmail(LoggedUser.getLoggedUser().getId(), newEmail);
+            return true;
+        }
+        return false;
     }
 
-    public void changeNumber(String newNumber) {
-        userRepository.changePhoneNumber(LoggedUser.getLoggedUser().getId(), newNumber);
+    public boolean changeNumber(String newNumber) {
+        if(REGISTER_MANAGER.isPhoneNumberAvailable(newNumber)) {
+            USER_REPOSITORY.changePhoneNumber(LoggedUser.getLoggedUser().getId(), newNumber);
+            return true;
+        }
+        return false;
     }
 
     public void unblockUser(User user) {
-        userRepository.unblock(LoggedUser.getLoggedUser().getId(), user.getId());
+        USER_REPOSITORY.unblock(LoggedUser.getLoggedUser().getId(), user.getId());
     }
 
     public boolean isAccountPublic(String username) {
-        return userRepository.getByUsername(username).isPublic();
+        return USER_REPOSITORY.getByUsername(username).isPublic();
     }
 
     public void changeProfilePhoto(byte[] newPhoto){
-        userRepository.changeProfilePhoto(LoggedUser.getLoggedUser().getId(), newPhoto);
+        USER_REPOSITORY.changeProfilePhoto(LoggedUser.getLoggedUser().getId(), newPhoto);
+    }
+
+    public User getById(long id) {
+        return USER_REPOSITORY.getById(id);
     }
 }
