@@ -45,10 +45,7 @@ public class RegisterGuiController {
     private TextField bioTextField;
     @FXML
     private DatePicker birthdayTextField;
-    @FXML
-    private Button backButton;
-    @FXML
-    private Button registerButton;
+
     private Stage stage;
     private Scene scene;
     private Parent root;

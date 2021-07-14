@@ -1,8 +1,7 @@
 package gui.controllers;
 
 import controllers.SettingController;
-import gui.controllers.popups.AlertBox;
-import gui.controllers.popups.ConfirmBox;
+import gui.controllers.popups.SimpleConfirmBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,7 +19,6 @@ public class Toolbar {
     private static Toolbar toolbar;
 
     private Toolbar() {
-        this.toolbar = toolbar;
     }
 
     public static Toolbar getInstance(){
@@ -30,9 +28,9 @@ public class Toolbar {
         return toolbar;
     }
 
-    public void mainMenuButtonClicked(ActionEvent actionEvent) {
+    public void changeScene(String address, ActionEvent actionEvent){
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource(ConfigLoader.readProperty("mainMenuAdd")));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource(address));
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -43,25 +41,21 @@ public class Toolbar {
         }
     }
 
-    public void backButtonClicked(ActionEvent actionEvent) {
-
+    public void mainMenu(ActionEvent actionEvent) {
+        changeScene(ConfigLoader.readProperty("mainMenuAdd"),actionEvent);
     }
 
-    public void logoutButtonClicked(ActionEvent actionEvent) {
-        boolean answer = ConfirmBox.display("Log out confirmation", "Are you sure you want to Log out??");
+    public void logout(ActionEvent actionEvent) {
+        boolean answer = SimpleConfirmBox.display("Log out confirmation", "Are you sure you want to Log out??");
         if (answer) {
             settingsController.logout();
-            try {
-                root = FXMLLoader.load(getClass().getClassLoader().getResource(ConfigLoader.readProperty("loginFXMLAddress")));
-                stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
-
+            changeScene(ConfigLoader.readProperty("loginFXMLAddress"),actionEvent);
         }
     }
+
+    public void noConfirmLogout(ActionEvent actionEvent) {
+        settingsController.logout();
+        changeScene(ConfigLoader.readProperty("loginFXMLAddress"),actionEvent);
+    }
+
 }

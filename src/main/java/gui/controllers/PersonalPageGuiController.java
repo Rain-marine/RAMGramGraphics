@@ -85,15 +85,15 @@ public class PersonalPageGuiController implements Initializable {
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenuButtonClicked(actionEvent);
+        Toolbar.getInstance().mainMenu(actionEvent);
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logoutButtonClicked(actionEvent);
+        Toolbar.getInstance().logout(actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenuButtonClicked(actionEvent);
+        Toolbar.getInstance().mainMenu(actionEvent);
     }
 
     public void updateInfoButtonClicked(ActionEvent actionEvent) {

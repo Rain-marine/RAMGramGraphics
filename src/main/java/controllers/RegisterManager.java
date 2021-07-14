@@ -3,23 +3,14 @@ package controllers;
 import models.User;
 import repository.UserRepository;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RegisterManager {
     private final UserRepository userRepository = new UserRepository();
 
-    public void makeNewUser(String fullName, String username, String password, String email, String phoneNumber, String bio, String birthDate)   {
-        Date birthday = null ;
-        if (birthDate!=null && !birthDate.equals("")) {
-            try {
-                birthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthDate);
-            } catch (ParseException e) {
-                return;
-            }
-        }
-        User user = new User(username,fullName,email,password,phoneNumber, bio,birthday);
+    public void makeNewUser(String fullName, String username, String password, String email, String phoneNumber, String bio, String birthday)   {
+        Date birthdayDate = DateFormat.stringToDate(birthday);
+        User user = new User(username,fullName,email,password,phoneNumber, bio, birthdayDate);
         userRepository.insert(user);
     }
 

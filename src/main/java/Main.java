@@ -1,5 +1,5 @@
 import controllers.SettingController;
-import gui.controllers.popups.ConfirmBox;
+import gui.controllers.popups.SimpleConfirmBox;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,7 +26,7 @@ public class Main extends Application {
         primaryStage.setTitle("RAMGram");
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
-            boolean answer = ConfirmBox.display("Exit confirmation" , "Are you sure to Exit?");
+            boolean answer = SimpleConfirmBox.display("Exit confirmation" , "Are you sure to Exit?");
             if (answer){
                 settingsController.logout();
                 primaryStage.close();

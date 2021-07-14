@@ -27,7 +27,7 @@ public class SettingController {
         LoggedUser.setLoggedUser(null);
     }
 
-    public boolean doesPasswordExist(String password) {
+    public boolean isPasswordCorrect(String password) {
         return userRepository.getById(LoggedUser.getLoggedUser().getId()).getPassword().equals(password);
     }
 
@@ -42,7 +42,7 @@ public class SettingController {
 
     public void deActiveAccount() {
         userRepository.deactivateAccount(LoggedUser.getLoggedUser().getId());
-        LoggedUser.setLoggedUser(null);
+        logout();
     }
 
     public String getUserLastSeenStatus(String username) {
@@ -148,8 +148,8 @@ public class SettingController {
 
     public void changeNumberStatus(String newStatus) {
         User.Level status = switch (newStatus) {
-            case "following" -> User.Level.FOLLOWING;
-            case "everybody" -> User.Level.ALL;
+            case "FOLLOWING" -> User.Level.FOLLOWING;
+            case "ALL" -> User.Level.ALL;
             default -> User.Level.NONE;
         };
         userRepository.changeNumberStatus(LoggedUser.getLoggedUser().getId(), status);
@@ -157,8 +157,8 @@ public class SettingController {
 
     public void changeEmailStatus(String newStatus) {
         User.Level status = switch (newStatus) {
-            case "following" -> User.Level.FOLLOWING;
-            case "everybody" -> User.Level.ALL;
+            case "FOLLOWING" -> User.Level.FOLLOWING;
+            case "ALL" -> User.Level.ALL;
             default -> User.Level.NONE;
         };
         userRepository.changeEmailStatus(LoggedUser.getLoggedUser().getId(), status);
@@ -166,8 +166,8 @@ public class SettingController {
 
     public void changeBirthdayStatus(String newStatus) {
         User.Level status = switch (newStatus) {
-            case "following" -> User.Level.FOLLOWING;
-            case "everybody" -> User.Level.ALL;
+            case "FOLLOWING" -> User.Level.FOLLOWING;
+            case "ALL" -> User.Level.ALL;
             default -> User.Level.NONE;
         };
         userRepository.changeBirthdayStatus(LoggedUser.getLoggedUser().getId(), status);

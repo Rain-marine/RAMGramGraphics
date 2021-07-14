@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.User;
 import org.apache.log4j.LogManager;
@@ -51,7 +50,7 @@ public class LoginGuiController {
                 User user = authController.login(username, password);
                 if(user.isActive()) {
                     log.info(username + " logged in");
-                    Toolbar.getInstance().mainMenuButtonClicked(actionEvent);
+                    Toolbar.getInstance().mainMenu(actionEvent);
                 }
                 else{
                     //todo : deActive profile

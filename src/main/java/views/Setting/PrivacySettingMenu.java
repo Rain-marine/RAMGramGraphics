@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class PrivacySettingMenu extends Menu {
     private final SettingController settingController;
-    private final  ArrayList<String> status = new ArrayList<>() {
+    private final ArrayList<String> status = new ArrayList<>() {
         {
             add("nobody");
             add("everybody");
@@ -22,7 +22,7 @@ public class PrivacySettingMenu extends Menu {
     public PrivacySettingMenu() {
         settingController = new SettingController();
         options = Arrays.asList("private/public", "lastSeen/online", "activation", "change password",
-                "change birthday visibility", "change email visibility","change number visibility","back");
+                "change birthday visibility", "change email visibility", "change number visibility", "back");
     }
 
     @Override
@@ -116,7 +116,7 @@ public class PrivacySettingMenu extends Menu {
             String input = scanner.nextLine();
             if (input.equals("B"))
                 return;
-            isValid = settingController.doesPasswordExist(input);
+            isValid = settingController.isPasswordCorrect(input);
             if (!isValid)
                 System.out.println("Password is incorrect! Enter again!");
         }
