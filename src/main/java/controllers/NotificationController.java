@@ -69,7 +69,7 @@ public class NotificationController {
         notificationRepository.removeFromFollowings(loggedUser.getId(), user.getId());
         notificationRepository.removeFromFollowers(user.getId(), loggedUser.getId());
 
-        List<Group> loggedUserGroups = loggedUser.getGroups();
+        List<Group> loggedUserGroups = userRepository.getById(loggedUser.getId()).getGroups();
         for (Group group : loggedUserGroups) {
             for (User member : group.getMembers()) {
                 if (member.getUsername().equals(user.getUsername())) {

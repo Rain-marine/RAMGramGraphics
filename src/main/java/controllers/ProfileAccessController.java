@@ -1,12 +1,10 @@
 package controllers;
 
+import gui.controllers.profiles.*;
 import models.LoggedUser;
 import models.NotificationType;
 import models.User;
 import repository.UserRepository;
-import views.Menu;
-import views.profiles.*;
-
 import java.util.List;
 
 public class ProfileAccessController {
@@ -14,77 +12,94 @@ public class ProfileAccessController {
     private final User loggedUser;
     private final long loggedUserId;
     private final User otherUser;
-    private final Menu previousMenu;
+    private final int previousMenu;
     private final long otherUserId;
     private final UserRepository userRepository;
+    private int factionId;
 
-    public ProfileAccessController(Menu previousMenu, User otherUser1 ) {
-        userRepository = new UserRepository();
+    public ProfileAccessController(int previousMenu, User otherUser1 , int factionId ) {
+        this.userRepository = new UserRepository();
         this.loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
         this.otherUser = userRepository.getById(otherUser1.getId());
-        this.previousMenu = previousMenu;        //previous menu may only be explorer
+        this.previousMenu = previousMenu;
         this.loggedUserId = loggedUser.getId();
         this.otherUserId = otherUser.getId();
-
+        this.factionId = factionId;
     }
 
-    public Menu checkAccessibility() {
+    public String checkAccessibility() {
         //is it myself? :)
         if(otherUserId==loggedUserId)
-            return new SelfProfile(previousMenu);
+            return "FXMLs/PersonalPage/PersonalPageMenu.fxml";
         //is Active>
         if (!otherUser.isActive()){
-            return new ProfileNotVisible();
+            return "FXMLs/Profiles/NotVisibleProfile.fxml";
         }
         else {
             //have I blocked them?
             List<User> loggedUserBlacklist = loggedUser.getBlackList();
             for (User user : loggedUserBlacklist) {
                 if (user.getId() == otherUserId) {
-                    return new BlockedProfile(otherUser, previousMenu);
+                    BlockedProfileGuiController.setUser(otherUser);
+                    BlockedProfileGuiController.setPrevious(previousMenu);
+                    BlockedProfileGuiController.setFactionId(factionId);
+                    return "FXMLs/Profiles/BlockedProfile.fxml";
                 }
             }
             //am I following them?
             List<User> loggedUserFollowing = loggedUser.getFollowings();
             for (User user : loggedUserFollowing) {
                 if (user.getId() == otherUserId) {
-                    return new FollowingProfile(otherUser, previousMenu);
+                    FollowingProfileGuiController.setUser(otherUser);
+                    FollowingProfileGuiController.setPrevious(previousMenu);
+                    FollowingProfileGuiController.setFactionId(factionId);
+                    return "FXMLs/Profiles/FollowingProfile.fxml";
                 }
             }
             //am I blocked?
             List<User> blackList =otherUser.getBlackList();
             for (User user : blackList) {
                 if (user.getId() == loggedUserId){
-                    return new ProfileNotVisible();
+                    return "FXMLs/Profiles/NotVisibleProfile.fxml";
                 }
             }
             //is their account private?
             if (otherUser.isPublic()){
-                return new PublicProfile(otherUser,previousMenu);
+                PublicProfileGuiController.setUser(otherUser);
+                PublicProfileGuiController.setPrevious(previousMenu);
+                return "FXMLs/Profiles/PublicProfile.fxml";
             }
 
             //have I send request?
             if (otherUser.getReceiverNotifications().stream().anyMatch(it -> ((it.getSender().getId() == loggedUserId)
             && (it.getType() == NotificationType.FOLLOW_REQ)))) {
-                return new PendingRequestProfile(otherUser,previousMenu);
+                PendingRequestProfileGuiController.setPrevious(previousMenu);
+                PendingRequestProfileGuiController.setUser(otherUser);
+                return "FXMLs/Profiles/PendingRequestProfile.fxml";
 
             }
-            return new PrivateProfile(otherUser, previousMenu);
+            PrivateProfileGuiController.setUser(otherUser);
+            PrivateProfileGuiController.setPrevious(previousMenu);
+            return "FXMLs/Profiles/PrivateProfile.fxml";
 
 
 
         }
     }
 
-    public Menu checkFollowing() {
+    public String checkFollowing() {
         //Active, public, not block,
         //am I following them?
         List<User> loggedUserFollowing = loggedUser.getFollowings();
         for (User user : loggedUserFollowing) {
             if (user.getId() == otherUserId) {
-                return new FollowingProfile(otherUser, previousMenu);
+                FollowingProfileGuiController.setUser(otherUser);
+                FollowingProfileGuiController.setPrevious(previousMenu);
+                FollowingProfileGuiController.setFactionId(factionId);
+                return "FXMLs/Profiles/FollowingProfile.fxml";
             }
         }
-        return new PublicProfile(otherUser,previousMenu);
+        //todo: previous
+        return "FXMLs/Profiles/PublicProfile.fxml";
     }
 }

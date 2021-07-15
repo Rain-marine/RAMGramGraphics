@@ -57,10 +57,11 @@ public class MainMenuGuiController {
     }
 
     public void timeLineButtonClicked(ActionEvent actionEvent) {
+        Toolbar.getInstance().timeline(actionEvent);
     }
 
     public void explorerButtonClicked(ActionEvent actionEvent) {
-
+        Toolbar.getInstance().explorer(actionEvent);
     }
 
     public void messagingButtonClicked(ActionEvent actionEvent) { //messagesMenuGuiController.initialize();

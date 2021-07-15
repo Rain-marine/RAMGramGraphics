@@ -45,6 +45,16 @@ public class Toolbar {
         changeScene(ConfigLoader.readProperty("mainMenuAdd"),actionEvent);
     }
 
+    public void explorer(ActionEvent actionEvent) {
+        changeScene(ConfigLoader.readProperty("explorerAdd"),actionEvent);
+    }
+
+    public void timeline(ActionEvent actionEvent) {
+        changeScene(ConfigLoader.readProperty("timelineAdd"),actionEvent);
+    }
+
+
+
     public void logout(ActionEvent actionEvent) {
         boolean answer = SimpleConfirmBox.display("Log out confirmation", "Are you sure you want to Log out??");
         if (answer) {

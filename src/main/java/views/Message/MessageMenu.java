@@ -2,7 +2,6 @@ package views.Message;
 
 import controllers.MessageController;
 import models.Tweet;
-import views.MainMenu;
 import views.Menu;
 
 import java.util.ArrayList;
@@ -120,7 +119,6 @@ public class MessageMenu extends Menu {
         return switch (option) {
             case 1 -> new SavedMessageMenu();
             case 2 -> new PeopleChatListMenu();
-            case 3 -> new MainMenu();
             default -> new MessageMenu();
         };
     }

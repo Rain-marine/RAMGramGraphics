@@ -9,15 +9,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.User;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import views.profiles.DeActiveSelfProfile;
 
 public class LoginGuiController {
     @FXML
@@ -25,16 +21,12 @@ public class LoginGuiController {
     @FXML
     private TextField usernameTextField;
     @FXML
-    private Button loginButton;
-    @FXML
     private Label errorMessage;
     private Stage stage;
     private Scene scene;
     private Parent root;
 
     private final AuthController authController = new AuthController();
-    private final static Logger log = LogManager.getLogger(LoginGuiController.class);
-
 
 
     public void loginButtonClicked(ActionEvent actionEvent) {
@@ -49,12 +41,10 @@ public class LoginGuiController {
             try {
                 User user = authController.login(username, password);
                 if(user.isActive()) {
-                    log.info(username + " logged in");
                     Toolbar.getInstance().mainMenu(actionEvent);
                 }
                 else{
-                    //todo : deActive profile
-                    new DeActiveSelfProfile(username).run();
+                    Toolbar.getInstance().changeScene("FXMLs/Profiles/DeactiveSelfProfile.fxml",actionEvent);
                 }
             }
             catch (InvalidInputException e) {

@@ -3,6 +3,7 @@ package gui.controllers.settings;
 import controllers.DateFormat;
 import controllers.SettingController;
 import controllers.UserController;
+import gui.controllers.Controllers;
 import gui.controllers.Toolbar;
 import gui.controllers.popups.SimpleConfirmBox;
 import gui.controllers.popups.NewPasswordBoxSimple;
@@ -26,13 +27,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
-public class SettingGuiController implements Initializable {
-    private final SettingController SETTING_CONTROLLER = new SettingController();
-    private final UserController USER_CONTROLLER = new UserController();
+public class SettingGuiController implements Initializable, Controllers {
+
     boolean isPublic;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
 
     @FXML
     private Button privateButton;

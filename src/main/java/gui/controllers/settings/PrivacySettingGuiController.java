@@ -1,6 +1,7 @@
 package gui.controllers.settings;
 
 import controllers.SettingController;
+import gui.controllers.Controllers;
 import gui.controllers.Toolbar;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +14,7 @@ import models.LoggedUser;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PrivacySettingGuiController implements Initializable {
+public class PrivacySettingGuiController implements Initializable, Controllers {
     @FXML
     private ChoiceBox lastSeenChoice;
     @FXML
@@ -23,8 +24,6 @@ public class PrivacySettingGuiController implements Initializable {
     @FXML
     private ChoiceBox emailChoice;
 
-
-    private final SettingController SETTING_CONTROLLER = new SettingController();
     private String lastSeenStatus;
     private String numberStatus;
     private String emailStatus;
