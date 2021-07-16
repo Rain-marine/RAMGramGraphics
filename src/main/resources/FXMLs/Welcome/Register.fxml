@@ -80,7 +80,7 @@
                   <PasswordField fx:id="passwordTextField" layoutX="220.0" layoutY="170.0" prefHeight="26.0" prefWidth="190.0" promptText="Password" />
                   <PasswordField fx:id="rePasswordTextField" layoutX="220.0" layoutY="230.0" prefHeight="26.0" prefWidth="190.0" promptText="Re-Password" />
                   <TextField fx:id="phoneNumberTextField" layoutX="220.0" layoutY="350.0" prefHeight="26.0" prefWidth="190.0" promptText="Phone number" />
-                  <Button fx:id="registerButton" layoutX="350.0" layoutY="537.0" mnemonicParsing="false" onAction="#registerButtonClicked" style="-fx-background-color: #4b016e;" text="Register" textFill="WHITE" />
+                  <Button fx:id="registerButton" defaultButton="true" layoutX="350.0" layoutY="537.0" mnemonicParsing="false" onAction="#registerButtonClicked" style="-fx-background-color: #4b016e;" text="Register" textFill="WHITE" />
                   <Label fx:id="fullNameError" layoutX="220.0" layoutY="32.0" textFill="RED" />
                   <Label fx:id="usernameError" layoutX="220.0" layoutY="92.0" textFill="RED" />
                   <Label fx:id="passwordError" layoutX="220.0" layoutY="152.0" textFill="RED" />

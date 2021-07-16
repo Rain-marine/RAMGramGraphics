@@ -118,7 +118,7 @@
             <ChoiceBox fx:id="birthdayChoice" layoutX="167.0" layoutY="125.0" prefWidth="150.0" />
             <ChoiceBox fx:id="numberChoice" layoutX="168.0" layoutY="215.0" prefWidth="150.0" />
             <ChoiceBox fx:id="emailChoice" layoutX="169.0" layoutY="301.0" prefWidth="150.0" />
-            <Button fx:id="saveButton" alignment="CENTER" layoutX="313.0" layoutY="415.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="38.0" prefWidth="95.0" style="-fx-background-color: #4b016e;" text="Save Setting" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
+            <Button fx:id="saveButton" alignment="CENTER" defaultButton="true" layoutX="313.0" layoutY="415.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="38.0" prefWidth="95.0" style="-fx-background-color: #4b016e;" text="Save Setting" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

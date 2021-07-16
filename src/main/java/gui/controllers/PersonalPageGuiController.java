@@ -2,6 +2,7 @@ package gui.controllers;
 
 import controllers.DateFormat;
 import controllers.UserController;
+import gui.controllers.popups.AlertBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import models.LoggedUser;
 
+import javax.naming.SizeLimitExceededException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -161,9 +163,14 @@ public class PersonalPageGuiController implements Initializable {
 
 
     public void changePhotoButtonClicked(ActionEvent actionEvent) {
-        byte[] byteArray = ImageController.pickImage();
-        userController.changeProfilePhoto(byteArray);
-        LoggedUser.update();
-        loadInfo();
+        byte[] byteArray;
+        try {
+            byteArray = ImageController.pickImage();
+            userController.changeProfilePhoto(byteArray);
+            LoggedUser.update();
+            loadInfo();
+        } catch (SizeLimitExceededException e) {
+            AlertBox.display("size limit error","Image size is too large. \nImage size should be less than 2MB");
+        }
     }
 }

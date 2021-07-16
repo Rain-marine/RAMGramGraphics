@@ -3,6 +3,7 @@ package repository;
 import models.Tweet;
 import models.User;
 import repository.utils.EntityManagerProvider;
+import views.ConsoleColors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

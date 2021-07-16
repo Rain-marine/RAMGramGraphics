@@ -78,6 +78,10 @@ public class FollowingProfileGuiController implements Initializable, Controllers
     }
 
     public void messageButtonClicked(ActionEvent actionEvent) {
+//        Chat chat = messageController.getChatWithUsername(user.getUsername());
+//        if (chat == null)
+//            chat = messageController.getChatWithUsername(user.getUsername());
+//        new ChatMenu(chat, new FollowingProfile(user, previousMenu)).run();
         //todo
     }
 

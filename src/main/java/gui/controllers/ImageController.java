@@ -12,16 +12,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import javax.imageio.ImageIO;
+import javax.naming.SizeLimitExceededException;
 
 public class ImageController {
 
-    public static byte[] pickImage() {
+    public static byte[] pickImage() throws SizeLimitExceededException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
 
         File selectedFile = fileChooser.showOpenDialog(new Stage());
+        if(selectedFile.length()>2000000){ //2 MB
+            throw new SizeLimitExceededException();
+        }
         byte[] byteArray = null;
         if (selectedFile != null) {
             try {
@@ -33,8 +37,9 @@ public class ImageController {
         return byteArray;
     }
 
+
     public static Image byteArrayToImage(byte[] byteArray) {
-        Image image = null;
+        Image image;
         if (byteArray != null) {
             image = new Image(new ByteArrayInputStream(byteArray));
             return image;

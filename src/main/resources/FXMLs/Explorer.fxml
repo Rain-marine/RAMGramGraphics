@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.ExplorerGuiController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: black;">
@@ -74,8 +73,8 @@
                                     <ColorAdjust />
                                  </effect>
                               </Button>
-                              <Button fx:id="searchBtn" layoutX="15.0" layoutY="29.0" mnemonicParsing="false" onAction="#searchButtonClicked" text="search" />
-                              <ImageView fitHeight="40.0" fitWidth="34.0" layoutX="275.0" layoutY="22.0">
+                              <Button fx:id="searchBtn" defaultButton="true" layoutX="17.0" layoutY="22.0" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="38.0" prefWidth="46.0" style="-fx-background-color: transparent;" textFill="WHITE" />
+                              <ImageView fitHeight="40.0" fitWidth="34.0" layoutX="23.0" layoutY="22.0">
                                  <image>
                                     <Image url="@../Images/sicon.png" />
                                  </image>
