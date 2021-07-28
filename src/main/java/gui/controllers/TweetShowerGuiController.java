@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import controllers.ProfileAccessController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,31 +12,39 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class TweetShowerGuiController implements Initializable {
+public class TweetShowerGuiController implements Initializable, Controllers {
 
     @FXML
     private ScrollPane tweetsArea;
 
     private static List<Tweet> listOfTweets;
     private static int previousMenu;
-    private static long profileOwnerId;
-
+    private static ProfileAccessController profileAccessController;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         VBox list = new VBox(10);
         for (Tweet tweet : listOfTweets) {
-            list.getChildren().add(new TweetCard(tweet , TweetCard.MODE.PROFILE).getvBox());
+            TweetCard.MODE mode = TweetCard.MODE.EXPLORER;
+            switch (previousMenu){
+                case 1 -> mode = TweetCard.MODE.EXPLORER;
+                case 2 -> mode = TweetCard.MODE.TIMELINE;
+                case 5 -> mode = TweetCard.MODE.PROFILE;
+                case 6 -> mode = TweetCard.MODE.OWNER;
+            }
+            list.getChildren().add(new TweetCard(tweet, mode).getvBox());
         }
         tweetsArea.setContent(list);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        switch (previousMenu){
-            case 5 -> System.out.println("profile") ;
-            case 6 -> System.out.println("self");
-            case 7 -> System.out.println("parent comment");
+        System.out.println(previousMenu);
+        switch (previousMenu) {
+            case 1 -> Toolbar.getInstance().explorer(actionEvent);
+            case 2 -> Toolbar.getInstance().timeline(actionEvent);
+            case 5 -> Toolbar.getInstance().changeScene(profileAccessController.checkAccessibility(), actionEvent);
+            case 6 -> Toolbar.getInstance().changeScene("FXMLs/PersonalPage/PersonalPageMenu.fxml", actionEvent);
         }
         //todo
     }
@@ -65,11 +74,11 @@ public class TweetShowerGuiController implements Initializable {
         TweetShowerGuiController.previousMenu = previousMenu;
     }
 
-    public static long getProfileOwnerId() {
-        return profileOwnerId;
+    public static ProfileAccessController getProfileAccessController() {
+        return profileAccessController;
     }
 
-    public static void setProfileOwnerId(long profileOwnerId) {
-        TweetShowerGuiController.profileOwnerId = profileOwnerId;
+    public static void setProfileAccessController(ProfileAccessController profileAccessController) {
+        TweetShowerGuiController.profileAccessController = profileAccessController;
     }
 }

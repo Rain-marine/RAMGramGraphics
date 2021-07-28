@@ -1,9 +1,7 @@
 package gui.controllers.profiles;
 
-import gui.controllers.Controllers;
-import gui.controllers.ImageController;
-import gui.controllers.InfoLoader;
-import gui.controllers.Toolbar;
+import controllers.ProfileAccessController;
+import gui.controllers.*;
 import gui.controllers.popups.AlertBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +24,7 @@ public class PublicProfileGuiController implements Initializable, Controllers {
 
     private static User user;
     private static int previous;
+    private static ProfileAccessController profileAccessController;
 
 
     @Override
@@ -68,7 +67,10 @@ public class PublicProfileGuiController implements Initializable, Controllers {
 
     public void tweetsButtonClicked(ActionEvent actionEvent) {
         List<Tweet> listOfTweets = TWEET_CONTROLLER.getAllTweets(user);
-        //todo
+        TweetShowerGuiController.setProfileAccessController(profileAccessController);
+        TweetShowerGuiController.setListOfTweets(listOfTweets);
+        TweetShowerGuiController.setPreviousMenu(5);
+        Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" , actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
@@ -97,5 +99,13 @@ public class PublicProfileGuiController implements Initializable, Controllers {
 
     public static void setPrevious(int previous) {
         PublicProfileGuiController.previous = previous;
+    }
+
+    public static ProfileAccessController getProfileAccessController() {
+        return profileAccessController;
+    }
+
+    public static void setProfileAccessController(ProfileAccessController profileAccessController) {
+        PublicProfileGuiController.profileAccessController = profileAccessController;
     }
 }

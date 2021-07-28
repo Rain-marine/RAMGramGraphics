@@ -43,6 +43,7 @@ public class ProfileAccessController {
                     BlockedProfileGuiController.setUser(otherUser);
                     BlockedProfileGuiController.setPrevious(previousMenu);
                     BlockedProfileGuiController.setFactionId(factionId);
+                    BlockedProfileGuiController.setProfileAccessController(this);
                     return "FXMLs/Profiles/BlockedProfile.fxml";
                 }
             }
@@ -53,6 +54,7 @@ public class ProfileAccessController {
                     FollowingProfileGuiController.setUser(otherUser);
                     FollowingProfileGuiController.setPrevious(previousMenu);
                     FollowingProfileGuiController.setFactionId(factionId);
+                    FollowingProfileGuiController.setProfileAccessController(this);
                     return "FXMLs/Profiles/FollowingProfile.fxml";
                 }
             }
@@ -67,6 +69,7 @@ public class ProfileAccessController {
             if (otherUser.isPublic()){
                 PublicProfileGuiController.setUser(otherUser);
                 PublicProfileGuiController.setPrevious(previousMenu);
+                PublicProfileGuiController.setProfileAccessController(this);
                 return "FXMLs/Profiles/PublicProfile.fxml";
             }
 
@@ -96,6 +99,7 @@ public class ProfileAccessController {
                 FollowingProfileGuiController.setUser(otherUser);
                 FollowingProfileGuiController.setPrevious(previousMenu);
                 FollowingProfileGuiController.setFactionId(factionId);
+                FollowingProfileGuiController.setProfileAccessController(this);
                 return "FXMLs/Profiles/FollowingProfile.fxml";
             }
         }

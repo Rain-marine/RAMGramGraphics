@@ -10,13 +10,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import models.LoggedUser;
+import models.Tweet;
 
 import javax.naming.SizeLimitExceededException;
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class PersonalPageGuiController implements Initializable {
+public class PersonalPageGuiController implements Initializable , Controllers{
 
 
     @FXML
@@ -154,6 +156,10 @@ public class PersonalPageGuiController implements Initializable {
     }
 
     public void yourTweetsButtonClicked(ActionEvent actionEvent) {
+        List<Tweet> listOfTweets = TWEET_CONTROLLER.getAllTweets(LoggedUser.getLoggedUser());
+        TweetShowerGuiController.setListOfTweets(listOfTweets);
+        TweetShowerGuiController.setPreviousMenu(6);
+        Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" , actionEvent);
     }
 
     public void factionsButtonClicked(ActionEvent actionEvent) {

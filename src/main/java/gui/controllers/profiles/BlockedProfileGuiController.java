@@ -4,10 +4,7 @@ import controllers.ProfileAccessController;
 import controllers.SettingController;
 import controllers.TweetController;
 import controllers.UserController;
-import gui.controllers.Controllers;
-import gui.controllers.ImageController;
-import gui.controllers.InfoLoader;
-import gui.controllers.Toolbar;
+import gui.controllers.*;
 import gui.controllers.popups.AlertBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,6 +32,7 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
     private static User user;
     private static int previous;
     private static int factionId;
+    private static ProfileAccessController profileAccessController;
 
 
     @Override
@@ -71,7 +69,10 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
 
     public void tweetsButtonClicked(ActionEvent actionEvent) {
         List<Tweet> listOfTweets = TWEET_CONTROLLER.getAllTweets(user);
-        //todo: show tweets
+        TweetShowerGuiController.setProfileAccessController(profileAccessController);
+        TweetShowerGuiController.setListOfTweets(listOfTweets);
+        TweetShowerGuiController.setPreviousMenu(5);
+        Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" , actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
@@ -105,5 +106,13 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
 
     public static void setFactionId(int factionId) {
         BlockedProfileGuiController.factionId = factionId;
+    }
+
+    public static ProfileAccessController getProfileAccessController() {
+        return profileAccessController;
+    }
+
+    public static void setProfileAccessController(ProfileAccessController profileAccessController) {
+        BlockedProfileGuiController.profileAccessController = profileAccessController;
     }
 }

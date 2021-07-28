@@ -110,7 +110,7 @@ public class TweetCard implements Controllers {
                 AlertBox.display("empty", "no comments to show");
             } else {
                 TweetShowerGuiController.setListOfTweets(tweet.getComments());
-                TweetShowerGuiController.setPreviousMenu(7);
+                TweetShowerGuiController.setPreviousMenu( finalMode == MODE.EXPLORER ? 1 : (finalMode ==MODE.TIMELINE ? 2 : (finalMode == MODE.OWNER ? 6 : 5)));
                 Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" ,event);
             }
         });
@@ -131,9 +131,10 @@ public class TweetCard implements Controllers {
                 TWEET_CONTROLLER.addComment(commentTextString , commentImageArray == null ? null :commentImageArray , tweet);
             }
         });
-
-        addCommentLayout.getChildren().addAll(commentText, commentImage, addComment);
-        generalButtons.getChildren().addAll(save , forward, comments , addCommentLayout);
+        HBox row = new HBox(5);
+        row.getChildren().addAll(commentImage, addComment);
+        addCommentLayout.getChildren().addAll(commentText, row);
+        generalButtons.getChildren().addAll(save , forward, comments);
 
         if (finalMode != MODE.OWNER) {
 
@@ -180,9 +181,9 @@ public class TweetCard implements Controllers {
             });
 
             buttons.getChildren().addAll(like, report, retweet, block, mute);
-            vBox.getChildren().addAll(header, tweetText, tweetPhoto, generalButtons, buttons);
+            vBox.getChildren().addAll(header, tweetText, tweetPhoto, generalButtons, buttons ,  addCommentLayout);
         } else {
-            vBox.getChildren().addAll(header, tweetText, tweetPhoto, generalButtons);
+            vBox.getChildren().addAll(header, tweetText, tweetPhoto, generalButtons ,  addCommentLayout);
         }
 
 

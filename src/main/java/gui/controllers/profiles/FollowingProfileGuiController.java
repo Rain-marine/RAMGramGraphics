@@ -3,10 +3,7 @@ package gui.controllers.profiles;
 import controllers.NotificationController;
 import controllers.ProfileAccessController;
 import controllers.UserController;
-import gui.controllers.Controllers;
-import gui.controllers.ImageController;
-import gui.controllers.InfoLoader;
-import gui.controllers.Toolbar;
+import gui.controllers.*;
 import gui.controllers.popups.AlertBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +29,7 @@ public class FollowingProfileGuiController implements Initializable, Controllers
     private static User user;
     private static int previous;
     private static int factionId;
+    private static ProfileAccessController profileAccessController;
 
 
     @Override
@@ -87,7 +85,10 @@ public class FollowingProfileGuiController implements Initializable, Controllers
 
     public void tweetsButtonClicked(ActionEvent actionEvent) {
         List<Tweet> listOfTweets = TWEET_CONTROLLER.getAllTweets(user);
-        //todo
+        TweetShowerGuiController.setProfileAccessController(profileAccessController);
+        TweetShowerGuiController.setListOfTweets(listOfTweets);
+        TweetShowerGuiController.setPreviousMenu(5);
+        Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" , actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
@@ -125,5 +126,13 @@ public class FollowingProfileGuiController implements Initializable, Controllers
 
     public static void setFactionId(int factionId) {
         FollowingProfileGuiController.factionId = factionId;
+    }
+
+    public static ProfileAccessController getProfileAccessController() {
+        return profileAccessController;
+    }
+
+    public static void setProfileAccessController(ProfileAccessController profileAccessController) {
+        FollowingProfileGuiController.profileAccessController = profileAccessController;
     }
 }
