@@ -30,7 +30,7 @@ public class Tweet {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> usersWhoLiked;
 
-    @OneToMany(mappedBy = "parentTweet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parentTweet", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     private List<Tweet> comments;
 
     @ManyToOne

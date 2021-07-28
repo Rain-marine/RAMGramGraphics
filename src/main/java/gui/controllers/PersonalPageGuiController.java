@@ -150,6 +150,7 @@ public class PersonalPageGuiController implements Initializable {
     }
 
     public void newTweetButtonClicked(ActionEvent actionEvent) {
+        Toolbar.getInstance().changeScene("FXMLs/NewTweet.fxml", actionEvent);
     }
 
     public void yourTweetsButtonClicked(ActionEvent actionEvent) {

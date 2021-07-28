@@ -6,11 +6,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import models.Tweet;
 import models.User;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ExplorerGuiController implements Initializable, Controllers {
@@ -18,13 +22,19 @@ public class ExplorerGuiController implements Initializable, Controllers {
     @FXML
     private TextField searchField;
     @FXML
-    private AnchorPane tweetsArea;
+    private ScrollPane tweetsArea;
+
+    private List<Tweet> listOfTweets;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tweetsArea.getChildren().add(new Label());
-        //todo
+        listOfTweets = TWEET_CONTROLLER.getTopTweets();
+        VBox list = new VBox(10);
+        for (Tweet tweet : listOfTweets) {
+            list.getChildren().add(new TweetCard(tweet , TweetCard.MODE.EXPLORER).getvBox());
+        }
+        tweetsArea.setContent(list);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
@@ -54,4 +64,5 @@ public class ExplorerGuiController implements Initializable, Controllers {
             }
         }
     }
+
 }

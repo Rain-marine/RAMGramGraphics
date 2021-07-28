@@ -23,11 +23,11 @@ public class ImageController {
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
 
         File selectedFile = fileChooser.showOpenDialog(new Stage());
+        byte[] byteArray = null;
+        if (selectedFile != null) {
         if(selectedFile.length()>2000000){ //2 MB
             throw new SizeLimitExceededException();
         }
-        byte[] byteArray = null;
-        if (selectedFile != null) {
             try {
                 byteArray = Files.readAllBytes(selectedFile.toPath());
             } catch (IOException e) {

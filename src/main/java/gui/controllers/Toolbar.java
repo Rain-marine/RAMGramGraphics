@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import util.ConfigLoader;
 
-public class Toolbar {
+public class Toolbar implements Controllers{
 
     private Stage stage;
     private Scene scene;

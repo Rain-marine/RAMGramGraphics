@@ -519,5 +519,6 @@ public class UserRepository {
         User user = getById(userId);
         user.setProfilePhoto(newPhoto);
         save(user);
+        System.out.println(newPhoto.length);
     }
 }
