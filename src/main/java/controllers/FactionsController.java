@@ -81,21 +81,31 @@ public class FactionsController {
         return activeBlockedUsers;
     }
 
-    public List<User> getGroupMembers(Group group) {
-        Group faction = factionRepository.getFactionById(group.getId());
+    public List<User> getGroupMembers(int factionId) {
+        Group faction = factionRepository.getFactionById(factionId);
         return faction.getMembers();
     }
 
-    public void deleteFaction(Group group) {
-        factionRepository.deleteFaction(group.getId());
-        userRepository.getById(LoggedUser.getLoggedUser().getId()).getGroups().remove(group);
+    public void deleteFaction(int groupId) {
+        factionRepository.deleteFaction(groupId);
+        userRepository.getById(LoggedUser.getLoggedUser().getId()).getGroups().remove(factionRepository.getFactionById(groupId));
+        //LoggedUser.setLoggedUser(userRepository.getById(LoggedUser.getLoggedUser().getId()));
     }
 
-    public void deleteUserFromFaction(Group group, User user) {
-        factionRepository.deleteUserFromFaction(group.getId(), user.getId());
+    public void deleteUserFromFaction(int factionId, long userId) {
+        factionRepository.deleteUserFromFaction(factionId, userId);
     }
 
-    public void addUserToFaction(Group group, String username) {
-        factionRepository.addUserToFaction(group.getId(), userRepository.getByUsername(username).getId());
+    public void addUserToFaction(int factionId, String username) {
+        factionRepository.addUserToFaction(factionId, userRepository.getByUsername(username).getId());
+    }
+
+    public ArrayList<String> getFactionNames() {
+        ArrayList<String> factionNames = new ArrayList<>();
+        List<Group> factions = userRepository.getById(LoggedUser.getLoggedUser().getId()).getGroups();
+        for (Group faction : factions) {
+            factionNames.add(faction.getName());
+        }
+        return factionNames;
     }
 }

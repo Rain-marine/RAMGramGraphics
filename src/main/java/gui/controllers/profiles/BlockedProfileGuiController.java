@@ -56,8 +56,11 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
         switch (previous){
             case (1) -> Toolbar.getInstance().explorer(actionEvent);
             case (2) -> Toolbar.getInstance().timeline(actionEvent);
-            case (3) -> System.out.println("your tweets"); //todo
-            case (4) -> System.out.println("factions"); //todo
+            case (3) -> Toolbar.getInstance().yourTweets(actionEvent);
+            case (4) -> {
+                FactionUsersGuiController.setFactionID(factionId);
+                Toolbar.getInstance().changeScene("FXMLs/PersonalPage/FactionUsers.fxml", actionEvent);
+            }
         }
     }
 
