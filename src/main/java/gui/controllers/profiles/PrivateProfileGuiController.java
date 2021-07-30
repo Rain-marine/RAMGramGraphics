@@ -3,7 +3,7 @@ package gui.controllers.profiles;
 import gui.controllers.Controllers;
 import gui.controllers.ImageController;
 import gui.controllers.InfoLoader;
-import gui.controllers.Toolbar;
+import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,11 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import models.Tweet;
 import models.User;
+import util.ConfigLoader;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class PrivateProfileGuiController implements Initializable, Controllers {
@@ -43,18 +42,18 @@ public class PrivateProfileGuiController implements Initializable, Controllers {
 
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
         switch (previous){
-            case (1) -> Toolbar.getInstance().explorer(actionEvent);
-            case (2) -> Toolbar.getInstance().timeline(actionEvent);
+            case (1) -> SceneLoader.getInstance().explorer(actionEvent);
+            case (2) -> SceneLoader.getInstance().timeline(actionEvent);
         }
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
 
@@ -62,7 +61,7 @@ public class PrivateProfileGuiController implements Initializable, Controllers {
         NOTIFICATION_CONTROLLER.sendFollowRequestToUser(user);
         PendingRequestProfileGuiController.setUser(user);
         PendingRequestProfileGuiController.setPrevious(previous);
-        Toolbar.getInstance().changeScene("FXMLs/Profiles/PendingRequestProfile.fxml",actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("pendingProf"),actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
@@ -74,7 +73,7 @@ public class PrivateProfileGuiController implements Initializable, Controllers {
         USER_CONTROLLER.blockUser(user);
         BlockedProfileGuiController.setUser(user);
         BlockedProfileGuiController.setPrevious(previous);
-        Toolbar.getInstance().changeScene("FXMLs/Profiles/BlockedProfile.fxml",actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("blockedProf"),actionEvent);
     }
 
     public static User getUser() {

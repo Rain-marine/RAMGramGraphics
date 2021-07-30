@@ -2,6 +2,7 @@ package gui.controllers;
 
 import controllers.SettingController;
 import gui.controllers.popups.SimpleConfirmBox;
+import gui.controllers.tweets.TweetShowerGuiController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,22 +15,22 @@ import util.ConfigLoader;
 
 import java.util.List;
 
-public class Toolbar implements Controllers{
+public class SceneLoader implements Controllers{
 
     private Stage stage;
     private Scene scene;
     private Parent root;
     private final SettingController settingsController = new SettingController();
-    private static Toolbar toolbar;
+    private static SceneLoader sceneLoader;
 
-    private Toolbar() {
+    private SceneLoader() {
     }
 
-    public static Toolbar getInstance(){
-        if ( toolbar ==  null ){
-            toolbar = new Toolbar();
+    public static SceneLoader getInstance(){
+        if ( sceneLoader ==  null ){
+            sceneLoader = new SceneLoader();
         }
-        return toolbar;
+        return sceneLoader;
     }
 
     public void changeScene(String address, ActionEvent actionEvent){
@@ -80,6 +81,6 @@ public class Toolbar implements Controllers{
         List<Tweet> listOfTweets = TWEET_CONTROLLER.getAllTweets(LoggedUser.getLoggedUser());
         TweetShowerGuiController.setListOfTweets(listOfTweets);
         TweetShowerGuiController.setPreviousMenu(6);
-        Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" , actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("yourTweets"), actionEvent);
     }
 }

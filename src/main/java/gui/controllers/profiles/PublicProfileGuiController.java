@@ -3,6 +3,7 @@ package gui.controllers.profiles;
 import controllers.ProfileAccessController;
 import gui.controllers.*;
 import gui.controllers.popups.AlertBox;
+import gui.controllers.tweets.TweetShowerGuiController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import models.Tweet;
 import models.User;
+import util.ConfigLoader;
 
 import java.net.URL;
 import java.util.List;
@@ -42,19 +44,19 @@ public class PublicProfileGuiController implements Initializable, Controllers {
 
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
         switch (previous){
-            case (1) -> Toolbar.getInstance().explorer(actionEvent);
-            case (2) -> Toolbar.getInstance().timeline(actionEvent);
-            case (3) -> Toolbar.getInstance().yourTweets(actionEvent);
+            case (1) -> SceneLoader.getInstance().explorer(actionEvent);
+            case (2) -> SceneLoader.getInstance().timeline(actionEvent);
+            case (3) -> SceneLoader.getInstance().yourTweets(actionEvent);
         }
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
 
@@ -62,7 +64,7 @@ public class PublicProfileGuiController implements Initializable, Controllers {
         NOTIFICATION_CONTROLLER.FollowUser(user);
         FollowingProfileGuiController.setUser(user);
         FollowingProfileGuiController.setPrevious(previous);
-        Toolbar.getInstance().changeScene("FXMLs/Profiles/FollowingProfile.fxml",actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("followingProf"),actionEvent);
     }
 
     public void tweetsButtonClicked(ActionEvent actionEvent) {
@@ -70,7 +72,7 @@ public class PublicProfileGuiController implements Initializable, Controllers {
         TweetShowerGuiController.setProfileAccessController(profileAccessController);
         TweetShowerGuiController.setListOfTweets(listOfTweets);
         TweetShowerGuiController.setPreviousMenu(5);
-        Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" , actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("tweetShower"), actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
@@ -82,7 +84,7 @@ public class PublicProfileGuiController implements Initializable, Controllers {
         USER_CONTROLLER.blockUser(user);
         BlockedProfileGuiController.setUser(user);
         BlockedProfileGuiController.setPrevious(previous);
-        Toolbar.getInstance().changeScene("FXMLs/Profiles/BlockedProfile.fxml",actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("blockedProf"),actionEvent);
     }
 
     public static User getUser() {

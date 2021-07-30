@@ -1,7 +1,9 @@
-package gui.controllers;
+package gui.controllers.tweets;
 
+import gui.controllers.Controllers;
+import gui.controllers.ImageController;
+import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;
-import gui.controllers.popups.ConfirmBox;
 import gui.controllers.popups.SimpleConfirmBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,15 +22,15 @@ public class NewTweetGuiController implements Controllers {
     private byte[] tweetImage = null;
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/PersonalPageMenu.fxml",actionEvent);
+        SceneLoader.getInstance().personalPage(actionEvent);
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void postButtonClicked(ActionEvent actionEvent) {

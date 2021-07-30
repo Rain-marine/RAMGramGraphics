@@ -1,6 +1,8 @@
-package gui.controllers;
+package gui.controllers.personalpage.factions;
 
 import controllers.ProfileAccessController;
+import gui.controllers.Controllers;
+import gui.controllers.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,12 +12,13 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import models.User;
+import util.ConfigLoader;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DefaultFactionsGuiController implements Initializable,Controllers {
+public class DefaultFactionsGuiController implements Initializable, Controllers {
 
     @FXML
     private ScrollPane factionArea;
@@ -50,7 +53,7 @@ public class DefaultFactionsGuiController implements Initializable,Controllers {
             int finalFactionID = factionID;
             profile.setOnAction(event -> {
                 ProfileAccessController profileAccessController = new ProfileAccessController(4, member, finalFactionID);
-                Toolbar.getInstance().changeScene(profileAccessController.checkAccessibility(), event);
+                SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), event);
             });
             userCard.getChildren().addAll(name , profile);
             userList.getChildren().add(userCard);
@@ -59,15 +62,15 @@ public class DefaultFactionsGuiController implements Initializable,Controllers {
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/FactionList.fxml" ,actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionList"),actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public static LIST getList() {

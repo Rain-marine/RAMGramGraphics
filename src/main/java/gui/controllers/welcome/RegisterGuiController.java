@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import util.ConfigLoader;
 
 public class RegisterGuiController {
     static Logger log = LogManager.getLogger(RegisterGuiController.class);
@@ -127,7 +128,7 @@ public class RegisterGuiController {
 
     public void backButtonClicked(ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/Welcome/Login.fxml"));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource(ConfigLoader.readProperty("loginFXMLAddress")));
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

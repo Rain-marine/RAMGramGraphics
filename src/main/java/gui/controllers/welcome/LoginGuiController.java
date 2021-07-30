@@ -2,7 +2,7 @@ package gui.controllers.welcome;
 
 import controllers.AuthController;
 import exceptions.InvalidInputException;
-import gui.controllers.Toolbar;
+import gui.controllers.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.User;
+import util.ConfigLoader;
 
 public class LoginGuiController {
     @FXML
@@ -41,10 +42,10 @@ public class LoginGuiController {
             try {
                 User user = authController.login(username, password);
                 if(user.isActive()) {
-                    Toolbar.getInstance().mainMenu(actionEvent);
+                    SceneLoader.getInstance().mainMenu(actionEvent);
                 }
                 else{
-                    Toolbar.getInstance().changeScene("FXMLs/Profiles/DeactiveSelfProfile.fxml",actionEvent);
+                    SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("deactiveSelfProf"),actionEvent);
                 }
             }
             catch (InvalidInputException e) {
@@ -55,7 +56,7 @@ public class LoginGuiController {
 
     public void registerButtonClicked(ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLs/Welcome/Register.fxml"));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource(ConfigLoader.readProperty("register")));
             stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

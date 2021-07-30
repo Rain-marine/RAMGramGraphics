@@ -1,6 +1,8 @@
-package gui.controllers;
+package gui.controllers.tweets;
 
 import controllers.ProfileAccessController;
+import gui.controllers.Controllers;
+import gui.controllers.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -41,20 +43,20 @@ public class TweetShowerGuiController implements Initializable, Controllers {
     public void backButtonClicked(ActionEvent actionEvent) {
         System.out.println(previousMenu);
         switch (previousMenu) {
-            case 1 -> Toolbar.getInstance().explorer(actionEvent);
-            case 2 -> Toolbar.getInstance().timeline(actionEvent);
-            case 5 -> Toolbar.getInstance().changeScene(profileAccessController.checkAccessibility(), actionEvent);
-            case 6 -> Toolbar.getInstance().changeScene("FXMLs/PersonalPage/PersonalPageMenu.fxml", actionEvent);
+            case 1 -> SceneLoader.getInstance().explorer(actionEvent);
+            case 2 -> SceneLoader.getInstance().timeline(actionEvent);
+            case 5 -> SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), actionEvent);
+            case 6 -> SceneLoader.getInstance().personalPage(actionEvent);
         }
         //todo
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
 

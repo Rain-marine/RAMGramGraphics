@@ -1,24 +1,21 @@
 package gui.controllers.profiles;
 
 import controllers.ProfileAccessController;
-import controllers.SettingController;
-import controllers.TweetController;
-import controllers.UserController;
 import gui.controllers.*;
+import gui.controllers.personalpage.factions.FactionUsersGuiController;
 import gui.controllers.popups.AlertBox;
+import gui.controllers.tweets.TweetShowerGuiController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import models.LoggedUser;
 import models.Tweet;
 import models.User;
-import views.*;
+import util.ConfigLoader;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -49,17 +46,17 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
         switch (previous){
-            case (1) -> Toolbar.getInstance().explorer(actionEvent);
-            case (2) -> Toolbar.getInstance().timeline(actionEvent);
-            case (3) -> Toolbar.getInstance().yourTweets(actionEvent);
+            case (1) -> SceneLoader.getInstance().explorer(actionEvent);
+            case (2) -> SceneLoader.getInstance().timeline(actionEvent);
+            case (3) -> SceneLoader.getInstance().yourTweets(actionEvent);
             case (4) -> {
                 FactionUsersGuiController.setFactionID(factionId);
-                Toolbar.getInstance().changeScene("FXMLs/PersonalPage/FactionUsers.fxml", actionEvent);
+                SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionUsers"), actionEvent);
             }
         }
     }
@@ -67,7 +64,7 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
     public void unblockButtonClicked(ActionEvent actionEvent) {
         USER_CONTROLLER.unblockUser(user);
         ProfileAccessController profileAccessController = new ProfileAccessController(1,user,0);
-        Toolbar.getInstance().changeScene(profileAccessController.checkAccessibility(),actionEvent);
+        SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(),actionEvent);
     }
 
     public void tweetsButtonClicked(ActionEvent actionEvent) {
@@ -75,7 +72,7 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
         TweetShowerGuiController.setProfileAccessController(profileAccessController);
         TweetShowerGuiController.setListOfTweets(listOfTweets);
         TweetShowerGuiController.setPreviousMenu(5);
-        Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" , actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("tweetShower"), actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
@@ -84,7 +81,7 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public static User getUser() {

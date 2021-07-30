@@ -1,8 +1,7 @@
 package gui.controllers.settings;
 
-import controllers.SettingController;
 import gui.controllers.Controllers;
-import gui.controllers.Toolbar;
+import gui.controllers.SceneLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import models.LoggedUser;
+import util.ConfigLoader;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -52,15 +52,15 @@ public class PrivacySettingGuiController implements Initializable, Controllers {
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().changeScene("FXMLs/Setting/SettingMenu.fxml", actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("setting"), actionEvent);
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void saveButtonClicked(ActionEvent actionEvent) {

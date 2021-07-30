@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import controllers.ChatController;
+import gui.controllers.tweets.TweetCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -18,7 +19,7 @@ public class ChatMenuGuiController implements Controllers{
 
     public void initialize() {
         VBox list = new VBox(10);
-        listOfChats = ;
+        listOfChats = null;
         for (Tweet tweet : listOfChats) {
             list.getChildren().add(new TweetCard(tweet , TweetCard.MODE.TIMELINE).getvBox());
         }
@@ -26,14 +27,20 @@ public class ChatMenuGuiController implements Controllers{
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
+    }
+
+    public void newChatButtonClicked(ActionEvent actionEvent) {
+    }
+
+    public void newGroupButtonClicked(ActionEvent actionEvent) {
     }
 }

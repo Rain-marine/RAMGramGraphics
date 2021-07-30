@@ -1,15 +1,17 @@
-package gui.controllers;
+package gui.controllers.mainmenu;
 
+import gui.controllers.Controllers;
+import gui.controllers.SceneLoader;
+import gui.controllers.tweets.TweetCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import models.Tweet;
-import org.hibernate.annotations.Fetch;
 
 import java.util.List;
 
-public class TimeLineGuiController implements Controllers{
+public class TimeLineGuiController implements Controllers {
 
 
     @FXML
@@ -27,14 +29,14 @@ public class TimeLineGuiController implements Controllers{
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 }

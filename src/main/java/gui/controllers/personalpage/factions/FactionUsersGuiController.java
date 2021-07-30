@@ -1,8 +1,9 @@
-package gui.controllers;
+package gui.controllers.personalpage.factions;
 
 import controllers.ProfileAccessController;
+import gui.controllers.Controllers;
+import gui.controllers.SceneLoader;
 import gui.controllers.popups.AddUserToFactionBox;
-import gui.controllers.popups.AlertBox;
 import gui.controllers.popups.SimpleConfirmBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,14 +13,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import models.Group;
 import models.User;
+import util.ConfigLoader;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class FactionUsersGuiController implements Initializable,Controllers {
+public class FactionUsersGuiController implements Initializable, Controllers {
 
     private static int factionID;
 
@@ -49,7 +50,7 @@ public class FactionUsersGuiController implements Initializable,Controllers {
             profile.setId(String.valueOf(member.getId()));
             profile.setOnAction(event -> {
                 ProfileAccessController profileAccessController = new ProfileAccessController(4, member, factionID);
-                Toolbar.getInstance().changeScene(profileAccessController.checkAccessibility(), event);
+                SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), event);
             });
 
             userCard.getChildren().addAll(name , deleteUser , profile);
@@ -62,7 +63,7 @@ public class FactionUsersGuiController implements Initializable,Controllers {
         boolean answer = SimpleConfirmBox.display("confirmation" , "Are you sure to delete the faction?");
         if (answer){
             FACTIONS_CONTROLLER.deleteFaction(factionID);
-            Toolbar.getInstance().changeScene("FXMLs/PersonalPage/FactionList.fxml" ,actionEvent);
+            SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionList"),actionEvent);
         }
 
     }
@@ -73,15 +74,15 @@ public class FactionUsersGuiController implements Initializable,Controllers {
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/FactionList.fxml" ,actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionList"),actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public static int getFactionID() {

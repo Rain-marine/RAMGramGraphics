@@ -103,7 +103,10 @@ public class ProfileAccessController {
                 return "FXMLs/Profiles/FollowingProfile.fxml";
             }
         }
-        //todo: previous
+
+        PublicProfileGuiController.setUser(otherUser);
+        PublicProfileGuiController.setPrevious(previousMenu);
+        PublicProfileGuiController.setProfileAccessController(this);
         return "FXMLs/Profiles/PublicProfile.fxml";
     }
 }

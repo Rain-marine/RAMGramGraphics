@@ -1,14 +1,15 @@
-package gui.controllers;
+package gui.controllers.mainmenu;
 
 import controllers.ProfileAccessController;
+import gui.controllers.Controllers;
+import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;
+import gui.controllers.tweets.TweetCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import models.Tweet;
 import models.User;
@@ -38,15 +39,15 @@ public class ExplorerGuiController implements Initializable, Controllers {
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
 
@@ -60,7 +61,7 @@ public class ExplorerGuiController implements Initializable, Controllers {
                 AlertBox.display("404", "username not found");
             } else {
                 ProfileAccessController profileAccessController = new ProfileAccessController(1, user, 0);
-                Toolbar.getInstance().changeScene(profileAccessController.checkAccessibility(), actionEvent);
+                SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), actionEvent);
             }
         }
     }

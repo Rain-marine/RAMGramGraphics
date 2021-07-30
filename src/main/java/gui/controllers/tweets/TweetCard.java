@@ -1,8 +1,10 @@
-package gui.controllers;
+package gui.controllers.tweets;
 
 import controllers.ProfileAccessController;
+import gui.controllers.Controllers;
+import gui.controllers.ImageController;
+import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,6 +16,7 @@ import javafx.scene.shape.Rectangle;
 import models.LoggedUser;
 import models.Tweet;
 import models.User;
+import util.ConfigLoader;
 
 import javax.naming.SizeLimitExceededException;
 
@@ -66,7 +69,7 @@ public class TweetCard implements Controllers {
         writerName.setOnAction(event -> {
             if (finalMode != MODE.PROFILE) {
                 ProfileAccessController profileAccessController = new ProfileAccessController(finalMode == MODE.EXPLORER ? 1 : (finalMode == MODE.TIMELINE ? 2 : 3), writer, 0);
-                Toolbar.getInstance().changeScene(profileAccessController.checkAccessibility(), event);
+                SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), event);
             }
         });
         writerName.setStyle("-fx-background-color: #dea0ff");
@@ -116,7 +119,7 @@ public class TweetCard implements Controllers {
             } else {
                 TweetShowerGuiController.setListOfTweets(tweet.getComments());
                 TweetShowerGuiController.setPreviousMenu( finalMode == MODE.EXPLORER ? 1 : (finalMode ==MODE.TIMELINE ? 2 : (finalMode == MODE.OWNER ? 6 : 5)));
-                Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" ,event);
+                SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("tweetShower"),event);
             }
         });
 

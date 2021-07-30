@@ -14,8 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.FactionUsersGuiController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.personalpage.factions.FactionListGuiController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: black;">
          <left>
@@ -28,7 +27,7 @@
                            <children>
                               <ImageView fitHeight="500.0" fitWidth="325.0">
                                  <image>
-                                    <Image url="@../../Images/welcome.png" />
+                                    <Image url="@../../../Images/welcome.png" />
                                  </image>
                               </ImageView>
                               <Button fx:id="mainMenuButton" alignment="CENTER" layoutX="76.0" layoutY="447.0" mnemonicParsing="false" onAction="#mainMenuButtonClicked" prefHeight="38.0" prefWidth="95.0" style="-fx-background-color: #4b016e;" text="Main Menu" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
@@ -87,8 +86,8 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </BorderPane.margin>
                <children>
-                  <ScrollPane fx:id="factionArea" layoutX="6.0" layoutY="78.0" prefHeight="391.0" prefWidth="438.0" />
-                  <Button alignment="CENTER" blendMode="SRC_ATOP" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#deleteFactionButtonClicked" prefHeight="50.0" prefWidth="190.0" style="-fx-background-color: #4b016e;" text="Delete Faction" textAlignment="CENTER" textFill="WHITE">
+                  <ScrollPane fx:id="factionArea" layoutX="6.0" layoutY="78.0" prefHeight="334.0" prefWidth="438.0" />
+                  <Button alignment="CENTER" blendMode="SRC_ATOP" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#blackListButtonClicked" prefHeight="50.0" prefWidth="142.0" style="-fx-background-color: #4b016e;" text="Black List" textAlignment="CENTER" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -96,7 +95,23 @@
                         <Font name="Gabriola" size="26.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" blendMode="SRC_ATOP" layoutX="220.0" layoutY="14.0" mnemonicParsing="false" onAction="#addMemberButtonClicked" prefHeight="50.0" prefWidth="214.0" style="-fx-background-color: #4b016e;" text="Add member" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="newFactionButton" alignment="CENTER" blendMode="SRC_ATOP" layoutX="83.0" layoutY="427.0" mnemonicParsing="false" onAction="#newFactionButtonClicked" prefHeight="49.0" prefWidth="267.0" style="-fx-background-color: #4b016e;" text="New Faction" textAlignment="CENTER" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Gabriola" size="26.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="CENTER" blendMode="SRC_ATOP" layoutX="164.0" layoutY="14.0" mnemonicParsing="false" onAction="#followingButtonClicked" prefHeight="50.0" prefWidth="121.0" style="-fx-background-color: #4b016e;" text="Followings" textAlignment="CENTER" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Gabriola" size="26.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="CENTER" blendMode="SRC_ATOP" layoutX="292.0" layoutY="14.0" mnemonicParsing="false" onAction="#followerButtonClicked" prefHeight="50.0" prefWidth="142.0" style="-fx-background-color: #4b016e;" text="Followers" textAlignment="CENTER" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

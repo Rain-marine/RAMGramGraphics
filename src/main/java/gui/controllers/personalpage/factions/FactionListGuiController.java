@@ -1,5 +1,7 @@
-package gui.controllers;
+package gui.controllers.personalpage.factions;
 
+import gui.controllers.Controllers;
+import gui.controllers.SceneLoader;
 import gui.controllers.popups.CreatFactionBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,12 +12,13 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import models.Group;
+import util.ConfigLoader;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class FactionListGuiController implements Initializable , Controllers{
+public class FactionListGuiController implements Initializable , Controllers {
 
     @FXML
     private ScrollPane factionArea;
@@ -38,7 +41,7 @@ public class FactionListGuiController implements Initializable , Controllers{
             show.setId(String.valueOf(faction.getId()));
             show.setOnAction(event -> {
                 FactionUsersGuiController.setFactionID(Integer.parseInt(show.getId()));
-                Toolbar.getInstance().changeScene("FXMLs/PersonalPage/FactionUsers.fxml", event);
+                SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionUsers"), event);
             });
 
             HBox factionRow = new HBox(5);
@@ -49,15 +52,15 @@ public class FactionListGuiController implements Initializable , Controllers{
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().personalPage(actionEvent);
+        SceneLoader.getInstance().personalPage(actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void newFactionButtonClicked(ActionEvent actionEvent) {
@@ -69,16 +72,16 @@ public class FactionListGuiController implements Initializable , Controllers{
 
     public void blackListButtonClicked(ActionEvent actionEvent) {
         DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.BLACKLIST);
-        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/DefaultFactions.fxml" , actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("defaultFactions"), actionEvent);
     }
 
     public void followingButtonClicked(ActionEvent actionEvent) {
         DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.FOLLOWING);
-        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/DefaultFactions.fxml" , actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("defaultFactions"), actionEvent);
     }
 
     public void followerButtonClicked(ActionEvent actionEvent) {
         DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.FOLLOWER);
-        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/DefaultFactions.fxml" , actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("defaultFactions"), actionEvent);
     }
 }

@@ -3,7 +3,7 @@ package gui.controllers.profiles;
 import gui.controllers.Controllers;
 import gui.controllers.ImageController;
 import gui.controllers.InfoLoader;
-import gui.controllers.Toolbar;
+import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import models.User;
+import util.ConfigLoader;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,18 +42,18 @@ public class PendingRequestProfileGuiController implements Initializable, Contro
 
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
         switch (previous){
-            case (1) -> Toolbar.getInstance().explorer(actionEvent);
-            case (2) -> Toolbar.getInstance().timeline(actionEvent);
+            case (1) -> SceneLoader.getInstance().explorer(actionEvent);
+            case (2) -> SceneLoader.getInstance().timeline(actionEvent);
         }
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
 
@@ -60,7 +61,7 @@ public class PendingRequestProfileGuiController implements Initializable, Contro
         NOTIFICATION_CONTROLLER.deleteRequest(user);
         PrivateProfileGuiController.setPrevious(previous);
         PrivateProfileGuiController.setUser(user);
-        Toolbar.getInstance().changeScene("FXMLs/Profiles/PrivateProfile.fxml",actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("privateProf"),actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
@@ -72,7 +73,7 @@ public class PendingRequestProfileGuiController implements Initializable, Contro
         USER_CONTROLLER.blockUser(user);
         BlockedProfileGuiController.setUser(user);
         BlockedProfileGuiController.setPrevious(previous);
-        Toolbar.getInstance().changeScene("FXMLs/Profiles/BlockedProfile.fxml",actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("blockedProf"),actionEvent);
     }
 
     public static User getUser() {

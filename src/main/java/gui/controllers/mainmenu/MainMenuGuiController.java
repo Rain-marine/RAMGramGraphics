@@ -1,16 +1,15 @@
-package gui.controllers;
+package gui.controllers.mainmenu;
 
 import controllers.SettingController;
+import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;
-import gui.controllers.popups.SimpleConfirmBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import util.ConfigLoader;
 
 public class MainMenuGuiController {
     @FXML
@@ -44,30 +43,25 @@ public class MainMenuGuiController {
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        boolean answer = SimpleConfirmBox.display("Log out confirmation", "Are you sure you want to Log out??");
-        if (answer) {
-            settingsController.logout();
-            Toolbar.getInstance().changeScene("FXMLs/Welcome/Login.fxml",actionEvent);
-
-        }
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void personalPageButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/PersonalPageMenu.fxml",actionEvent);
+        SceneLoader.getInstance().personalPage(actionEvent);
     }
 
     public void timeLineButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().timeline(actionEvent);
+        SceneLoader.getInstance().timeline(actionEvent);
     }
 
     public void explorerButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().explorer(actionEvent);
+        SceneLoader.getInstance().explorer(actionEvent);
     }
 
-    public void messagingButtonClicked(ActionEvent actionEvent) { //messagesMenuGuiController.initialize();
+    public void messagingButtonClicked(ActionEvent actionEvent) { //todo
     }
 
     public void settingButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().changeScene("FXMLs/Setting/SettingMenu.fxml",actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("setting"),actionEvent);
     }
 }

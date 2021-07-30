@@ -1,7 +1,10 @@
-package gui.controllers;
+package gui.controllers.personalpage;
 
 import controllers.DateFormat;
 import controllers.UserController;
+import gui.controllers.Controllers;
+import gui.controllers.ImageController;
+import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,15 +13,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import models.LoggedUser;
-import models.Tweet;
+import util.ConfigLoader;
 
 import javax.naming.SizeLimitExceededException;
 import java.net.URL;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class PersonalPageGuiController implements Initializable , Controllers{
+public class PersonalPageGuiController implements Initializable , Controllers {
 
 
     @FXML
@@ -89,15 +91,15 @@ public class PersonalPageGuiController implements Initializable , Controllers{
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().logout(actionEvent);
+        SceneLoader.getInstance().logout(actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
     public void updateInfoButtonClicked(ActionEvent actionEvent) {
@@ -152,18 +154,19 @@ public class PersonalPageGuiController implements Initializable , Controllers{
     }
 
     public void newTweetButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().changeScene("FXMLs/NewTweet.fxml", actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("newTweet"), actionEvent);
     }
 
     public void yourTweetsButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().yourTweets(actionEvent);
+        SceneLoader.getInstance().yourTweets(actionEvent);
     }
 
     public void factionsButtonClicked(ActionEvent actionEvent) {
-        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/FactionList.fxml" , actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionList"), actionEvent);
     }
 
     public void notificationButtonClicked(ActionEvent actionEvent) {
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("notificationAdd"),actionEvent);
     }
 
 

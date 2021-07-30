@@ -16,6 +16,9 @@ public class Chat {
     @Column(name = "name")
     private String name;
 
+    @Column (name = "is_group")
+    private boolean isGroup;
+
 
     @OneToMany(mappedBy = "chat",cascade = CascadeType.ALL)
     private List<UserChat> userChats;
@@ -61,5 +64,14 @@ public class Chat {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isGroup() {
+        isGroup = userChats.size() == 2;
+        return isGroup;
+    }
+
+    public void setGroup(boolean group) {
+        isGroup = group;
     }
 }
