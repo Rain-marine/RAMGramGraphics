@@ -8,7 +8,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import models.LoggedUser;
+import models.Tweet;
 import util.ConfigLoader;
+
+import java.util.List;
 
 public class Toolbar implements Controllers{
 
@@ -68,4 +72,14 @@ public class Toolbar implements Controllers{
         changeScene(ConfigLoader.readProperty("loginFXMLAddress"),actionEvent);
     }
 
+    public void personalPage(ActionEvent actionEvent) {
+        changeScene(ConfigLoader.readProperty("personalPageAdd"),actionEvent);
+    }
+
+    public void yourTweets(ActionEvent actionEvent){
+        List<Tweet> listOfTweets = TWEET_CONTROLLER.getAllTweets(LoggedUser.getLoggedUser());
+        TweetShowerGuiController.setListOfTweets(listOfTweets);
+        TweetShowerGuiController.setPreviousMenu(6);
+        Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" , actionEvent);
+    }
 }

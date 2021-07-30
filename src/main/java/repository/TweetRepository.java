@@ -185,6 +185,7 @@ public class TweetRepository {
 
 
     public void delete(long tweetId) {
+        //delete the tweet from DB
         emptyList(tweetId);
         EntityManager em = EntityManagerProvider.getEntityManager();
         EntityTransaction et = null;

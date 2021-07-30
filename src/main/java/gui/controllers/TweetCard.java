@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import models.LoggedUser;
 import models.Tweet;
@@ -22,6 +23,7 @@ public class TweetCard implements Controllers {
     private VBox vBox;
     private Label tweetText;
     private ImageView profilePhoto;
+    private Label dateTime;
 
     private Button writerName;
     private Button save;
@@ -70,6 +72,9 @@ public class TweetCard implements Controllers {
         writerName.setStyle("-fx-background-color: #dea0ff");
         writerName.setPrefHeight(50);
 
+        dateTime = new Label(tweet.getTweetDateTime().toString());
+        dateTime.setTextFill(Color.DARKVIOLET);
+
         profilePhoto = new ImageView();
         profilePhoto.setFitHeight(50);
         profilePhoto.setFitWidth(50);
@@ -82,7 +87,7 @@ public class TweetCard implements Controllers {
         profilePhoto.setClip(clip);
         profilePhoto.setImage(ImageController.byteArrayToImage(byteArray));
         header = new HBox(10);
-        header.getChildren().addAll(profilePhoto, writerName);
+        header.getChildren().addAll(profilePhoto, writerName , dateTime);
         tweetPhoto = new ImageView();
         if (tweet.getImage() != null) {
             tweetPhoto.setImage(ImageController.byteArrayToImage(tweet.getImage()));

@@ -54,8 +54,28 @@ public class FollowingProfileGuiController implements Initializable, Controllers
         switch (previous){
             case (1) -> Toolbar.getInstance().explorer(actionEvent);
             case (2) -> Toolbar.getInstance().timeline(actionEvent);
-            case (3) -> System.out.println("your tweets"); //todo
-            case (4) -> System.out.println("factions"); //todo
+            case (3) -> Toolbar.getInstance().yourTweets(actionEvent);
+            case (4) -> {
+                switch (factionId){
+                    case -1 -> {
+                        DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.FOLLOWER);
+                        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/DefaultFactions.fxml" , actionEvent);
+                    }
+                    case -2 -> {
+                        DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.FOLLOWING);
+                        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/DefaultFactions.fxml", actionEvent);
+                    }
+                    case -3 ->{
+                        DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.BLACKLIST);
+                        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/DefaultFactions.fxml" , actionEvent);
+                    }
+                    default -> {
+                        FactionUsersGuiController.setFactionID(factionId);
+                        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/FactionUsers.fxml", actionEvent);
+                    }
+                }
+
+            }
         }
     }
 

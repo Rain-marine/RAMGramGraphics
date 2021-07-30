@@ -156,13 +156,11 @@ public class PersonalPageGuiController implements Initializable , Controllers{
     }
 
     public void yourTweetsButtonClicked(ActionEvent actionEvent) {
-        List<Tweet> listOfTweets = TWEET_CONTROLLER.getAllTweets(LoggedUser.getLoggedUser());
-        TweetShowerGuiController.setListOfTweets(listOfTweets);
-        TweetShowerGuiController.setPreviousMenu(6);
-        Toolbar.getInstance().changeScene("FXMLs/TweetShower.fxml" , actionEvent);
+        Toolbar.getInstance().yourTweets(actionEvent);
     }
 
     public void factionsButtonClicked(ActionEvent actionEvent) {
+        Toolbar.getInstance().changeScene("FXMLs/PersonalPage/FactionList.fxml" , actionEvent);
     }
 
     public void notificationButtonClicked(ActionEvent actionEvent) {
