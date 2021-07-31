@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,9 +30,12 @@ public class ChatShowerGuiController implements Initializable, Controllers {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        VBox list = new VBox(5);
         MessageCard messageCard = new MessageCard(1233L);
         messageCard.getCard();
+        //for -> list.getChildren.add (messageCard.getCard());
+
+        messagesArea.setContent(list);
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
