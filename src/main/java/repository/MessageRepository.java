@@ -49,10 +49,54 @@ public class MessageRepository {
     }
 
     public void delete(long messageId) {
-
+        EntityManager em = EntityManagerProvider.getEntityManager();
+        EntityTransaction et = null;
+        try {
+            et = em.getTransaction();
+            et.begin();
+            Message object = em.find(Message.class , messageId);
+            em.remove(object);
+            et.commit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (et != null) {
+                et.rollback();
+            }
+            e.printStackTrace();
+        }
     }
 
     public void editMessageText(long messageId, String newText) {
-        //message.setText(newText);
+        Message message = getById(messageId);
+        message.setText(newText);
+        save(message);
+    }
+
+    private void save(Message message) {
+        EntityManager em = EntityManagerProvider.getEntityManager();
+        EntityTransaction et = null;
+        try {
+            et = em.getTransaction();
+            et.begin();
+            em.merge(message);
+            et.commit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (et != null) {
+                et.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Message getById(long messageId) {
+        EntityManager em = EntityManagerProvider.getEntityManager();
+        try {
+            return em.find(Message.class, messageId);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

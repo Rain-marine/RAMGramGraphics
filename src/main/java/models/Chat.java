@@ -19,7 +19,6 @@ public class Chat {
     @Column (name = "is_group")
     private boolean isGroup;
 
-
     @OneToMany(mappedBy = "chat",cascade = CascadeType.ALL)
     private List<UserChat> userChats;
 
@@ -31,11 +30,13 @@ public class Chat {
 
     public Chat(List<User> users){
         userChats = users.stream().map(it -> new UserChat(it,this)).collect(Collectors.toList());
+        this.isGroup = false;
     };
 
     public Chat(List<User> users , String name){
         this(users);
         this.name = name;
+        this.isGroup = true;
     }
 
     public long getId() {
@@ -67,7 +68,6 @@ public class Chat {
     }
 
     public boolean isGroup() {
-        isGroup = userChats.size() == 2;
         return isGroup;
     }
 

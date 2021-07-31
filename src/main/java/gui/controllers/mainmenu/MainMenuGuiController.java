@@ -58,7 +58,8 @@ public class MainMenuGuiController {
         SceneLoader.getInstance().explorer(actionEvent);
     }
 
-    public void messagingButtonClicked(ActionEvent actionEvent) { //todo
+    public void messagingButtonClicked(ActionEvent actionEvent) {
+        SceneLoader.getInstance().messaging(actionEvent);
     }
 
     public void settingButtonClicked(ActionEvent actionEvent) {

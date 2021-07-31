@@ -23,7 +23,7 @@ public class MessageController {
         chatRepository = new ChatRepository();
     }
 
-    public List<Message> getSavedMessage(){
+    public List<Message> getSavedMessage() {
         User user = userRepository.getById(LoggedUser.getLoggedUser().getId());
         return user.getFavoriteMessages();
     }
@@ -73,7 +73,7 @@ public class MessageController {
         List<Group> groups = user.getGroups();
         HashMap<String, Group> groupNameToGroup = extractGroupNameToGroup(groups);
 
-        sendMessageToUsers(message,image, users, userChats);
+        sendMessageToUsers(message, image, users, userChats);
         sendMessageToGroups(message, image, groupsToSendMessage, groupNameToGroup, userChats);
     }
 
@@ -109,7 +109,7 @@ public class MessageController {
                 });
                 chatRepository.insert(newChat);
                 Chat chat = getChatWithUsername(receiver.getUsername());
-                chatRepository.addMessageToChat(chat.getId(),newMessage);
+                chatRepository.addMessageToChat(chat.getId(), newMessage);
             }
         }
     }
@@ -177,11 +177,57 @@ public class MessageController {
         return null;
     }
 
-    public void deleteMessage(Message message) {
-        messageRepository.delete(message.getId());
+    public void deleteMessage(long id) {
+        messageRepository.delete(id);
     }
 
-    public void editMessage(Message message, String newText) {
-        messageRepository.editMessageText(message.getId(), newText);
+    public void editMessage(long messageId, String newText) {
+        messageRepository.editMessageText(messageId, newText);
+    }
+
+    public byte[] getMessageImage(long messageId) {
+        return messageRepository.getById(messageId).getImage();
+    }
+
+    public String getMessageText(long messageId) {
+        return  messageRepository.getById(messageId).getText();
+    }
+
+    public String getMessageDate(long messageId) {
+        return  messageRepository.getById(messageId).getDate().toString();
+    }
+
+    public String getMessageSender(long messageId) {
+        return  messageRepository.getById(messageId).getSender().getUsername();
+    }
+
+    public String getMessageGrandSender(long messageId) {
+        return  messageRepository.getById(messageId).getGrandSender().getUsername();
+    }
+
+    public byte[] getSenderProfile(long messageId) {
+        return messageRepository.getById(messageId).getSender().getProfilePhoto();
+    }
+
+    public void forward(long messageID, List<String> users, List<String> factions) {
+        Message message = messageRepository.getById(messageID);
+        sendMessage(message.getText() , message.getImage() , users , factions);
+    }
+
+    public enum TYPE {EDIT, DELETE, BOTH, NONE}
+
+    public TYPE getMessageType(long messageId) {
+        Message message = messageRepository.getById(messageId);
+        boolean editable = (message.getSender().getId() == message.getGrandSender().getId()
+                && message.getSender().getId() == LoggedUser.getLoggedUser().getId());
+        boolean removable = (message.getSender().getId() == LoggedUser.getLoggedUser().getId());
+        if (editable && removable) {
+            return TYPE.BOTH;
+        } else if (editable) {
+            return TYPE.EDIT;
+        } else if (removable) {
+            return TYPE.DELETE;
+        } else
+            return TYPE.NONE;
     }
 }

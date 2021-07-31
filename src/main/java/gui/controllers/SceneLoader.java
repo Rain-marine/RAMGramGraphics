@@ -83,4 +83,8 @@ public class SceneLoader implements Controllers{
         TweetShowerGuiController.setPreviousMenu(6);
         SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("yourTweets"), actionEvent);
     }
+
+    public void messaging(ActionEvent actionEvent) {
+        changeScene(ConfigLoader.readProperty("messageMenu"),actionEvent);
+    }
 }

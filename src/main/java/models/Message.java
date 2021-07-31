@@ -112,4 +112,12 @@ public class Message {
     public void setGrandSender(User grandSender) {
         this.grandSender = grandSender;
     }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 }

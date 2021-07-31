@@ -2,29 +2,40 @@ package gui.controllers.messages;
 
 import gui.controllers.Controllers;
 import gui.controllers.SceneLoader;
-import gui.controllers.popups.SendNewMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class MessagesMenuGuiController implements Initializable, Controllers {
+public class ChatShowerGuiController implements Initializable, Controllers {
 
     @FXML
-    private ScrollPane chatsArea;
+    private ScrollPane messagesArea;
+    @FXML
+    private ImageView profileImageview;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private Label lastSeenLabel;
+
+
+    private static long userChatId;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        MessageCard messageCard = new MessageCard(1233L);
+        messageCard.getCard();
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().mainMenu(actionEvent);
+        SceneLoader.getInstance().messaging(actionEvent);
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
@@ -35,18 +46,14 @@ public class MessagesMenuGuiController implements Initializable, Controllers {
         SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
-
-    public void newChatButtonClicked(ActionEvent actionEvent) {
-        SendNewMessage.display();
-        SceneLoader.getInstance().messaging(actionEvent);
+    public static long getUserChatId() {
+        return userChatId;
     }
 
-    public void newGroupButtonClicked(ActionEvent actionEvent) {
+    public static void setUserChatId(long userChatId) {
+        ChatShowerGuiController.userChatId = userChatId;
     }
 
-    public void savedMessagesButtonClicked(ActionEvent actionEvent) {
-    }
-
-    public void savedTweetsButtonClicked(ActionEvent actionEvent) {
+    public void sendButtonClicked(ActionEvent actionEvent) {
     }
 }
