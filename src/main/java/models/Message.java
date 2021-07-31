@@ -53,6 +53,7 @@ public class Message {
         this.receiver = receiver;
     }
 
+
     public Message() {
 
     }

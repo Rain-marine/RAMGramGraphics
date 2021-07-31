@@ -77,6 +77,7 @@ public class MessageController {
         sendMessageToGroups(message, image, groupsToSendMessage, groupNameToGroup, userChats);
     }
 
+
     private void sendMessageToGroups(String message, byte[] image, List<String> groupsToSendMessage, HashMap<String, Group> groups, List<Chat> chats) {
         for (String groupName : groupsToSendMessage) {
             List<String> users = new ArrayList<>();
@@ -210,9 +211,56 @@ public class MessageController {
     }
 
     public void forward(long messageID, List<String> users, List<String> factions) {
-        Message message = messageRepository.getById(messageID);
-        sendMessage(message.getText() , message.getImage() , users , factions);
+        User user = userRepository.getById(LoggedUser.getLoggedUser().getId());
+        List<Chat> userChats = user.getChats();
+        List<Group> groups = user.getGroups();
+        HashMap<String, Group> groupNameToGroup = extractGroupNameToGroup(groups);
+
+        forwardMessageToUsers(messageID, users, userChats);
+        forwardMessageToGroups(messageID, factions, groupNameToGroup, userChats);
     }
+
+    private void forwardMessageToGroups(long messageID, List<String> factions, HashMap<String, Group> groupNameToGroup, List<Chat> chats) {
+        for (String groupName : factions) {
+            List<String> users = new ArrayList<>();
+            groupNameToGroup.get(groupName).getMembers().forEach(member -> users.add(member.getUsername()));
+            forwardMessageToUsers(messageID, users, chats);
+        }
+    }
+
+    private void forwardMessageToUsers(long messageID, List<String> users, List<Chat> chats) {
+        Message message = messageRepository.getById(messageID);
+        for (String user : users) {
+            boolean hasSent = false;
+            User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
+            User receiver = userRepository.getByUsername(user);
+            Message newMessage = new Message(message.getText(), message.getImage(), loggedUser, receiver);
+            newMessage.setGrandSender(message.getSender());
+            for (Chat chat : chats) {
+                if (chat.getUserChats().size() == 2 &&
+                        (chat.getUserChats().get(0).getUser().getUsername().equals(user)
+                                || chat.getUserChats().get(1).getUser().getUsername().equals(user))) {
+                    chatRepository.addMessageToChat(chat.getId(), newMessage);
+                    hasSent = true;
+                    break;
+                }
+            }
+            if (!hasSent) {
+                Chat newChat = new Chat(new ArrayList<>() {
+                    {
+                        add(loggedUser);
+                        add(receiver);
+                    }
+                });
+                chatRepository.insert(newChat);
+                Chat chat = getChatWithUsername(receiver.getUsername());
+                chatRepository.addMessageToChat(chat.getId(), newMessage);
+            }
+        }
+    }
+
+
+
 
     public enum TYPE {EDIT, DELETE, BOTH, NONE}
 

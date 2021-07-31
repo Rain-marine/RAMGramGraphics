@@ -96,8 +96,6 @@ public class Forward implements ConfirmBox, Controllers {
             window.close();
         });
 
-        final byte[][] finalImage = {null};
-
 
 
         sendButton.setOnAction(event -> {
