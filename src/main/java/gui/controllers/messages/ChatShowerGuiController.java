@@ -6,8 +6,10 @@ import gui.controllers.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
@@ -25,7 +27,12 @@ public class ChatShowerGuiController implements Initializable, Controllers {
     private Label usernameLabel;
     @FXML
     private Label lastSeenLabel;
-
+    @FXML
+    private Button sendBtn;
+    @FXML
+    private Button choosePicBtn;
+    @FXML
+    private TextField massageTextField;
 
     private static long userChatId;
 
