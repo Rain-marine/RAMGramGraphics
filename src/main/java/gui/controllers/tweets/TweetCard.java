@@ -81,7 +81,7 @@ public class TweetCard implements Controllers {
         profilePhoto = new ImageView();
         profilePhoto.setFitHeight(50);
         profilePhoto.setFitWidth(50);
-        byte[] byteArray = writer.getProfilePhoto();
+        byte[] byteArray = USER_CONTROLLER.getProfilePhoto(writer.getId());
         Rectangle clip = new Rectangle(
                 profilePhoto.getFitWidth(), profilePhoto.getFitHeight()
         );

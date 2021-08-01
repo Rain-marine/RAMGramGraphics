@@ -32,8 +32,6 @@ public class MainMenuGuiController {
     private Scene scene;
     private Parent root;
 
-    private final SettingController settingsController = new SettingController();
-
     public void mainMenuButtonClicked(ActionEvent actionEvent) {
         AlertBox.display("Nerd Alert","You \"are\" in main menu idiot");
     }

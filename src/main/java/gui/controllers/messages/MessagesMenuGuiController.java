@@ -20,7 +20,7 @@ public class MessagesMenuGuiController implements Initializable, Controllers {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        List<Long> chatIds = CHAT_CONTROLLER.getChatsIds();
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {

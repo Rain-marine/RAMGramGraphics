@@ -15,7 +15,7 @@ public class InfoLoader {
     private static String bio;
 
     public static String load(User user){
-        lastSeen = SETTING_CONTROLLER.lastSeenForLoggedUser(user);
+        lastSeen = SETTING_CONTROLLER.lastSeenForLoggedUser(user.getId());
         phoneNumber = SETTING_CONTROLLER.phoneNumberForLoggedUser(user);
         email = SETTING_CONTROLLER.emailForLoggedUser(user);
         birthday = SETTING_CONTROLLER.birthdayForLoggedUser(user);

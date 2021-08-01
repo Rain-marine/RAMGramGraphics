@@ -58,8 +58,8 @@ public class SettingController {
         userRepository.changePassword(LoggedUser.getLoggedUser().getId(), newPassword);
     }
 
-    public String lastSeenForLoggedUser(User rawUser) {
-        User user = userRepository.getById(rawUser.getId());
+    public String lastSeenForLoggedUser(long rawUserId) {
+        User user = userRepository.getById(rawUserId);
         long loggedUserId = LoggedUser.getLoggedUser().getId();
         String status = userRepository.getById(user.getId()).getLastSeenStatus();
         if (user.getFollowings().stream().noneMatch(it -> it.getId() == loggedUserId)) {
@@ -79,20 +79,24 @@ public class SettingController {
 
     public String birthdayForLoggedUser(User user) {
         User.Level status = user.isBirthDayVisible();
-        if (status == User.Level.FOLLOWING) {
-            long loggedUserId = LoggedUser.getLoggedUser().getId();
-            List<User> following = user.getFollowings();
-            for (User followed : following) {
-                if (followed.getId() == loggedUserId) {
-                    return user.getBirthday().toString();
+        if (user.getBirthday() != null){
+            if (status == User.Level.FOLLOWING) {
+                long loggedUserId = LoggedUser.getLoggedUser().getId();
+                List<User> following = user.getFollowings();
+                for (User followed : following) {
+                    if (followed.getId() == loggedUserId) {
+                        return user.getBirthday().toString();
+                    }
                 }
+                return "not visible";
+            } else if (status == User.Level.ALL) {
+                return user.getBirthday().toString();
+            } else {
+                return "not visible";
             }
-            return "not visible";
-        } else if (status == User.Level.ALL) {
-            return user.getBirthday().toString();
-        } else {
-            return "not visible";
         }
+        else
+            return "not visible";
     }
 
 

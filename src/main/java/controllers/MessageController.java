@@ -208,6 +208,7 @@ public class MessageController {
 
     public byte[] getSenderProfile(long messageId) {
         return messageRepository.getById(messageId).getSender().getProfilePhoto();
+        //todo
     }
 
     public void forward(long messageID, List<String> users, List<String> factions) {

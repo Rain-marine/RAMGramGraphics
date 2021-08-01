@@ -1,8 +1,10 @@
 package gui.controllers.messages;
 
-import controllers.ChatController;
+import controllers.ProfileAccessController;
 import gui.controllers.Controllers;
+import gui.controllers.ImageController;
 import gui.controllers.SceneLoader;
+import gui.controllers.popups.AlertBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+import javax.naming.SizeLimitExceededException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -32,18 +35,34 @@ public class ChatShowerGuiController implements Initializable, Controllers {
     @FXML
     private Button choosePicBtn;
     @FXML
-    private TextField massageTextField;
+    private TextField messageTextField;
+    @FXML
+    private ImageView chosenImageView;
+    
+    private byte[] chosenImageByteArray = null;
+    public enum PREVIOUS { DEFAULT , PROFILE}
 
-    private static long userChatId;
+    private static long chatId;
+    private static PREVIOUS previousMenu;
+    private static long previousProfileId;
+    private static ProfileAccessController profileAccessController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loadMessages();
+    }
+
+    private void loadMessages() {
+        long frontUserID = CHAT_CONTROLLER.getFrontUserId(chatId);
+        usernameLabel.setText(USER_CONTROLLER.getUsername(frontUserID));
+        profileImageview.setImage(ImageController.byteArrayToImage(USER_CONTROLLER.getProfilePhoto(frontUserID)));
+        lastSeenLabel.setText(SETTING_CONTROLLER.lastSeenForLoggedUser(frontUserID));
+
         VBox list = new VBox(5);
-        ArrayList<Long> messageIDs = CHAT_CONTROLLER.getMessages(userChatId);
+        ArrayList<Long> messageIDs = CHAT_CONTROLLER.getMessages(chatId);
         for (Long messageID : messageIDs) {
             list.getChildren().add(new MessageCard(messageID).getCard());
         }
-        //for -> list.getChildren.add (messageCard.getCard());
         messagesArea.setContent(list);
     }
 
@@ -59,17 +78,57 @@ public class ChatShowerGuiController implements Initializable, Controllers {
         SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
-    public static long getUserChatId() {
-        return userChatId;
+    public static long getChatId() {
+        return chatId;
     }
 
-    public static void setUserChatId(long userChatId) {
-        ChatShowerGuiController.userChatId = userChatId;
+    public static void setChatId(long chatId) {
+        ChatShowerGuiController.chatId = chatId;
     }
 
     public void sendButtonClicked(ActionEvent actionEvent) {
+        String messageText = messageTextField.getText();
+        if (messageText.equals("") && chosenImageByteArray == null){
+            AlertBox.display("Nerd Alert" , "write something idiot");
+        }
+        else {
+            CHAT_CONTROLLER.addMessageToChat(chatId,messageText , chosenImageByteArray );
+            loadMessages();
+        }
     }
 
     public void choosePicButtonClicked(ActionEvent actionEvent) {
+        try {
+            chosenImageByteArray = ImageController.pickImage();
+            if (chosenImageByteArray != null){
+                chosenImageView.setImage(ImageController.byteArrayToImage(chosenImageByteArray));
+            }
+        } catch (SizeLimitExceededException e) {
+            AlertBox.display("too large" , "Image size too large");
+        }
+    }
+
+    public static PREVIOUS getPreviousMenu() {
+        return previousMenu;
+    }
+
+    public static void setPreviousMenu(PREVIOUS previousMenu) {
+        ChatShowerGuiController.previousMenu = previousMenu;
+    }
+
+    public static long getPreviousProfileId() {
+        return previousProfileId;
+    }
+
+    public static void setPreviousProfileId(long previousProfileId) {
+        ChatShowerGuiController.previousProfileId = previousProfileId;
+    }
+
+    public static ProfileAccessController getProfileAccessController() {
+        return profileAccessController;
+    }
+
+    public static void setProfileAccessController(ProfileAccessController profileAccessController) {
+        ChatShowerGuiController.profileAccessController = profileAccessController;
     }
 }
