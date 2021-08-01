@@ -84,11 +84,11 @@ public class SendNewMessage implements ConfirmBox, Controllers {
             String username = receiver.getText();
             if(!username.equals("")){
                 if (!MESSAGE_CONTROLLER.canSendMessageToUser(username)) {
-                    factionError.setText("Can't message " + username );
+                    userError.setText("Can't message " + username );
                     receiver.setText("");
                 }
                 else if(users.contains(username)) {
-                    factionError.setText("duplicate name");
+                    userError.setText("duplicate name");
                 }
                 else{
                     users.add(username);

@@ -43,11 +43,16 @@ public class ChatController {
     }
 
     public long getFrontUserId(long chatId) {
+        User frontUser = getFrontUser(chatId);
+        return frontUser.getId();
+    }
+
+    private User getFrontUser(long chatId) {
         Chat chat = chatRepository.getById(chatId);
         User frontUser =  chat.getUserChats().get(0).getUser().getUsername().equals(LoggedUser.getLoggedUser().getUsername())
                 ? chat.getUserChats().get(1).getUser()
                 : chat.getUserChats().get(0).getUser();
-        return frontUser.getId();
+        return frontUser;
     }
 
     public ArrayList<Long> getMessages(long chatID) {
@@ -74,5 +79,28 @@ public class ChatController {
     public void addNewMessageToGroupChat(String message,byte[] image, long chatId){
         Message newMessage = new Message(message, image, userRepository.getById(LoggedUser.getLoggedUser().getId()));
         chatRepository.addMessageToChat(chatId, newMessage);
+    }
+
+    public String getChatName(Long chatId) {
+        Chat chat = chatRepository.getById(chatId);
+        if (chat.isGroup()){
+            return chat.getName();
+        }
+        else {
+            return getFrontUser(chatId).getUsername();
+        }
+    }
+
+    public String getUnseenCount(Long chatId) {
+        Chat chat = chatRepository.getById(chatId);
+        UserChat userToSee = chat.getUserChats().get(0).getUser().getUsername().equals(LoggedUser.getLoggedUser().getUsername())
+                ? chat.getUserChats().get(0)
+                : chat.getUserChats().get(1);
+        return String.valueOf(userToSee.getUnseenCount());
+    }
+
+    public boolean isGroup(Long chatId) {
+        Chat chat = chatRepository.getById(chatId);
+        return chat.isGroup();
     }
 }

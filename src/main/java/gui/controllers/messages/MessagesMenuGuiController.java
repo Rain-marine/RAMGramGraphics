@@ -2,6 +2,7 @@ package gui.controllers.messages;
 
 import gui.controllers.Controllers;
 import gui.controllers.SceneLoader;
+import gui.controllers.popups.NewGroup;
 import gui.controllers.popups.SendNewMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,6 +59,8 @@ public class MessagesMenuGuiController implements Initializable, Controllers {
     }
 
     public void newGroupButtonClicked(ActionEvent actionEvent) {
+        NewGroup.display();
+        SceneLoader.getInstance().messaging(actionEvent);
     }
 
     public void savedMessagesButtonClicked(ActionEvent actionEvent) {

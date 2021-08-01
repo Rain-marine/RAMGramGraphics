@@ -93,6 +93,8 @@ public class ChatShowerGuiController implements Initializable, Controllers {
         }
         else {
             CHAT_CONTROLLER.addMessageToChat(chatId,messageText , chosenImageByteArray );
+            chosenImageView.setImage(null);
+            messageTextField.clear();
             loadMessages();
         }
     }

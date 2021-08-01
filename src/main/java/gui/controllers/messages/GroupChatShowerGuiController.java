@@ -39,5 +39,11 @@ public class GroupChatShowerGuiController implements Initializable, Controllers 
     public void sendButtonClicked(ActionEvent actionEvent) {
     }
 
+    public static long getGroupId() {
+        return groupId;
+    }
 
+    public static void setGroupId(long groupId) {
+        GroupChatShowerGuiController.groupId = groupId;
+    }
 }
