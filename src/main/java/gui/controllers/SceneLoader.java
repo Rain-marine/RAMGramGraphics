@@ -20,7 +20,6 @@ public class SceneLoader implements Controllers{
     private Stage stage;
     private Scene scene;
     private Parent root;
-    private final SettingController settingsController = new SettingController();
     private static SceneLoader sceneLoader;
 
     private SceneLoader() {
@@ -35,7 +34,9 @@ public class SceneLoader implements Controllers{
 
     public void changeScene(String address, ActionEvent actionEvent){
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource(address));
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            root =fxmlLoader.load(getClass().getClassLoader().getResource(address));
+            fxmlLoader.getController();
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -63,13 +64,13 @@ public class SceneLoader implements Controllers{
     public void logout(ActionEvent actionEvent) {
         boolean answer = SimpleConfirmBox.display("Log out confirmation", "Are you sure you want to Log out??");
         if (answer) {
-            settingsController.logout();
+            SETTING_CONTROLLER.logout();
             changeScene(ConfigLoader.readProperty("loginFXMLAddress"),actionEvent);
         }
     }
 
     public void noConfirmLogout(ActionEvent actionEvent) {
-        settingsController.logout();
+        SETTING_CONTROLLER.logout();
         changeScene(ConfigLoader.readProperty("loginFXMLAddress"),actionEvent);
     }
 

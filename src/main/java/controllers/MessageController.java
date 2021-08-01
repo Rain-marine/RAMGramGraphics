@@ -13,28 +13,28 @@ import java.util.List;
 
 public class MessageController {
     private final static Logger log = LogManager.getLogger(MessageController.class);
-    private final MessageRepository messageRepository;
-    private final ChatRepository chatRepository;
-    private final UserRepository userRepository;
+    private final MessageRepository MESSAGE_REPOSITORY;
+    private final ChatRepository CHAT_REPOSITORY;
+    private final UserRepository USER_REPOSITORY;
 
     public MessageController() {
-        messageRepository = new MessageRepository();
-        userRepository = new UserRepository();
-        chatRepository = new ChatRepository();
+        MESSAGE_REPOSITORY = new MessageRepository();
+        USER_REPOSITORY = new UserRepository();
+        CHAT_REPOSITORY = new ChatRepository();
     }
 
     public List<Message> getSavedMessage() {
-        User user = userRepository.getById(LoggedUser.getLoggedUser().getId());
+        User user = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
         return user.getFavoriteMessages();
     }
 
     public List<Tweet> getSavedTweets() {
-        User user = userRepository.getById(LoggedUser.getLoggedUser().getId());
+        User user = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
         return user.getFavoriteTweets();
     }
 
     public boolean canSendMessageToUser(String userToSendMessage) {
-        User user = userRepository.getByUsername(userToSendMessage);
+        User user = USER_REPOSITORY.getByUsername(userToSendMessage);
         if (user == null || !user.isActive())
             return false;
         if (hasFollow(user.getFollowers()))
@@ -59,7 +59,7 @@ public class MessageController {
     }
 
     public boolean canSendMessageToGroup(String groupToSendMessage) {
-        User user = userRepository.getById(LoggedUser.getLoggedUser().getId());
+        User user = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
         for (Group group : user.getGroups()) {
             if (group.getName().equals(groupToSendMessage))
                 return true;
@@ -68,7 +68,7 @@ public class MessageController {
     }
 
     public void sendMessage(String message, byte[] image, List<String> users, List<String> groupsToSendMessage) {
-        User user = userRepository.getById(LoggedUser.getLoggedUser().getId());
+        User user = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
         List<Chat> userChats = user.getChats();
         List<Group> groups = user.getGroups();
         HashMap<String, Group> groupNameToGroup = extractGroupNameToGroup(groups);
@@ -89,14 +89,14 @@ public class MessageController {
     private void sendMessageToUsers(String message, byte[] image, List<String> users, List<Chat> chats) {
         for (String user : users) {
             boolean hasSent = false;
-            User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
-            User receiver = userRepository.getByUsername(user);
+            User loggedUser = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
+            User receiver = USER_REPOSITORY.getByUsername(user);
             Message newMessage = new Message(message, image, loggedUser, receiver);
             for (Chat chat : chats) {
                 if (chat.getUserChats().size() == 2 &&
                         (chat.getUserChats().get(0).getUser().getUsername().equals(user)
                                 || chat.getUserChats().get(1).getUser().getUsername().equals(user))) {
-                    chatRepository.addMessageToChat(chat.getId(), newMessage);
+                    CHAT_REPOSITORY.addMessageToChat(chat.getId(), newMessage);
                     hasSent = true;
                     break;
                 }
@@ -108,15 +108,15 @@ public class MessageController {
                         add(receiver);
                     }
                 });
-                chatRepository.insert(newChat);
+                CHAT_REPOSITORY.insert(newChat);
                 Chat chat = getChatWithUsername(receiver.getUsername());
-                chatRepository.addMessageToChat(chat.getId(), newMessage);
+                CHAT_REPOSITORY.addMessageToChat(chat.getId(), newMessage);
             }
         }
     }
 
     public void insertSavedMessage(Message message) {
-        messageRepository.addMessageToSavedMessage(LoggedUser.getLoggedUser().getId(), message);
+        MESSAGE_REPOSITORY.addMessageToSavedMessage(LoggedUser.getLoggedUser().getId(), message);
     }
 
     private HashMap<String, Group> extractGroupNameToGroup(List<Group> groups) {
@@ -128,8 +128,8 @@ public class MessageController {
 
     public void forwardTweet(Tweet tweet, User tweetUser, String receiver) {
         String message = "Tweet forwarded from " + tweetUser.getUsername() + "\n" + tweet.getText();
-        User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
-        User receiveUser = userRepository.getByUsername(receiver);
+        User loggedUser = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
+        User receiveUser = USER_REPOSITORY.getByUsername(receiver);
         Message newMessage = new Message(message, null, loggedUser, receiveUser);
         newMessage.setGrandSender(tweetUser);
 
@@ -137,7 +137,7 @@ public class MessageController {
             if (chat.getUserChats().size() == 2 &&
                     (chat.getUserChats().get(0).getUser().getUsername().equals(receiver)
                             || chat.getUserChats().get(1).getUser().getUsername().equals(receiver))) {
-                chatRepository.addMessageToChat(chat.getId(), newMessage);
+                CHAT_REPOSITORY.addMessageToChat(chat.getId(), newMessage);
                 return;
             }
         }
@@ -154,12 +154,12 @@ public class MessageController {
         });
         newChat.getUserChats().get(1).setHasSeen(false);
         newChat.getUserChats().get(1).setUnseenCount(1);
-        chatRepository.insert(newChat);
+        CHAT_REPOSITORY.insert(newChat);
     }
 
     public Chat getChatWithUsername(String username) {
-        User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
-        User receiveUser = userRepository.getByUsername(username);
+        User loggedUser = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
+        User receiveUser = USER_REPOSITORY.getByUsername(username);
         for (Chat chat : loggedUser.getChats()) {
             if (chat.getUserChats().size() == 2 &&
                     (chat.getUserChats().get(0).getUser().getUsername().equals(username)
@@ -174,44 +174,45 @@ public class MessageController {
             }
         });
         newChat.setMessages(new ArrayList<>());
-        chatRepository.insert(newChat);
+        CHAT_REPOSITORY.insert(newChat);
         return null;
     }
 
     public void deleteMessage(long id) {
-        messageRepository.delete(id);
+        MESSAGE_REPOSITORY.delete(id);
     }
 
     public void editMessage(long messageId, String newText) {
-        messageRepository.editMessageText(messageId, newText);
+        MESSAGE_REPOSITORY.editMessageText(messageId, newText);
     }
 
     public byte[] getMessageImage(long messageId) {
-        return messageRepository.getById(messageId).getImage();
+        return MESSAGE_REPOSITORY.getById(messageId).getImage();
     }
 
     public String getMessageText(long messageId) {
-        return  messageRepository.getById(messageId).getText();
+        return  MESSAGE_REPOSITORY.getById(messageId).getText();
     }
 
     public String getMessageDate(long messageId) {
-        return  messageRepository.getById(messageId).getDate().toString();
+        return  MESSAGE_REPOSITORY.getById(messageId).getDate().toString();
     }
 
     public String getMessageSender(long messageId) {
-        return  messageRepository.getById(messageId).getSender().getUsername();
+        return  MESSAGE_REPOSITORY.getById(messageId).getSender().getUsername();
     }
 
     public String getMessageGrandSender(long messageId) {
-        return  messageRepository.getById(messageId).getGrandSender().getUsername();
+        return  MESSAGE_REPOSITORY.getById(messageId).getGrandSender().getUsername();
     }
 
     public byte[] getSenderProfile(long messageId) {
-        return messageRepository.getById(messageId).getSender().getProfilePhoto();
+        return MESSAGE_REPOSITORY.getById(messageId).getSender().getProfilePhoto();
+        //todo
     }
 
     public void forward(long messageID, List<String> users, List<String> factions) {
-        User user = userRepository.getById(LoggedUser.getLoggedUser().getId());
+        User user = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
         List<Chat> userChats = user.getChats();
         List<Group> groups = user.getGroups();
         HashMap<String, Group> groupNameToGroup = extractGroupNameToGroup(groups);
@@ -229,18 +230,18 @@ public class MessageController {
     }
 
     private void forwardMessageToUsers(long messageID, List<String> users, List<Chat> chats) {
-        Message message = messageRepository.getById(messageID);
+        Message message = MESSAGE_REPOSITORY.getById(messageID);
         for (String user : users) {
             boolean hasSent = false;
-            User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
-            User receiver = userRepository.getByUsername(user);
+            User loggedUser = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
+            User receiver = USER_REPOSITORY.getByUsername(user);
             Message newMessage = new Message(message.getText(), message.getImage(), loggedUser, receiver);
             newMessage.setGrandSender(message.getSender());
             for (Chat chat : chats) {
                 if (chat.getUserChats().size() == 2 &&
                         (chat.getUserChats().get(0).getUser().getUsername().equals(user)
                                 || chat.getUserChats().get(1).getUser().getUsername().equals(user))) {
-                    chatRepository.addMessageToChat(chat.getId(), newMessage);
+                    CHAT_REPOSITORY.addMessageToChat(chat.getId(), newMessage);
                     hasSent = true;
                     break;
                 }
@@ -252,9 +253,9 @@ public class MessageController {
                         add(receiver);
                     }
                 });
-                chatRepository.insert(newChat);
+                CHAT_REPOSITORY.insert(newChat);
                 Chat chat = getChatWithUsername(receiver.getUsername());
-                chatRepository.addMessageToChat(chat.getId(), newMessage);
+                CHAT_REPOSITORY.addMessageToChat(chat.getId(), newMessage);
             }
         }
     }
@@ -265,7 +266,7 @@ public class MessageController {
     public enum TYPE {EDIT, DELETE, BOTH, NONE}
 
     public TYPE getMessageType(long messageId) {
-        Message message = messageRepository.getById(messageId);
+        Message message = MESSAGE_REPOSITORY.getById(messageId);
         boolean editable = (message.getSender().getId() == message.getGrandSender().getId()
                 && message.getSender().getId() == LoggedUser.getLoggedUser().getId());
         boolean removable = (message.getSender().getId() == LoggedUser.getLoggedUser().getId());

@@ -108,4 +108,13 @@ public class UserController {
     public User getById(long id) {
         return USER_REPOSITORY.getById(id);
     }
+
+    public String getUsername(long frontUserID) {
+        return  USER_REPOSITORY.getById(frontUserID).getUsername();
+    }
+
+    public byte[] getProfilePhoto(long frontUserID) {
+        return  USER_REPOSITORY.getById(frontUserID).getProfilePhoto();
+        //todo
+    }
 }

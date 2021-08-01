@@ -23,20 +23,20 @@ public class Message {
     @Column(name = "date")
     private Date date;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn(name = "sender_id")
     private User sender;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn(name = "grand_sender_id")
     private User grandSender;
 
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn(name = "receiver_id")
     private User receiver;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
     @JoinColumn(name = "chat_id")
     private Chat chat;
 

@@ -47,6 +47,9 @@ public class MessageCard implements Controllers {
     }
 
     private void loadCard() {
+        card.getChildren().clear();
+        buttonRow.getChildren().clear();
+        header.getChildren().clear();
         this.messageText = new Label(MESSAGE_CONTROLLER.getMessageText(messageId));
         this.messageDate = new Label(MESSAGE_CONTROLLER.getMessageDate(messageId));
 
@@ -119,18 +122,20 @@ public class MessageCard implements Controllers {
         for (Button button : buttons) {
             button.setId(String.valueOf(this.messageId));
             button.setFont(Font.font(10));
-            button.setPrefWidth(10);
         }
 
         delete.setOnAction(event -> {
             long id = Long.parseLong(delete.getId());
             MESSAGE_CONTROLLER.deleteMessage(id);
+            //TODO:     REFRESH
         });
 
         edit.setOnAction(event -> {
             boolean isEdited = EditMessage.display(Long.parseLong(edit.getId()));
-            if (isEdited)
+            if (isEdited) {
                 loadCard();
+            }
+
         });
 
         forward.setOnAction(event -> {
