@@ -1,6 +1,7 @@
 package gui.controllers.messages;
 
 import gui.controllers.Controllers;
+import gui.controllers.ImageController;
 import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;
 import javafx.event.ActionEvent;
@@ -10,8 +11,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
+import javax.naming.SizeLimitExceededException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GroupChatShowerGuiController implements Initializable, Controllers {
@@ -51,11 +55,21 @@ public class GroupChatShowerGuiController implements Initializable, Controllers 
             AlertBox.display("Nerd Alert" , "write something idiot");
         }
         else {
-            CHAT_CONTROLLER.addMessageToChat(chatId,messageText , chosenImageByteArray );
+            CHAT_CONTROLLER.addNewMessageToGroupChat(messageText , chosenImageByteArray , groupId );
             chosenImageView.setImage(null);
             messageTextField.clear();
             loadMessages();
         }
+    }
+
+    private void loadMessages() {
+        groupNameLabel.setText(CHAT_CONTROLLER.getChatName(groupId));
+        VBox list = new VBox(5);
+        ArrayList<Long> messageIDs = CHAT_CONTROLLER.getMessages(groupId);
+        for (Long messageID : messageIDs) {
+            list.getChildren().add(new MessageCard(messageID).getCard());
+        }
+        messagesArea.setContent(list);
     }
 
     public static long getGroupId() {
@@ -64,5 +78,22 @@ public class GroupChatShowerGuiController implements Initializable, Controllers 
 
     public static void setGroupId(long groupId) {
         GroupChatShowerGuiController.groupId = groupId;
+    }
+
+    public void addMemberButtonClicked(ActionEvent actionEvent) {
+    }
+
+    public void leaveButtonClicked(ActionEvent actionEvent) {
+    }
+
+    public void choosePicButtonClicked(ActionEvent actionEvent) {
+        try {
+            chosenImageByteArray = ImageController.pickImage();
+            if (chosenImageByteArray != null){
+                chosenImageView.setImage(ImageController.byteArrayToImage(chosenImageByteArray));
+            }
+        } catch (SizeLimitExceededException e) {
+            AlertBox.display("too large" , "Image size too large");
+        }
     }
 }

@@ -56,7 +56,6 @@ public class MessageRepository {
             et = em.getTransaction();
             et.begin();
             Message object = em.find(Message.class , messageId);
-            System.out.println(object.getText());
             em.remove(object);
             et.commit();
         } catch (Exception e) {

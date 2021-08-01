@@ -112,12 +112,6 @@ public class ChatShowerGuiController implements Initializable, Controllers {
         }
     }
 
-    public void addMemberButtonClicked(ActionEvent actionEvent) {
-    }
-
-    public void leftButtonClicked(ActionEvent actionEvent) {
-    }
-
     public static PREVIOUS getPreviousMenu() {
         return previousMenu;
     }
