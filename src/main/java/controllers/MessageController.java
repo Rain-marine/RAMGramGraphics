@@ -4,6 +4,7 @@ import models.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import repository.ChatRepository;
+import repository.FactionRepository;
 import repository.MessageRepository;
 import repository.UserRepository;
 
@@ -16,11 +17,13 @@ public class MessageController {
     private final MessageRepository MESSAGE_REPOSITORY;
     private final ChatRepository CHAT_REPOSITORY;
     private final UserRepository USER_REPOSITORY;
+    private final FactionRepository FACTION_REPOSITORY;
 
     public MessageController() {
         MESSAGE_REPOSITORY = new MessageRepository();
         USER_REPOSITORY = new UserRepository();
         CHAT_REPOSITORY = new ChatRepository();
+        FACTION_REPOSITORY = new FactionRepository();
     }
 
     public List<Message> getSavedMessage() {
@@ -81,7 +84,8 @@ public class MessageController {
     private void sendMessageToGroups(String message, byte[] image, List<String> groupsToSendMessage, HashMap<String, Group> groups, List<Chat> chats) {
         for (String groupName : groupsToSendMessage) {
             List<String> users = new ArrayList<>();
-            groups.get(groupName).getMembers().forEach(member -> users.add(member.getUsername()));
+            Group faction = FACTION_REPOSITORY.getFactionById(groups.get(groupName).getId());
+            faction.getMembers().forEach(member -> users.add(member.getUsername()));
             sendMessageToUsers(message, image, users, chats);
         }
     }
@@ -115,8 +119,8 @@ public class MessageController {
         }
     }
 
-    public void insertSavedMessage(Message message) {
-        MESSAGE_REPOSITORY.addMessageToSavedMessage(LoggedUser.getLoggedUser().getId(), message);
+    public void insertSavedMessage(long messageId) {
+        MESSAGE_REPOSITORY.addMessageToSavedMessage(LoggedUser.getLoggedUser().getId(), MESSAGE_REPOSITORY.getById(messageId));
     }
 
     private HashMap<String, Group> extractGroupNameToGroup(List<Group> groups) {
@@ -218,13 +222,14 @@ public class MessageController {
         HashMap<String, Group> groupNameToGroup = extractGroupNameToGroup(groups);
 
         forwardMessageToUsers(messageID, users, userChats);
-        forwardMessageToGroups(messageID, factions, groupNameToGroup, userChats);
+        forwardMessageToFactions(messageID, factions, groupNameToGroup, userChats);
     }
 
-    private void forwardMessageToGroups(long messageID, List<String> factions, HashMap<String, Group> groupNameToGroup, List<Chat> chats) {
+    private void forwardMessageToFactions(long messageID, List<String> factions, HashMap<String, Group> groupNameToGroup, List<Chat> chats) {
         for (String groupName : factions) {
             List<String> users = new ArrayList<>();
-            groupNameToGroup.get(groupName).getMembers().forEach(member -> users.add(member.getUsername()));
+            Group faction = FACTION_REPOSITORY.getFactionById(groupNameToGroup.get(groupName).getId());
+            faction.getMembers().forEach(member -> users.add(member.getUsername()));
             forwardMessageToUsers(messageID, users, chats);
         }
     }
@@ -238,6 +243,7 @@ public class MessageController {
             Message newMessage = new Message(message.getText(), message.getImage(), loggedUser, receiver);
             newMessage.setGrandSender(message.getSender());
             for (Chat chat : chats) {
+                chat = CHAT_REPOSITORY.getById(chat.getId());
                 if (chat.getUserChats().size() == 2 &&
                         (chat.getUserChats().get(0).getUser().getUsername().equals(user)
                                 || chat.getUserChats().get(1).getUser().getUsername().equals(user))) {
