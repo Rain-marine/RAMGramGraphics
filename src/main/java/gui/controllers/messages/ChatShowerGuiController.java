@@ -32,11 +32,11 @@ public class ChatShowerGuiController implements Initializable, Controllers {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         VBox list = new VBox(5);
-        MessageCard messageCard = new MessageCard(1233L);
-        messageCard.getCard();
-        //ArrayList<Long> messages = ChatController
+        ArrayList<Long> messageIDs = CHAT_CONTROLLER.getMessages(userChatId);
+        for (Long messageID : messageIDs) {
+            list.getChildren().add(new MessageCard(messageID).getCard());
+        }
         //for -> list.getChildren.add (messageCard.getCard());
-
         messagesArea.setContent(list);
     }
 

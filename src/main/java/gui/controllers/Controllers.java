@@ -10,5 +10,5 @@ public interface Controllers {
     TweetController TWEET_CONTROLLER = new TweetController();
     FactionsController FACTIONS_CONTROLLER = new FactionsController();
     MessageController MESSAGE_CONTROLLER = new MessageController();
-
+    ChatController CHAT_CONTROLLER = new ChatController();
 }
