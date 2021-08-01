@@ -30,8 +30,8 @@ public class ChatController {
         return chatIds;
     }
 
-    public void seeChat(Chat chat) {
-        chatRepository.clearUnSeenCount(chat.getId(), LoggedUser.getLoggedUser().getId());
+    public void seeChat(long chatId) {
+        chatRepository.clearUnSeenCount(chatId, LoggedUser.getLoggedUser().getId());
     }
 
     public void addMessageToChat(long chatId, String message,byte[] images) {

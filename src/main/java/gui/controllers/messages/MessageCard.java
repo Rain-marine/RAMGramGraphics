@@ -92,7 +92,7 @@ public class MessageCard implements Controllers {
 
         initializeButtonRow();
 
-        card.getChildren().addAll(header , messageText, messageImage , buttonRow);
+        card.getChildren().addAll(header , messageText, messageImage , messageDate,buttonRow);
         card.setId(String.valueOf(this.messageId));
     }
 
@@ -100,7 +100,10 @@ public class MessageCard implements Controllers {
         Button delete = new Button("delete");
         Button edit = new Button("edit");
         Button forward = new Button("forward");
+        Button save = new Button("save");
         buttons.add(forward);
+        buttons.add(save);
+        buttonRow.getChildren().add(save);
 
         switch (type){
             case NONE -> buttonRow.getChildren().add(forward);
@@ -140,6 +143,10 @@ public class MessageCard implements Controllers {
 
         forward.setOnAction(event -> {
             Forward.display(Long.parseLong(forward.getId()));
+        });
+
+        save.setOnAction(event -> {
+            MESSAGE_CONTROLLER.insertSavedMessage(Long.parseLong(save.getId()));
         });
 
     }

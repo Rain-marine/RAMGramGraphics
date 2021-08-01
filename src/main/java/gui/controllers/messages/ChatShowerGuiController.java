@@ -50,6 +50,7 @@ public class ChatShowerGuiController implements Initializable, Controllers {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CHAT_CONTROLLER.seeChat(chatId);
         loadMessages();
     }
 
