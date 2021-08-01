@@ -6,7 +6,9 @@ import gui.controllers.popups.SendNewMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,7 +22,21 @@ public class MessagesMenuGuiController implements Initializable, Controllers {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loadChats();
+    }
+
+    private void loadChats() {
         List<Long> chatIds = CHAT_CONTROLLER.getChatsIds();
+        if (chatIds.size() == 0){
+            chatsArea.setContent(new Label("you have no chats"));
+        }
+        else{
+            VBox list = new VBox(10);
+            for (Long chatId : chatIds) {
+                list.getChildren().add(new ChatCard(chatId).getCard());
+            }
+            chatsArea.setContent(list);
+        }
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
