@@ -26,9 +26,14 @@ public class MessageController {
         FACTION_REPOSITORY = new FactionRepository();
     }
 
-    public List<Message> getSavedMessage() {
+    public ArrayList<Long> getSavedMessage() {
         User user = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
-        return user.getFavoriteMessages();
+        List<Message> messages = user.getFavoriteMessages();
+        ArrayList<Long> messageIDs = new ArrayList<>();
+        for (Message message : messages) {
+            messageIDs.add(message.getId());
+        }
+        return messageIDs;
     }
 
     public List<Tweet> getSavedTweets() {
