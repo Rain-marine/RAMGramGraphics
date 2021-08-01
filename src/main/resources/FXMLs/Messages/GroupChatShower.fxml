@@ -113,8 +113,8 @@
                      </effect>
                   </Button>
                   <TextField fx:id="massageTextField" layoutY="419.0" prefHeight="29.0" prefWidth="272.0" promptText="Message" />
-                  <Button alignment="CENTER" layoutX="284.0" layoutY="433.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" style="-fx-background-color: #4b016e;" text="Add Member" textAlignment="JUSTIFY" textFill="WHITE" />
-                  <Button alignment="CENTER" layoutX="381.0" layoutY="433.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="57.0" style="-fx-background-color: #4b016e;" text="Left" textAlignment="JUSTIFY" textFill="WHITE" />
+                  <Button alignment="CENTER" layoutX="284.0" layoutY="433.0" mnemonicParsing="false" onAction="#addMemberButtonClicked" prefHeight="34.0" prefWidth="91.0" style="-fx-background-color: #4b016e;" text="Add Member" textAlignment="JUSTIFY" textFill="WHITE" />
+                  <Button alignment="CENTER" layoutX="381.0" layoutY="433.0" mnemonicParsing="false" onAction="#leftButtonClicked" prefHeight="34.0" prefWidth="57.0" style="-fx-background-color: #4b016e;" text="Left" textAlignment="JUSTIFY" textFill="WHITE" />
                </children>
             </AnchorPane>
          </right>

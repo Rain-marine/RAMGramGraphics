@@ -40,6 +40,7 @@ public class ChatShowerGuiController implements Initializable, Controllers {
     private ImageView chosenImageView;
     
     private byte[] chosenImageByteArray = null;
+
     public enum PREVIOUS { DEFAULT , PROFILE}
 
     private static long chatId;
@@ -108,6 +109,12 @@ public class ChatShowerGuiController implements Initializable, Controllers {
         } catch (SizeLimitExceededException e) {
             AlertBox.display("too large" , "Image size too large");
         }
+    }
+
+    public void addMemberButtonClicked(ActionEvent actionEvent) {
+    }
+
+    public void leftButtonClicked(ActionEvent actionEvent) {
     }
 
     public static PREVIOUS getPreviousMenu() {
