@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.messages.GroupChatShowerGuiController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.messages.ChatShowerGuiController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: black;">
          <left>
@@ -74,11 +66,12 @@
                                     <ColorAdjust />
                                  </effect>
                               </Button>
-                              <Label fx:id="groupNameLabel" layoutX="18.0" layoutY="15.0" prefHeight="45.0" prefWidth="190.0" text="group name" textFill="#db6bf7">
+                              <Label fx:id="usernameLabel" layoutX="14.0" layoutY="21.0" prefHeight="18.0" prefWidth="164.0" text="Group Name" textFill="#db6bf7">
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font size="18.0" />
                                  </font>
                               </Label>
+                              <ImageView fitHeight="88.0" fitWidth="121.0" layoutX="16.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </AnchorPane>
                         <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
@@ -93,8 +86,8 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </BorderPane.margin>
                <children>
-                  <ScrollPane fx:id="messagesArea" layoutY="1.0" prefHeight="418.0" prefWidth="438.0" />
-                  <Button fx:id="sendBtn" alignment="CENTER" layoutX="299.0" layoutY="430.0" mnemonicParsing="false" onAction="#sendButtonClicked" prefHeight="26.0" prefWidth="56.0" style="-fx-background-color: #4b016e;" text="send" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
+                  <ScrollPane fx:id="messagesArea" layoutY="1.0" prefHeight="385.0" prefWidth="438.0" />
+                  <Button fx:id="sendBtn" alignment="CENTER" layoutX="381.0" layoutY="394.0" mnemonicParsing="false" onAction="#sendButtonClicked" prefHeight="16.0" prefWidth="57.0" style="-fx-background-color: #4b016e;" text="send" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -108,6 +101,20 @@
                         <ColorAdjust />
                      </effect>
                   </Button>
+                  <Button fx:id="choosePicBtn" alignment="CENTER" layoutX="284.0" layoutY="394.0" mnemonicParsing="false" onAction="#choosePicButtonClicked" prefHeight="35.0" prefWidth="91.0" style="-fx-background-color: #4b016e;" text="Choose Pic" textAlignment="JUSTIFY" textFill="WHITE">
+                     <font>
+                        <Font name="Gabriola" size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <ColorAdjust />
+                     </effect>
+                  </Button>
+                  <TextField fx:id="massageTextField" layoutY="419.0" prefHeight="29.0" prefWidth="272.0" promptText="Message" />
+                  <Button alignment="CENTER" layoutX="284.0" layoutY="433.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="91.0" style="-fx-background-color: #4b016e;" text="Add Member" textAlignment="JUSTIFY" textFill="WHITE" />
+                  <Button alignment="CENTER" layoutX="381.0" layoutY="433.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="57.0" style="-fx-background-color: #4b016e;" text="Left" textAlignment="JUSTIFY" textFill="WHITE" />
                </children>
             </AnchorPane>
          </right>
