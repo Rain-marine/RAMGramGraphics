@@ -1,5 +1,6 @@
 package gui.controllers.messages;
 
+import controllers.ChatController;
 import gui.controllers.Controllers;
 import gui.controllers.SceneLoader;
 import javafx.event.ActionEvent;
@@ -33,6 +34,7 @@ public class ChatShowerGuiController implements Initializable, Controllers {
         VBox list = new VBox(5);
         MessageCard messageCard = new MessageCard(1233L);
         messageCard.getCard();
+        //ArrayList<Long> messages = ChatController
         //for -> list.getChildren.add (messageCard.getCard());
 
         messagesArea.setContent(list);
@@ -59,5 +61,8 @@ public class ChatShowerGuiController implements Initializable, Controllers {
     }
 
     public void sendButtonClicked(ActionEvent actionEvent) {
+    }
+
+    public void choosePicButtonClicked(ActionEvent actionEvent) {
     }
 }

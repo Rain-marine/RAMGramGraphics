@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import repository.ChatRepository;
 import repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,9 +36,14 @@ public class ChatController {
         chatRepository.addMessageToChat(chatId, newMessage);
     }
 
-    public List<Message> getMessages(Chat chat) {
-        Chat freshChat = chatRepository.getById(chat.getId());
-        return freshChat.getMessages().stream().sorted(Comparator.comparing(Message::getDate)).collect(Collectors.toList());
+    public ArrayList<Long> getMessages(long chatID) {
+        Chat freshChat = chatRepository.getById(chatID);
+        ArrayList<Long> messageIDs = new ArrayList<>();
+        List<Message> messages = freshChat.getMessages().stream().sorted(Comparator.comparing(Message::getDate)).collect(Collectors.toList());
+        for (Message message : messages) {
+            messageIDs.add(message.getId());
+        }
+        return messageIDs;
     }
 
     public void createGroupChat(List<String> members, String name) {

@@ -1,4 +1,4 @@
-package views.Message;
+/*package views.Message;
 
 import controllers.ChatController;
 import models.Chat;
@@ -72,3 +72,4 @@ public class ChatMenu extends Menu {
         return null;
     }
 }
+*/
