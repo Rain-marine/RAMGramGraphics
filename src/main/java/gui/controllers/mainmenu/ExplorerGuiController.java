@@ -11,11 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import models.Tweet;
 import models.User;
 
 import java.net.URL;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ExplorerGuiController implements Initializable, Controllers {
@@ -25,15 +24,15 @@ public class ExplorerGuiController implements Initializable, Controllers {
     @FXML
     private ScrollPane tweetsArea;
 
-    private List<Tweet> listOfTweets;
+    private ArrayList<Long> listOfTweets;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         listOfTweets = TWEET_CONTROLLER.getTopTweets();
         VBox list = new VBox(10);
-        for (Tweet tweet : listOfTweets) {
-            list.getChildren().add(new TweetCard(tweet , TweetCard.MODE.EXPLORER).getvBox());
+        for (Long tweet : listOfTweets) {
+            list.getChildren().add(new TweetCard(tweet, TweetCard.MODE.EXPLORER).getVBox());
         }
         tweetsArea.setContent(list);
     }
@@ -56,13 +55,15 @@ public class ExplorerGuiController implements Initializable, Controllers {
         if (usernameToFind.equals("")) {
             AlertBox.display("Nerd Alert", "You gotta enter a name idiot!");
         } else {
-            User user = USER_CONTROLLER.getUserByUsername(usernameToFind);
-            if (user == null) {
-                AlertBox.display("404", "username not found");
-            } else {
-                ProfileAccessController profileAccessController = new ProfileAccessController(1, user, 0);
+            try {
+                long userId = USER_CONTROLLER.getUserByUsername(usernameToFind);
+                ProfileAccessController profileAccessController = new ProfileAccessController(1, userId, 0);
                 SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), actionEvent);
+
+            } catch (NullPointerException nullPointerException) {
+                AlertBox.display("404", "user not found");
             }
+
         }
     }
 

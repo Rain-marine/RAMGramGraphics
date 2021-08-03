@@ -13,16 +13,16 @@ import java.util.stream.Collectors;
 
 public class ChatController {
     private final static Logger log = LogManager.getLogger(ChatController.class);
-    private final ChatRepository chatRepository;
-    private final UserRepository userRepository;
+    private final ChatRepository CHAT_REPOSITORY;
+    private final UserRepository USER_REPOSITORY;
 
     public ChatController() {
-        chatRepository = new ChatRepository();
-        userRepository = new UserRepository();
+        CHAT_REPOSITORY = new ChatRepository();
+        USER_REPOSITORY = new UserRepository();
     }
 
     public List<Long> getChatsIds() {
-        List<Chat> chats = chatRepository.getAllChats(LoggedUser.getLoggedUser().getId());
+        List<Chat> chats = CHAT_REPOSITORY.getAllChats(LoggedUser.getLoggedUser().getId());
         List<Long> chatIds = new ArrayList<>();
         for (Chat chat : chats) {
             chatIds.add(chat.getId());
@@ -31,15 +31,15 @@ public class ChatController {
     }
 
     public void seeChat(long chatId) {
-        chatRepository.clearUnSeenCount(chatId, LoggedUser.getLoggedUser().getId());
+        CHAT_REPOSITORY.clearUnSeenCount(chatId, LoggedUser.getLoggedUser().getId());
     }
 
-    public void addMessageToChat(long chatId, String message,byte[] images) {
+    public void addMessageToChat(long chatId, String message, byte[] images) {
         long frontUserId = getFrontUserId(chatId);
-        Message newMessage = new Message(message,images,
-                userRepository.getById(LoggedUser.getLoggedUser().getId()),
-                userRepository.getById(frontUserId));
-        chatRepository.addMessageToChat(chatId, newMessage);
+        Message newMessage = new Message(message, images,
+                USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId()),
+                USER_REPOSITORY.getById(frontUserId));
+        CHAT_REPOSITORY.addMessageToChat(chatId, newMessage);
     }
 
     public long getFrontUserId(long chatId) {
@@ -48,59 +48,58 @@ public class ChatController {
     }
 
     private User getFrontUser(long chatId) {
-        Chat chat = chatRepository.getById(chatId);
-        User frontUser =  chat.getUserChats().get(0).getUser().getUsername().equals(LoggedUser.getLoggedUser().getUsername())
+        Chat chat = CHAT_REPOSITORY.getById(chatId);
+        User frontUser = chat.getUserChats().get(0).getUser().getUsername().equals(LoggedUser.getLoggedUser().getUsername())
                 ? chat.getUserChats().get(1).getUser()
                 : chat.getUserChats().get(0).getUser();
         return frontUser;
     }
 
     public ArrayList<Long> getMessages(long chatID) {
-        Chat freshChat = chatRepository.getById(chatID);
+        Chat freshChat = CHAT_REPOSITORY.getById(chatID);
         ArrayList<Long> messageIDs = new ArrayList<>();
         List<Message> messages = freshChat.getMessages().stream().sorted(Comparator.comparing(Message::getDate)).collect(Collectors.toList());
         for (Message message : messages) {
-            messageIDs.add(message.getId());
+            if (!message.isDeleted())
+                messageIDs.add(message.getId());
         }
         return messageIDs;
     }
 
     public void createGroupChat(List<String> members, String name) {
-        List<User> groupMembers = members.stream().map(userRepository::getByUsername).collect(Collectors.toList());
+        members.add(LoggedUser.getLoggedUser().getUsername());
+        List<User> groupMembers = members.stream().map(USER_REPOSITORY::getByUsername).collect(Collectors.toList());
         Chat chat = new Chat(groupMembers, name);
-        chatRepository.insert(chat);
+        CHAT_REPOSITORY.insert(chat);
     }
 
     public void addMembersToGroupChat(List<String> members, long chatId) {
-        Chat chat = chatRepository.getById(chatId);
-        members.forEach(it -> chatRepository.addMemberToGroupChat(chatId, new UserChat(userRepository.getByUsername(it), chat)));
+        Chat chat = CHAT_REPOSITORY.getById(chatId);
+        members.forEach(it -> CHAT_REPOSITORY.addMemberToGroupChat(chatId, new UserChat(USER_REPOSITORY.getByUsername(it), chat)));
     }
 
-    public void addNewMessageToGroupChat(String message,byte[] image, long chatId){
-        Message newMessage = new Message(message, image, userRepository.getById(LoggedUser.getLoggedUser().getId()));
-        chatRepository.addMessageToChat(chatId, newMessage);
+    public void addNewMessageToGroupChat(String message, byte[] image, long chatId) {
+        Message newMessage = new Message(message, image, USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId()));
+        CHAT_REPOSITORY.addMessageToChat(chatId, newMessage);
     }
 
     public String getChatName(Long chatId) {
-        Chat chat = chatRepository.getById(chatId);
-        if (chat.isGroup()){
+        Chat chat = CHAT_REPOSITORY.getById(chatId);
+        if (chat.isGroup()) {
             return chat.getName();
-        }
-        else {
+        } else {
             return getFrontUser(chatId).getUsername();
         }
     }
 
     public String getUnseenCount(Long chatId) {
-        Chat chat = chatRepository.getById(chatId);
-        UserChat userToSee = chat.getUserChats().get(0).getUser().getUsername().equals(LoggedUser.getLoggedUser().getUsername())
-                ? chat.getUserChats().get(0)
-                : chat.getUserChats().get(1);
+        Chat chat = CHAT_REPOSITORY.getById(chatId);
+        UserChat userToSee = chat.getUserChats().stream().filter(it -> it.getUser().getId() == LoggedUser.getLoggedUser().getId()).findAny().orElseThrow();
         return String.valueOf(userToSee.getUnseenCount());
     }
 
     public boolean isGroup(Long chatId) {
-        Chat chat = chatRepository.getById(chatId);
+        Chat chat = CHAT_REPOSITORY.getById(chatId);
         return chat.isGroup();
     }
 }

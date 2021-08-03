@@ -25,16 +25,16 @@ public class NotificationController {
         factionRepository = new FactionRepository();
     }
 
-    public void sendFollowRequestToUser(User user) {
-        User receiver = userRepository.getById(user.getId());
+    public void sendFollowRequestToUser(long userId) {
+        User receiver = userRepository.getById(userId);
         User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
         Notification followRequestNotification = new Notification(loggedUser,receiver, NotificationType.FOLLOW_REQ);
         notificationRepository.insert(followRequestNotification);
     }
 
-    public void FollowUser(User user) {
+    public void FollowUser(long userId) {
         User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
-        User receiver = userRepository.getById(user.getId());
+        User receiver = userRepository.getById(userId);
         if(loggedUser.getFollowings().stream().noneMatch(it -> it.getId() == receiver.getId())) {
             Notification followNotification = new Notification(loggedUser, receiver, NotificationType.START_FOLLOW);
             notificationRepository.insert(followNotification);
@@ -45,9 +45,9 @@ public class NotificationController {
 
     }
 
-    public void unfollowUserWithNotification(User user) {
+    public void unfollowUserWithNotification(long userId) {
         User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
-        User receiver = userRepository.getById(user.getId());
+        User receiver = userRepository.getById(userId);
         Notification unfollowNotification = new Notification(loggedUser,receiver, NotificationType.UNFOLLOW);
 
         notificationRepository.insert(unfollowNotification);
@@ -63,17 +63,17 @@ public class NotificationController {
             }
         }
     }
-    public void unfollowUserWithoutNotification(User user) {
+    public void unfollowUserWithoutNotification(long userId) {
         User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
 
-        notificationRepository.removeFromFollowings(loggedUser.getId(), user.getId());
-        notificationRepository.removeFromFollowers(user.getId(), loggedUser.getId());
+        notificationRepository.removeFromFollowings(loggedUser.getId(), userId);
+        notificationRepository.removeFromFollowers(userId, loggedUser.getId());
 
         List<Group> loggedUserGroups = userRepository.getById(loggedUser.getId()).getGroups();
         for (Group group : loggedUserGroups) {
             for (User member : group.getMembers()) {
-                if (member.getUsername().equals(user.getUsername())) {
-                    factionRepository.removeUserFromGroup(user.getId(), group.getId());
+                if (member.getUsername().equals(userRepository.getById(userId).getUsername())) {
+                    factionRepository.removeUserFromGroup(userId, group.getId());
                     break;
                 }
             }
@@ -145,8 +145,8 @@ public class NotificationController {
         loggedUser.getReceiverNotifications().remove(notification);
     }
 
-    public void deleteRequest(User rawUser) {
-        User user = userRepository.getById(rawUser.getId());
+    public void deleteRequest(long rawUserId) {
+        User user = userRepository.getById(rawUserId);
         long loggedUserId = LoggedUser.getLoggedUser().getId();
         Notification request = user.getReceiverNotifications().stream()
                 .filter(it -> ((it.getSender().getId() == loggedUserId) && (it.getType() == NotificationType.FOLLOW_REQ)))

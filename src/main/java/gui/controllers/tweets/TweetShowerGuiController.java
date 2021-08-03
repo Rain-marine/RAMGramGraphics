@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import models.Tweet;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -19,7 +20,7 @@ public class TweetShowerGuiController implements Initializable, Controllers {
     @FXML
     private ScrollPane tweetsArea;
 
-    private static List<Tweet> listOfTweets;
+    private static ArrayList<Long> listOfTweets;
     private static int previousMenu;
     private static ProfileAccessController profileAccessController;
 
@@ -27,7 +28,7 @@ public class TweetShowerGuiController implements Initializable, Controllers {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         VBox list = new VBox(10);
-        for (Tweet tweet : listOfTweets) {
+        for (Long tweet : listOfTweets) {
             TweetCard.MODE mode = TweetCard.MODE.EXPLORER;
             switch (previousMenu){
                 case 1 -> mode = TweetCard.MODE.EXPLORER;
@@ -35,7 +36,7 @@ public class TweetShowerGuiController implements Initializable, Controllers {
                 case 5 -> mode = TweetCard.MODE.PROFILE;
                 case 6 -> mode = TweetCard.MODE.OWNER;
             }
-            list.getChildren().add(new TweetCard(tweet, mode).getvBox());
+            list.getChildren().add(new TweetCard(tweet, mode).getVBox());
         }
         tweetsArea.setContent(list);
     }
@@ -60,11 +61,11 @@ public class TweetShowerGuiController implements Initializable, Controllers {
     }
 
 
-    public static List<Tweet> getListOfTweets() {
+    public static ArrayList<Long> getListOfTweets() {
         return listOfTweets;
     }
 
-    public static void setListOfTweets(List<Tweet> listOfTweets) {
+    public static void setListOfTweets(ArrayList<Long> listOfTweets) {
         TweetShowerGuiController.listOfTweets = listOfTweets;
     }
 

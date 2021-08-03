@@ -13,6 +13,7 @@ import models.LoggedUser;
 import models.Tweet;
 import util.ConfigLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SceneLoader implements Controllers{
@@ -79,7 +80,7 @@ public class SceneLoader implements Controllers{
     }
 
     public void yourTweets(ActionEvent actionEvent){
-        List<Tweet> listOfTweets = TWEET_CONTROLLER.getAllTweets(LoggedUser.getLoggedUser());
+        ArrayList<Long> listOfTweets = TWEET_CONTROLLER.getAllTweets(LoggedUser.getLoggedUser().getId());
         TweetShowerGuiController.setListOfTweets(listOfTweets);
         TweetShowerGuiController.setPreviousMenu(6);
         SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("yourTweets"), actionEvent);

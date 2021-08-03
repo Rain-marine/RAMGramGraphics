@@ -35,6 +35,9 @@ public class GroupChatShowerGuiController implements Initializable, Controllers 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CHAT_CONTROLLER.seeChat(groupId);
+        groupNameLabel.setText(CHAT_CONTROLLER.getChatName(groupId));
+        loadMessages();
 
     }
     public void backButtonClicked(ActionEvent actionEvent) {

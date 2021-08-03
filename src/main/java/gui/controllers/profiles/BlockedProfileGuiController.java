@@ -11,12 +11,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import models.Tweet;
 import models.User;
 import util.ConfigLoader;
 
 import java.net.URL;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class BlockedProfileGuiController implements Initializable , Controllers {
@@ -26,7 +25,7 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
     @FXML
     private Label info;
 
-    private static User user;
+    private static long userId;
     private static int previous;
     private static int factionId;
     private static ProfileAccessController profileAccessController;
@@ -34,7 +33,7 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        byte[] byteArray = user.getProfilePhoto();
+        byte[] byteArray = USER_CONTROLLER.getProfilePhoto(userId);
         Rectangle clip = new Rectangle(
                 profilePhotoImage.getFitWidth(), profilePhotoImage.getFitHeight()
         );
@@ -42,7 +41,7 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
         clip.setArcHeight(1000);
         profilePhotoImage.setClip(clip);
         profilePhotoImage.setImage(ImageController.byteArrayToImage(byteArray));
-        info.setText(InfoLoader.load(user));
+        info.setText(InfoLoader.load(userId));
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
@@ -62,13 +61,13 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
     }
 
     public void unblockButtonClicked(ActionEvent actionEvent) {
-        USER_CONTROLLER.unblockUser(user);
-        ProfileAccessController profileAccessController = new ProfileAccessController(1,user,0);
+        USER_CONTROLLER.unblockUser(userId);
+        ProfileAccessController profileAccessController = new ProfileAccessController(1, userId,0);
         SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(),actionEvent);
     }
 
     public void tweetsButtonClicked(ActionEvent actionEvent) {
-        List<Tweet> listOfTweets = TWEET_CONTROLLER.getAllTweets(user);
+        ArrayList<Long> listOfTweets = TWEET_CONTROLLER.getAllTweets(userId);
         TweetShowerGuiController.setProfileAccessController(profileAccessController);
         TweetShowerGuiController.setListOfTweets(listOfTweets);
         TweetShowerGuiController.setPreviousMenu(5);
@@ -76,7 +75,7 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
-        USER_CONTROLLER.reportUser(user);
+        USER_CONTROLLER.reportUser(userId);
         AlertBox.display("reported","User reported successfully");
     }
 
@@ -84,12 +83,12 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
         SceneLoader.getInstance().mainMenu(actionEvent);
     }
 
-    public static User getUser() {
-        return user;
+    public static long getUser() {
+        return userId;
     }
 
-    public static void setUser(User user) {
-        BlockedProfileGuiController.user = user;
+    public static void setUser(Long user) {
+        BlockedProfileGuiController.userId = user;
     }
 
     public static int getPrevious() {

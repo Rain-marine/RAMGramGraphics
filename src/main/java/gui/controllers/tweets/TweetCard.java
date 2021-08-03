@@ -22,7 +22,8 @@ import javax.naming.SizeLimitExceededException;
 
 public class TweetCard implements Controllers {
 
-    private Tweet tweet;
+    private long tweetId;
+    private long writeId;
     private VBox vBox;
     private Label tweetText;
     private ImageView profilePhoto;
@@ -45,7 +46,6 @@ public class TweetCard implements Controllers {
     private Button report;
     private Button like;
 
-    private User writer;
     private HBox header;
     private HBox buttons = new HBox(10);
     private HBox generalButtons = new HBox(10);
@@ -54,34 +54,34 @@ public class TweetCard implements Controllers {
     public enum MODE {OWNER, TIMELINE, EXPLORER, PROFILE}
 
 
-    public TweetCard(Tweet tweet, MODE mode) {
-        this.tweet = tweet;
-        if (tweet.getUser().getUsername().equals(LoggedUser.getLoggedUser().getUsername())){
+    public TweetCard(long tweetId, MODE mode) {
+        this.tweetId = tweetId;
+        if (TWEET_CONTROLLER.isSelfTweet(tweetId)){
             mode = MODE.OWNER;
         }
         MODE finalMode = mode;
+        writeId = TWEET_CONTROLLER.getWriterId(tweetId);
         vBox = new VBox(10);
-        tweetText = new Label(tweet.getText());
+        tweetText = new Label(TWEET_CONTROLLER.getTweetText(tweetId));
         tweetText.setWrapText(true);
-        writer = tweet.getUser();
 
-        writerName = new Button(writer.getUsername());
+        writerName = new Button(TWEET_CONTROLLER.getWriterUsername(tweetId));
         writerName.setOnAction(event -> {
             if (finalMode != MODE.PROFILE) {
-                ProfileAccessController profileAccessController = new ProfileAccessController(finalMode == MODE.EXPLORER ? 1 : (finalMode == MODE.TIMELINE ? 2 : 3), writer, 0);
+                ProfileAccessController profileAccessController = new ProfileAccessController(finalMode == MODE.EXPLORER ? 1 : (finalMode == MODE.TIMELINE ? 2 : 3), writeId, 0);
                 SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), event);
             }
         });
         writerName.setStyle("-fx-background-color: #dea0ff");
         writerName.setPrefHeight(50);
 
-        dateTime = new Label(tweet.getTweetDateTime().toString());
+        dateTime = new Label(TWEET_CONTROLLER.getTweetDate(tweetId));
         dateTime.setTextFill(Color.DARKVIOLET);
 
         profilePhoto = new ImageView();
         profilePhoto.setFitHeight(50);
         profilePhoto.setFitWidth(50);
-        byte[] byteArray = USER_CONTROLLER.getProfilePhoto(writer.getId());
+        byte[] byteArray = USER_CONTROLLER.getProfilePhoto(writeId);
         Rectangle clip = new Rectangle(
                 profilePhoto.getFitWidth(), profilePhoto.getFitHeight()
         );
@@ -92,8 +92,8 @@ public class TweetCard implements Controllers {
         header = new HBox(10);
         header.getChildren().addAll(profilePhoto, writerName , dateTime);
         tweetPhoto = new ImageView();
-        if (tweet.getImage() != null) {
-            tweetPhoto.setImage(ImageController.byteArrayToImage(tweet.getImage()));
+        if (TWEET_CONTROLLER.getTweetImage(tweetId) != null) {
+            tweetPhoto.setImage(ImageController.byteArrayToImage(TWEET_CONTROLLER.getTweetImage(tweetId)));
             tweetPhoto.setPreserveRatio(true);
             tweetPhoto.setFitWidth(350);
         }
@@ -101,7 +101,7 @@ public class TweetCard implements Controllers {
         save = new Button("save");
         save.setStyle("-fx-background-color: #dea0ff");
         save.setOnAction(event -> {
-            TWEET_CONTROLLER.saveTweet(tweet.getId());
+            TWEET_CONTROLLER.saveTweet(tweetId);
             AlertBox.display("done!", "tweet saved");
         });
 
@@ -114,10 +114,10 @@ public class TweetCard implements Controllers {
         comments = new Button("comments");
         comments.setStyle("-fx-background-color: #dea0ff");
         comments.setOnAction(event -> {
-            if (tweet.getComments().size() == 0) {
+            if (TWEET_CONTROLLER.getTweetComments(tweetId).size() == 0) {
                 AlertBox.display("empty", "no comments to show");
             } else {
-                TweetShowerGuiController.setListOfTweets(tweet.getComments());
+                TweetShowerGuiController.setListOfTweets(TWEET_CONTROLLER.getTweetComments(tweetId));
                 TweetShowerGuiController.setPreviousMenu( finalMode == MODE.EXPLORER ? 1 : (finalMode ==MODE.TIMELINE ? 2 : (finalMode == MODE.OWNER ? 6 : 5)));
                 SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("tweetShower"),event);
             }
@@ -136,7 +136,7 @@ public class TweetCard implements Controllers {
         addComment.setOnAction(event -> {
             String commentTextString = commentText.getText();
             if(!commentTextString.equals("")){
-                TWEET_CONTROLLER.addComment(commentTextString , commentImageArray == null ? null :commentImageArray , tweet);
+                TWEET_CONTROLLER.addComment(commentTextString , commentImageArray == null ? null :commentImageArray , tweetId);
             }
         });
         HBox row = new HBox(5);
@@ -149,28 +149,28 @@ public class TweetCard implements Controllers {
             retweet = new Button("retweet");
             retweet.setStyle("-fx-background-color: #dea0ff");
             retweet.setOnAction(event -> {
-                TWEET_CONTROLLER.retweet(tweet);
+                TWEET_CONTROLLER.retweet(tweetId);
                 AlertBox.display("done!", "retweeted!");
             });
 
             block = new Button("block");
             block.setStyle("-fx-background-color: #dea0ff");
             block.setOnAction(event -> {
-                USER_CONTROLLER.blockUser(tweet.getUser());
+                USER_CONTROLLER.blockUser(writeId);
                 AlertBox.display("done!", "user blocked");
             });
 
             mute = new Button("mute");
             mute.setStyle("-fx-background-color: #dea0ff");
             mute.setOnAction(event -> {
-                USER_CONTROLLER.muteUser(tweet.getUser());
+                USER_CONTROLLER.muteUser(writeId);
                 AlertBox.display("done!", "user muted!");
             });
 
             report = new Button("report");
             report.setStyle("-fx-background-color: #dea0ff");
             report.setOnAction(event -> {
-                boolean isDeleted = TWEET_CONTROLLER.reportSpam(tweet);
+                boolean isDeleted = TWEET_CONTROLLER.reportSpam(tweetId);
                 if (isDeleted) {
                     AlertBox.display("refresh", "you need to refresh the page");
                 } else {
@@ -178,12 +178,12 @@ public class TweetCard implements Controllers {
                 }
             });
 
-            boolean isLiked = TWEET_CONTROLLER.isLiked(tweet);
+            boolean isLiked = TWEET_CONTROLLER.isLiked(tweetId);
             like = new Button(isLiked ? "liked" : "like");
             like.setStyle("-fx-background-color: #dea0ff");
             like.setOnAction(event -> {
                 if (!isLiked) {
-                    TWEET_CONTROLLER.like(tweet);
+                    TWEET_CONTROLLER.like(tweetId);
                     like.setText("liked");
                 }
             });
@@ -197,19 +197,19 @@ public class TweetCard implements Controllers {
 
     }
 
-    public Tweet getTweet() {
-        return tweet;
+    public long getTweetId() {
+        return tweetId;
     }
 
-    public void setTweet(Tweet tweet) {
-        this.tweet = tweet;
+    public void setTweetId(long tweetId) {
+        this.tweetId = tweetId;
     }
 
-    public VBox getvBox() {
+    public VBox getVBox() {
         return vBox;
     }
 
-    public void setvBox(VBox vBox) {
+    public void setVBox(VBox vBox) {
         this.vBox = vBox;
     }
 }

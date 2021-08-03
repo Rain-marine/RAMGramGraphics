@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import util.ConfigLoader;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -64,8 +65,10 @@ public class MessagesMenuGuiController implements Initializable, Controllers {
     }
 
     public void savedMessagesButtonClicked(ActionEvent actionEvent) {
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("savedMessages"), actionEvent);
     }
 
     public void savedTweetsButtonClicked(ActionEvent actionEvent) {
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("savedTweets"), actionEvent);
     }
 }

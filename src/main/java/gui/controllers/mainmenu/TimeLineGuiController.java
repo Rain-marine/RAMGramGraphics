@@ -9,6 +9,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import models.Tweet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TimeLineGuiController implements Controllers {
@@ -17,13 +18,13 @@ public class TimeLineGuiController implements Controllers {
     @FXML
     private ScrollPane tweetsArea;
 
-    private List<Tweet> listOfTweets;
+    private ArrayList<Long> listOfTweets;
 
     public void initialize() {
         VBox list = new VBox(10);
         listOfTweets = TWEET_CONTROLLER.getFollowingTweets();
-        for (Tweet tweet : listOfTweets) {
-            list.getChildren().add(new TweetCard(tweet , TweetCard.MODE.TIMELINE).getvBox());
+        for (long tweet : listOfTweets) {
+            list.getChildren().add(new TweetCard(tweet , TweetCard.MODE.TIMELINE).getVBox());
         }
         tweetsArea.setContent(list);
     }

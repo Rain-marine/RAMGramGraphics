@@ -3,7 +3,6 @@ package controllers;
 import models.LoggedUser;
 import models.Tweet;
 import models.User;
-import repository.FactionRepository;
 import repository.TweetRepository;
 import repository.UserRepository;
 
@@ -30,33 +29,37 @@ public class TweetController {
         tweetRepository.insert(tweet);
     }
 
-    public List<Tweet> getAllTweets(User user2) {
-        String username = user2.getUsername();
-        User user = userRepository.getByUsername(username);
+    public ArrayList<Long> getAllTweets(long userId) {
+        User user = userRepository.getById(userId);
         List<Tweet> userAllTweets = tweetRepository.getAllTweets(user.getId());
         userAllTweets.addAll(user.getRetweetTweets());
-        return userAllTweets.stream().sorted(Comparator.comparing(Tweet::getTweetDateTime)).
+        List<Tweet> finalTweets =  userAllTweets.stream().sorted(Comparator.comparing(Tweet::getTweetDateTime)).
                 collect(Collectors.toList());
+        ArrayList<Long> finalTweetsIDs = new ArrayList<>();
+        for (Tweet finalTweet : finalTweets) {
+            finalTweetsIDs.add(finalTweet.getId());
+        }
+        return finalTweetsIDs;
     }
 
-    public List<Tweet> getTopTweets() {
+    public ArrayList<Long> getTopTweets() {
         User loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
         List<Tweet> topTweets = tweetRepository.getTopTweets(LoggedUser.getLoggedUser().getId());
-        List<Tweet> topTweets2 = new ArrayList<>();
+        ArrayList<Long> topTweetsIDs = new ArrayList<>();
         for (Tweet topTweet : topTweets) {
             User topTweetUser = userRepository.getById(topTweet.getUser().getId());
             if (topTweetUser.getBlackList().stream().noneMatch(it -> it.getId() == LoggedUser.getLoggedUser().getId())) {
                 if(loggedUser.getMutedUsers().stream().noneMatch(it -> it.getId() == topTweetUser.getId()))
-                    topTweets2.add(topTweet);
+                    topTweetsIDs.add(topTweet.getId());
             }
         }
-        return topTweets2;
+        return topTweetsIDs;
 
 
 
     }
 
-    public List<Tweet> getFollowingTweets() {
+    public ArrayList<Long> getFollowingTweets() {
         List<Tweet> followingTweets = new ArrayList<>();
         User currentUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
         List<User> following = factionsController.getActiveFollowings();
@@ -64,11 +67,24 @@ public class TweetController {
 
         for (User user : following) {
             if (muted.stream().noneMatch(it -> it.getId() == user.getId())) {
-                followingTweets.addAll(getAllTweets(user));
+                followingTweets.addAll(getAllTweetsModel(user));
             }
         }
-        return followingTweets.stream().sorted(Comparator.comparing(Tweet::getTweetDateTime).reversed()).
+        List<Tweet> finalTweetList = followingTweets.stream().sorted(Comparator.comparing(Tweet::getTweetDateTime).reversed()).
                  collect(Collectors.toList());
+        ArrayList<Long> finalTweetsIDs = new ArrayList<>();
+        for (Tweet tweet : finalTweetList) {
+            finalTweetsIDs.add(tweet.getId());
+        }
+        return finalTweetsIDs;
+    }
+
+    private List<Tweet> getAllTweetsModel(User rawUser) {
+        User user = userRepository.getByUsername(rawUser.getUsername());
+        List<Tweet> userAllTweets = tweetRepository.getAllTweets(user.getId());
+        userAllTweets.addAll(user.getRetweetTweets());
+        return userAllTweets.stream().sorted(Comparator.comparing(Tweet::getTweetDateTime)).
+                collect(Collectors.toList());
     }
 
     public void saveTweet(long tweetId) {
@@ -76,31 +92,31 @@ public class TweetController {
 
     }
 
-    public void retweet(Tweet currentTweet) {
-        userRepository.addRetweet(currentTweet.getId(),LoggedUser.getLoggedUser().getId());
+    public void retweet(long currentTweetId) {
+        userRepository.addRetweet(currentTweetId,LoggedUser.getLoggedUser().getId());
     }
 
-    public boolean reportSpam(Tweet currentTweet) {
-        Tweet reportedTweet = tweetRepository.getById(currentTweet.getId());
+    public boolean reportSpam(long currentTweetId) {
+        Tweet reportedTweet = tweetRepository.getById(currentTweetId);
         if (reportedTweet.getReportCounter() >= 2 ){
             tweetRepository.delete(reportedTweet.getId());
             return true;
         }
         else {
-            tweetRepository.increaseReportCount(currentTweet.getId());
-            userRepository.addReportedTweet(currentTweet.getId(), LoggedUser.getLoggedUser().getId());
+            tweetRepository.increaseReportCount(currentTweetId);
+            userRepository.addReportedTweet(currentTweetId, LoggedUser.getLoggedUser().getId());
         }
         return false;
     }
 
-    public void addComment(String comment,byte[] image , Tweet rawParentTweet) {
-        Tweet parentTweet = tweetRepository.getById(rawParentTweet.getId());
+    public void addComment(String comment,byte[] image , long rawParentTweetId) {
+        Tweet parentTweet = tweetRepository.getById(rawParentTweetId);
         Tweet commentTweet = new Tweet(userRepository.getById(LoggedUser.getLoggedUser().getId()),comment, image);
         tweetRepository.addComment(parentTweet,commentTweet);
     }
 
-    public boolean isLiked (Tweet tweet){
-        Tweet completeTweet = tweetRepository.getById(tweet.getId());
+    public boolean isLiked (long tweetId){
+        Tweet completeTweet = tweetRepository.getById(tweetId);
         for (User user : completeTweet.getUsersWhoLiked()) {
             if (user.getUsername().equals(LoggedUser.getLoggedUser().getUsername()))
                 return true;
@@ -109,13 +125,47 @@ public class TweetController {
 
     }
 
-    public boolean like(Tweet tweet) {
-        Tweet completeTweet = tweetRepository.getById(tweet.getId());
+    public boolean like(long tweetId) {
+        Tweet completeTweet = tweetRepository.getById(tweetId);
         for (User user : completeTweet.getUsersWhoLiked()) {
             if (user.getUsername().equals(LoggedUser.getLoggedUser().getUsername()))
                 return false;
         }
-        tweetRepository.like(LoggedUser.getLoggedUser().getId(), tweet.getId());
+        tweetRepository.like(LoggedUser.getLoggedUser().getId(), tweetId);
         return true;
+    }
+
+    public boolean isSelfTweet(long tweetId) {
+        Tweet tweet = tweetRepository.getById(tweetId);
+        return tweet.getUser().getUsername().equals(LoggedUser.getLoggedUser().getUsername());
+    }
+
+    public long getWriterId(long tweetId) {
+        return tweetRepository.getById(tweetId).getUser().getId();
+    }
+
+    public String getTweetText(long tweetId) {
+        return tweetRepository.getById(tweetId).getText();
+    }
+
+    public String getWriterUsername(long tweetId) {
+        return tweetRepository.getById(tweetId).getUser().getUsername();
+    }
+
+    public String getTweetDate(long tweetId) {
+        return tweetRepository.getById(tweetId).getTweetDateTime().toString();
+    }
+
+    public byte[] getTweetImage(long tweetId) {
+        return tweetRepository.getById(tweetId).getImage();
+    }
+
+    public ArrayList<Long> getTweetComments(long tweetId) {
+        List<Tweet> comments = tweetRepository.getById(tweetId).getComments();
+        ArrayList<Long> commentId = new ArrayList<>();
+        for (Tweet comment : comments) {
+            commentId.add(comment.getId());
+        }
+        return commentId;
     }
 }

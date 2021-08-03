@@ -49,7 +49,7 @@ public class FactionUsersGuiController implements Initializable, Controllers {
             Button profile = new Button("profile");
             profile.setId(String.valueOf(member.getId()));
             profile.setOnAction(event -> {
-                ProfileAccessController profileAccessController = new ProfileAccessController(4, member, factionID);
+                ProfileAccessController profileAccessController = new ProfileAccessController(4, member.getId(), factionID);
                 SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), event);
             });
 

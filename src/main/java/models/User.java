@@ -162,8 +162,9 @@ public class User {
     @OneToMany(mappedBy = "receiver",cascade = CascadeType.REMOVE)
     private List<Notification> receiverNotifications;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
     private List<UserChat> userChats;
+
 
     public User() {
 
@@ -437,4 +438,9 @@ public class User {
     public void setProfilePhoto(byte[] profilePhoto) {
         this.profilePhoto = profilePhoto;
     }
+
+    public List<UserChat> getUserChats() {
+        return userChats;
+    }
+
 }

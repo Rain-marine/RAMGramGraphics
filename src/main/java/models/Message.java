@@ -15,6 +15,9 @@ public class Message {
     @Column(name = "text")
     private String text;
 
+    @Column (name = "is_deleted")
+    private boolean isDeleted;
+
     @Lob
     @Column(name = "image", columnDefinition = "mediumblob")
     private byte[] image;
@@ -46,6 +49,7 @@ public class Message {
         this.image = image;
         this.sender = sender;
         this.grandSender = sender;
+        this.isDeleted = false;
     }
 
     public Message(String text, byte[] image, User sender, User receiver) {
@@ -120,5 +124,13 @@ public class Message {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

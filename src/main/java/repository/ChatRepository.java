@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChatRepository {
     public List<Chat> getAllChats(long userId) {
@@ -50,11 +51,12 @@ public class ChatRepository {
             et = em.getTransaction();
             et.begin();
             Chat chat = em.find(Chat.class, chatId);
-            UserChat userChat = chat.getUserChats().stream()
-                    .filter(it -> it.getUser().getId() == message.getReceiver().getId()) // todo : it.getUser().getId() == message.getReceiver().getId() -> it.getUser().getId() != message.getSender().getId()
-                    .findAny().orElseThrow(); //todo :  remove findAny()
-            userChat.setUnseenCount(userChat.getUnseenCount() + 1); // todo : unseen count of all users except sender must increase
-            userChat.setHasSeen(false);
+            List<UserChat> userChats = chat.getUserChats().stream()
+                    .filter(it ->  it.getUser().getId() != message.getSender().getId()).collect(Collectors.toList());
+            for (UserChat userChat : userChats) {
+                userChat.setUnseenCount(userChat.getUnseenCount() + 1);
+                userChat.setHasSeen(false);
+            }
             message.setChat(chat);
             chat.getMessages().add(message);
             em.persist(chat);

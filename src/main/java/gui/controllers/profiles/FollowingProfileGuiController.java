@@ -17,6 +17,7 @@ import models.User;
 import util.ConfigLoader;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -27,7 +28,7 @@ public class FollowingProfileGuiController implements Initializable, Controllers
     @FXML
     private ImageView profilePhotoImage;
 
-    private static User user;
+    private static long userId;
     private static int previous;
     private static int factionId;
     private static ProfileAccessController profileAccessController;
@@ -35,7 +36,7 @@ public class FollowingProfileGuiController implements Initializable, Controllers
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        byte[] byteArray = user.getProfilePhoto();
+        byte[] byteArray = USER_CONTROLLER.getProfilePhoto(userId);
         Rectangle clip = new Rectangle(
                 profilePhotoImage.getFitWidth(), profilePhotoImage.getFitHeight()
         );
@@ -43,7 +44,7 @@ public class FollowingProfileGuiController implements Initializable, Controllers
         clip.setArcHeight(1000);
         profilePhotoImage.setClip(clip);
         profilePhotoImage.setImage(ImageController.byteArrayToImage(byteArray));
-        info.setText(InfoLoader.load(user));
+        info.setText(InfoLoader.load(userId));
     }
 
 
@@ -85,14 +86,14 @@ public class FollowingProfileGuiController implements Initializable, Controllers
     }
 
     public void unfollowNotify(ActionEvent actionEvent) {
-        NOTIFICATION_CONTROLLER.unfollowUserWithNotification(user);
-        ProfileAccessController profileAccessController = new ProfileAccessController(previous,user,factionId);
+        NOTIFICATION_CONTROLLER.unfollowUserWithNotification(userId);
+        ProfileAccessController profileAccessController = new ProfileAccessController(previous,userId,factionId);
         SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(),actionEvent);
     }
 
     public void unfollowWithoutNotif(ActionEvent actionEvent) {
-        NOTIFICATION_CONTROLLER.unfollowUserWithoutNotification(user);
-        ProfileAccessController profileAccessController = new ProfileAccessController(previous,user,factionId);
+        NOTIFICATION_CONTROLLER.unfollowUserWithoutNotification(userId);
+        ProfileAccessController profileAccessController = new ProfileAccessController(previous,userId,factionId);
         SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(),actionEvent);
     }
 
@@ -105,7 +106,7 @@ public class FollowingProfileGuiController implements Initializable, Controllers
     }
 
     public void tweetsButtonClicked(ActionEvent actionEvent) {
-        List<Tweet> listOfTweets = TWEET_CONTROLLER.getAllTweets(user);
+        ArrayList<Long> listOfTweets = TWEET_CONTROLLER.getAllTweets(userId);
         TweetShowerGuiController.setProfileAccessController(profileAccessController);
         TweetShowerGuiController.setListOfTweets(listOfTweets);
         TweetShowerGuiController.setPreviousMenu(5);
@@ -113,24 +114,24 @@ public class FollowingProfileGuiController implements Initializable, Controllers
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
-        USER_CONTROLLER.reportUser(user);
+        USER_CONTROLLER.reportUser(userId);
         AlertBox.display("reported","User reported successfully");
     }
 
     public void blockButtonClicked(ActionEvent actionEvent) {
-        USER_CONTROLLER.blockUser(user);
-        BlockedProfileGuiController.setUser(user);
+        USER_CONTROLLER.blockUser(userId);
+        BlockedProfileGuiController.setUser(userId);
         BlockedProfileGuiController.setPrevious(previous);
         BlockedProfileGuiController.setFactionId(factionId);
         SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("blockedProf"),actionEvent);
     }
 
-    public static User getUser() {
-        return user;
+    public static long getUser() {
+        return userId;
     }
 
-    public static void setUser(User user) {
-        FollowingProfileGuiController.user = user;
+    public static void setUser(long user) {
+        FollowingProfileGuiController.userId = user;
     }
 
     public static int getPrevious() {

@@ -1,35 +1,23 @@
 package gui.controllers;
 
-import controllers.SettingController;
-import controllers.TweetController;
-import controllers.UserController;
-import models.User;
+public class InfoLoader implements Controllers {
 
-public class InfoLoader {
+    public static String load(long userId){
+        String lastSeen = SETTING_CONTROLLER.lastSeenForLoggedUser(userId);
+        String phoneNumber = SETTING_CONTROLLER.phoneNumberForLoggedUser(userId);
+        String email = SETTING_CONTROLLER.emailForLoggedUser(userId);
+        String birthday = SETTING_CONTROLLER.birthdayForLoggedUser(userId);
+        String bio = USER_CONTROLLER.getUserBio(userId);
 
-    private final static SettingController SETTING_CONTROLLER = new SettingController();
-    private static String lastSeen;
-    private static String phoneNumber;
-    private static String email;
-    private static String birthday;
-    private static String bio;
-
-    public static String load(User user){
-        lastSeen = SETTING_CONTROLLER.lastSeenForLoggedUser(user.getId());
-        phoneNumber = SETTING_CONTROLLER.phoneNumberForLoggedUser(user);
-        email = SETTING_CONTROLLER.emailForLoggedUser(user);
-        birthday = SETTING_CONTROLLER.birthdayForLoggedUser(user);
-        bio = user.getBio();
-
-        String infoText = user.getUsername() + "'s Profile" +
-                "\nName: " + user.getFullName() + "\nLast seen: " + lastSeen;
+        String infoText = USER_CONTROLLER.getUsername(userId) + "'s Profile" +
+                "\nName: " + USER_CONTROLLER.UserFullName(userId) + "\nLast seen: " + lastSeen;
         if (!bio.equals(""))
             infoText += ("\nBio: " + bio);
         if (!email.equals("not visible"))
             infoText += ("\nEmail: " + email);
-        if (!(user.getBirthday() == null) && (!birthday.equals("not visible")))
+        if (!birthday.equals("not visible"))
             infoText += ("\nBirthday: " + birthday);
-        if (!(user.getPhoneNumber().equals("")) && (!phoneNumber.equals("not visible")))
+        if (!phoneNumber.equals("not visible"))
             infoText += ("\nPhone Number: " + phoneNumber);
 
         return infoText;

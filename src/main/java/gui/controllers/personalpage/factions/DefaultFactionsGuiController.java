@@ -52,7 +52,7 @@ public class DefaultFactionsGuiController implements Initializable, Controllers 
             profile.setId(String.valueOf(member.getId()));
             int finalFactionID = factionID;
             profile.setOnAction(event -> {
-                ProfileAccessController profileAccessController = new ProfileAccessController(4, member, finalFactionID);
+                ProfileAccessController profileAccessController = new ProfileAccessController(4, member.getId(), finalFactionID);
                 SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), event);
             });
             userCard.getChildren().addAll(name , profile);

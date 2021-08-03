@@ -7,7 +7,12 @@ import repository.ChatRepository;
 import repository.FactionRepository;
 import repository.MessageRepository;
 import repository.UserRepository;
+import util.ConfigLoader;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,14 +36,20 @@ public class MessageController {
         List<Message> messages = user.getFavoriteMessages();
         ArrayList<Long> messageIDs = new ArrayList<>();
         for (Message message : messages) {
-            messageIDs.add(message.getId());
+            if (!message.isDeleted())
+                messageIDs.add(message.getId());
         }
         return messageIDs;
     }
 
-    public List<Tweet> getSavedTweets() {
+    public ArrayList<Long> getSavedTweets() {
         User user = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
-        return user.getFavoriteTweets();
+        List<Tweet> tweets = user.getFavoriteTweets();
+        ArrayList<Long> tweetIDs = new ArrayList<>();
+        for (Tweet tweet : tweets) {
+            tweetIDs.add(tweet.getId());
+        }
+        return tweetIDs;
     }
 
     public boolean canSendMessageToUser(String userToSendMessage) {
@@ -200,24 +211,23 @@ public class MessageController {
     }
 
     public String getMessageText(long messageId) {
-        return  MESSAGE_REPOSITORY.getById(messageId).getText();
+        return MESSAGE_REPOSITORY.getById(messageId).getText();
     }
 
     public String getMessageDate(long messageId) {
-        return  MESSAGE_REPOSITORY.getById(messageId).getDate().toString();
+        return MESSAGE_REPOSITORY.getById(messageId).getDate().toString();
     }
 
     public String getMessageSender(long messageId) {
-        return  MESSAGE_REPOSITORY.getById(messageId).getSender().getUsername();
+        return MESSAGE_REPOSITORY.getById(messageId).getSender().getUsername();
     }
 
     public String getMessageGrandSender(long messageId) {
-        return  MESSAGE_REPOSITORY.getById(messageId).getGrandSender().getUsername();
+        return MESSAGE_REPOSITORY.getById(messageId).getGrandSender().getUsername();
     }
 
     public byte[] getSenderProfile(long messageId) {
         return MESSAGE_REPOSITORY.getById(messageId).getSender().getProfilePhoto();
-        //todo
     }
 
     public void forward(long messageID, List<String> users, List<String> factions) {
@@ -271,7 +281,10 @@ public class MessageController {
         }
     }
 
-
+    public void addSavedMessage(String messageText, byte[] chosenImageByteArray) {
+        Message message = new Message(messageText, chosenImageByteArray, LoggedUser.getLoggedUser());
+        MESSAGE_REPOSITORY.addMessageToSavedMessage(LoggedUser.getLoggedUser().getId(), message);
+    }
 
 
     public enum TYPE {EDIT, DELETE, BOTH, NONE}

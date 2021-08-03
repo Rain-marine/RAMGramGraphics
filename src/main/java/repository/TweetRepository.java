@@ -213,6 +213,7 @@ public class TweetRepository {
             Tweet object = em.find(Tweet.class,tweetId);
             object.setUsersWhoReported(new ArrayList<>());
             object.setUsersRetweeted(new ArrayList<>());
+            object.setUsersWhoLiked(new ArrayList<>());
             em.persist(object);
             et.commit();
         } catch (Exception e) {

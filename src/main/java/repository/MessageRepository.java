@@ -6,6 +6,7 @@ import models.User;
 import repository.utils.EntityManagerProvider;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.util.ArrayList;
 
 public class MessageRepository {
 
@@ -56,7 +57,8 @@ public class MessageRepository {
             et = em.getTransaction();
             et.begin();
             Message object = em.find(Message.class , messageId);
-            em.remove(object);
+            object.setDeleted(true);
+            em.persist(object);
             et.commit();
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -95,7 +97,11 @@ public class MessageRepository {
     public Message getById(long messageId) {
         EntityManager em = EntityManagerProvider.getEntityManager();
         try {
-            return em.find(Message.class, messageId);
+            Message message =  em.find(Message.class, messageId);
+            if (message.isDeleted()){
+                return null;
+            }
+            return message;
         } catch (Exception e) {
             return null;
         }

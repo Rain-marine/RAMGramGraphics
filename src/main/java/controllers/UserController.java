@@ -1,12 +1,20 @@
 package controllers;
 
+import javafx.scene.shape.Path;
 import models.Group;
 import models.LoggedUser;
 import models.User;
+import org.apache.logging.log4j.core.net.UrlConnectionFactory;
 import repository.FactionRepository;
 import repository.NotificationRepository;
 import repository.UserRepository;
+import util.ConfigLoader;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.nio.file.Files;
 import java.util.Date;
 
 public class UserController {
@@ -22,8 +30,9 @@ public class UserController {
         REGISTER_MANAGER = new RegisterManager();
     }
 
-    public void blockUser(User userToBlock) {
+    public void blockUser(long userToBlockId) {
         User loggedUser = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
+        User userToBlock = USER_REPOSITORY.getById(userToBlockId);
         for (User user : loggedUser.getFollowers())
             if(user.getUsername().equals(userToBlock.getUsername())) {
                 NOTIFICATION_REPOSITORY.removeFromFollowers(loggedUser.getId(), user.getId());
@@ -45,16 +54,20 @@ public class UserController {
         FACTION_REPOSITORY.addUserToBlackList(loggedUser.getId(), userToBlock.getId());
     }
 
-    public void muteUser(User user) {
-        USER_REPOSITORY.mute(LoggedUser.getLoggedUser().getId(), user.getId());
+    public void muteUser(long userId) {
+        USER_REPOSITORY.mute(LoggedUser.getLoggedUser().getId(), userId);
     }
 
-    public User getUserByUsername(String usernameToFind) {
-        return USER_REPOSITORY.getByUsername(usernameToFind);
+    public long getUserByUsername(String usernameToFind) throws NullPointerException {
+        User user = USER_REPOSITORY.getByUsername(usernameToFind);
+        if (user == null){
+            throw new NullPointerException();
+        }
+        return user.getId();
     }
 
-    public void reportUser(User user) {
-        USER_REPOSITORY.increaseReportCount(user.getId());
+    public void reportUser(long userId) {
+        USER_REPOSITORY.increaseReportCount(userId);
     }
 
     public boolean ChangeUsername(String newUsername) {
@@ -93,8 +106,8 @@ public class UserController {
         return false;
     }
 
-    public void unblockUser(User user) {
-        USER_REPOSITORY.unblock(LoggedUser.getLoggedUser().getId(), user.getId());
+    public void unblockUser(long userId) {
+        USER_REPOSITORY.unblock(LoggedUser.getLoggedUser().getId(), userId);
     }
 
     public boolean isAccountPublic(String username) {
@@ -114,7 +127,15 @@ public class UserController {
     }
 
     public byte[] getProfilePhoto(long frontUserID) {
-        return  USER_REPOSITORY.getById(frontUserID).getProfilePhoto();
-        //todo
+        return USER_REPOSITORY.getById(frontUserID).getProfilePhoto();
+
+    }
+
+    public String getUserBio(long userId) {
+        return USER_REPOSITORY.getById(userId).getBio();
+    }
+
+    public String UserFullName(long userId) {
+        return USER_REPOSITORY.getById(userId).getFullName();
     }
 }

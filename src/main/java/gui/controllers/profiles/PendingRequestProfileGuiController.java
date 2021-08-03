@@ -23,13 +23,13 @@ public class PendingRequestProfileGuiController implements Initializable, Contro
     @FXML
     private ImageView profilePhotoImage;
 
-    private static User user;
+    private static long userId;
     private static int previous;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        byte[] byteArray = user.getProfilePhoto();
+        byte[] byteArray = USER_CONTROLLER.getProfilePhoto(userId);
         Rectangle clip = new Rectangle(
                 profilePhotoImage.getFitWidth(), profilePhotoImage.getFitHeight()
         );
@@ -37,7 +37,7 @@ public class PendingRequestProfileGuiController implements Initializable, Contro
         clip.setArcHeight(1000);
         profilePhotoImage.setClip(clip);
         profilePhotoImage.setImage(ImageController.byteArrayToImage(byteArray));
-        info.setText(InfoLoader.load(user));
+        info.setText(InfoLoader.load(userId));
     }
 
 
@@ -58,30 +58,30 @@ public class PendingRequestProfileGuiController implements Initializable, Contro
 
 
     public void removeReqButtonClicked(ActionEvent actionEvent) {
-        NOTIFICATION_CONTROLLER.deleteRequest(user);
+        NOTIFICATION_CONTROLLER.deleteRequest(userId);
         PrivateProfileGuiController.setPrevious(previous);
-        PrivateProfileGuiController.setUser(user);
+        PrivateProfileGuiController.setUser(userId);
         SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("privateProf"),actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
-        USER_CONTROLLER.reportUser(user);
+        USER_CONTROLLER.reportUser(userId);
         AlertBox.display("reported","User reported successfully");
     }
 
     public void blockButtonClicked(ActionEvent actionEvent) {
-        USER_CONTROLLER.blockUser(user);
-        BlockedProfileGuiController.setUser(user);
+        USER_CONTROLLER.blockUser(userId);
+        BlockedProfileGuiController.setUser(userId);
         BlockedProfileGuiController.setPrevious(previous);
         SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("blockedProf"),actionEvent);
     }
 
-    public static User getUser() {
-        return user;
+    public static long getUser() {
+        return userId;
     }
 
-    public static void setUser(User user) {
-        PendingRequestProfileGuiController.user = user;
+    public static void setUser(long user) {
+        PendingRequestProfileGuiController.userId = user;
     }
 
     public static int getPrevious() {

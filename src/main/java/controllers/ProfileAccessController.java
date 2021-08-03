@@ -17,13 +17,13 @@ public class ProfileAccessController {
     private final UserRepository userRepository;
     private int factionId;
 
-    public ProfileAccessController(int previousMenu, User otherUser1 , int factionId ) {
+    public ProfileAccessController(int previousMenu, long otherUserID, int factionId ) {
         this.userRepository = new UserRepository();
         this.loggedUser = userRepository.getById(LoggedUser.getLoggedUser().getId());
-        this.otherUser = userRepository.getById(otherUser1.getId());
+        this.otherUser = userRepository.getById(otherUserID);
         this.previousMenu = previousMenu;
         this.loggedUserId = loggedUser.getId();
-        this.otherUserId = otherUser.getId();
+        this.otherUserId = otherUserID;
         this.factionId = factionId;
     }
 
@@ -40,7 +40,7 @@ public class ProfileAccessController {
             List<User> loggedUserBlacklist = loggedUser.getBlackList();
             for (User user : loggedUserBlacklist) {
                 if (user.getId() == otherUserId) {
-                    BlockedProfileGuiController.setUser(otherUser);
+                    BlockedProfileGuiController.setUser(otherUserId);
                     BlockedProfileGuiController.setPrevious(previousMenu);
                     BlockedProfileGuiController.setFactionId(factionId);
                     BlockedProfileGuiController.setProfileAccessController(this);
@@ -51,7 +51,7 @@ public class ProfileAccessController {
             List<User> loggedUserFollowing = loggedUser.getFollowings();
             for (User user : loggedUserFollowing) {
                 if (user.getId() == otherUserId) {
-                    FollowingProfileGuiController.setUser(otherUser);
+                    FollowingProfileGuiController.setUser(otherUserId);
                     FollowingProfileGuiController.setPrevious(previousMenu);
                     FollowingProfileGuiController.setFactionId(factionId);
                     FollowingProfileGuiController.setProfileAccessController(this);
@@ -67,7 +67,7 @@ public class ProfileAccessController {
             }
             //is their account private?
             if (otherUser.isPublic()){
-                PublicProfileGuiController.setUser(otherUser);
+                PublicProfileGuiController.setUser(otherUserId);
                 PublicProfileGuiController.setPrevious(previousMenu);
                 PublicProfileGuiController.setProfileAccessController(this);
                 return "FXMLs/Profiles/PublicProfile.fxml";
@@ -77,11 +77,11 @@ public class ProfileAccessController {
             if (otherUser.getReceiverNotifications().stream().anyMatch(it -> ((it.getSender().getId() == loggedUserId)
             && (it.getType() == NotificationType.FOLLOW_REQ)))) {
                 PendingRequestProfileGuiController.setPrevious(previousMenu);
-                PendingRequestProfileGuiController.setUser(otherUser);
+                PendingRequestProfileGuiController.setUser(otherUserId);
                 return "FXMLs/Profiles/PendingRequestProfile.fxml";
 
             }
-            PrivateProfileGuiController.setUser(otherUser);
+            PrivateProfileGuiController.setUser(otherUserId);
             PrivateProfileGuiController.setPrevious(previousMenu);
             return "FXMLs/Profiles/PrivateProfile.fxml";
 
@@ -96,7 +96,7 @@ public class ProfileAccessController {
         List<User> loggedUserFollowing = loggedUser.getFollowings();
         for (User user : loggedUserFollowing) {
             if (user.getId() == otherUserId) {
-                FollowingProfileGuiController.setUser(otherUser);
+                FollowingProfileGuiController.setUser(otherUserId);
                 FollowingProfileGuiController.setPrevious(previousMenu);
                 FollowingProfileGuiController.setFactionId(factionId);
                 FollowingProfileGuiController.setProfileAccessController(this);
@@ -104,7 +104,7 @@ public class ProfileAccessController {
             }
         }
 
-        PublicProfileGuiController.setUser(otherUser);
+        PublicProfileGuiController.setUser(otherUserId);
         PublicProfileGuiController.setPrevious(previousMenu);
         PublicProfileGuiController.setProfileAccessController(this);
         return "FXMLs/Profiles/PublicProfile.fxml";

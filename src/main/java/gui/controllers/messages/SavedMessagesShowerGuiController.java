@@ -25,12 +25,6 @@ public class SavedMessagesShowerGuiController implements Initializable, Controll
     @FXML
     private ScrollPane messagesArea;
     @FXML
-    private ImageView profileImageview;
-    @FXML
-    private Label usernameLabel;
-    @FXML
-    private Label lastSeenLabel;
-    @FXML
     private Button sendBtn;
     @FXML
     private Button choosePicBtn;
@@ -41,16 +35,8 @@ public class SavedMessagesShowerGuiController implements Initializable, Controll
 
     private byte[] chosenImageByteArray = null;
 
-    public enum PREVIOUS { DEFAULT , PROFILE}
-
-    private static long chatId;
-    private static ChatShowerGuiController.PREVIOUS previousMenu;
-    private static long previousProfileId;
-    private static ProfileAccessController profileAccessController;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        CHAT_CONTROLLER.seeChat(chatId);
         loadMessages();
     }
 
@@ -81,7 +67,7 @@ public class SavedMessagesShowerGuiController implements Initializable, Controll
             AlertBox.display("Nerd Alert" , "write something idiot");
         }
         else {
-            CHAT_CONTROLLER.addMessageToChat(chatId,messageText , chosenImageByteArray );
+            MESSAGE_CONTROLLER.addSavedMessage(messageText , chosenImageByteArray );
             chosenImageView.setImage(null);
             messageTextField.clear();
             loadMessages();
