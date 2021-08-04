@@ -147,4 +147,27 @@ public class ChatRepository {
         }
 
     }
+
+    public void leaveGroup(long userId, long groupId) {
+        EntityManager em = EntityManagerProvider.getEntityManager();
+        EntityTransaction et = null;
+        try {
+            et = em.getTransaction();
+            et.begin();
+            Chat chat = em.find(Chat.class, groupId);
+            UserChat userChat = chat.getUserChats().stream().filter(it -> it.getUser().getId() == userId).findAny().orElseThrow();
+            chat.getUserChats().remove(userChat);
+            em.persist(chat);
+            em.remove(userChat);
+            et.commit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (et != null) {
+                et.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
 }

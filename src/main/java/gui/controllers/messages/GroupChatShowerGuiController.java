@@ -12,7 +12,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
+import gui.controllers.popups.messaging.AddMemberToGroupChat;
 import javax.naming.SizeLimitExceededException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -88,11 +88,17 @@ public class GroupChatShowerGuiController implements Initializable, Controllers 
     }
 
     public void addMemberButtonClicked(ActionEvent actionEvent) {
-
+        if (AddMemberToGroupChat.display(groupId))
+        {
+            ArrayList<String> membersNames = CHAT_CONTROLLER.getMembersNames(groupId);
+            membersLabel.setText(String.join("\n" , membersNames));
+        }
 
     }
 
     public void leaveButtonClicked(ActionEvent actionEvent) {
+        CHAT_CONTROLLER.leaveGroup(groupId);
+        SceneLoader.getInstance().messaging(actionEvent);
 
     }
 

@@ -113,4 +113,8 @@ public class ChatController {
         }
         return names;
     }
+
+    public void leaveGroup(long groupId) {
+        CHAT_REPOSITORY.leaveGroup(LoggedUser.getLoggedUser().getId() , groupId);
+    }
 }

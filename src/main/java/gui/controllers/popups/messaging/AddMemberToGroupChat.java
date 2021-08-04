@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AddMemberToGroup implements Controllers , ConfirmBox {
+public class AddMemberToGroupChat implements Controllers , ConfirmBox {
 
     static boolean answer;
 
