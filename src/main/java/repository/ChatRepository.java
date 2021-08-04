@@ -1,9 +1,6 @@
 package repository;
 
-import models.Chat;
-import models.Message;
-import models.User;
-import models.UserChat;
+import models.*;
 import repository.utils.EntityManagerProvider;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -121,7 +118,6 @@ public class ChatRepository {
 
     public Chat getById(long chatId) {
         EntityManager em = EntityManagerProvider.getEntityManager();
-
         try {
             return em.find(Chat.class, chatId);
         } catch (Exception e) {
@@ -131,5 +127,24 @@ public class ChatRepository {
 
     public void addMemberToGroupChat(long chatId, UserChat userChat) {
         //add userChat to chatId chat
+        EntityManager em = EntityManagerProvider.getEntityManager();
+        EntityTransaction et = null;
+        try {
+            et = em.getTransaction();
+            et.begin();
+            Chat chat = em.find(Chat.class, chatId);
+            chat.getUserChats().add(userChat);
+            em.persist(chat);
+            et.commit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            if (et != null) {
+                et.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
     }
 }

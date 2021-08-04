@@ -1,7 +1,8 @@
-package gui.controllers.popups;
+package gui.controllers.popups.messaging;
 
 import gui.controllers.Controllers;
 import gui.controllers.ImageController;
+import gui.controllers.popups.ConfirmBox;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

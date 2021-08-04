@@ -28,6 +28,8 @@ public class GroupChatShowerGuiController implements Initializable, Controllers 
     private TextField messageTextField;
     @FXML
     private ImageView chosenImageView;
+    @FXML
+    private Label membersLabel;
 
     private byte[] chosenImageByteArray = null;
 
@@ -37,6 +39,8 @@ public class GroupChatShowerGuiController implements Initializable, Controllers 
     public void initialize(URL location, ResourceBundle resources) {
         CHAT_CONTROLLER.seeChat(groupId);
         groupNameLabel.setText(CHAT_CONTROLLER.getChatName(groupId));
+        ArrayList<String> membersNames = CHAT_CONTROLLER.getMembersNames(groupId);
+        membersLabel.setText(String.join("\n" , membersNames));
         loadMessages();
 
     }
@@ -84,9 +88,12 @@ public class GroupChatShowerGuiController implements Initializable, Controllers 
     }
 
     public void addMemberButtonClicked(ActionEvent actionEvent) {
+
+
     }
 
     public void leaveButtonClicked(ActionEvent actionEvent) {
+
     }
 
     public void choosePicButtonClicked(ActionEvent actionEvent) {

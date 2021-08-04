@@ -7,12 +7,7 @@ import repository.ChatRepository;
 import repository.FactionRepository;
 import repository.MessageRepository;
 import repository.UserRepository;
-import util.ConfigLoader;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,7 +124,7 @@ public class MessageController {
                     }
                 });
                 CHAT_REPOSITORY.insert(newChat);
-                Chat chat = getChatWithUsername(receiver.getUsername());
+                Chat chat = getChatWithId(receiver.getId());
                 CHAT_REPOSITORY.addMessageToChat(chat.getId(), newMessage);
             }
         }
@@ -177,9 +172,10 @@ public class MessageController {
         CHAT_REPOSITORY.insert(newChat);
     }
 
-    public Chat getChatWithUsername(String username) {
+    public Chat getChatWithId(long userId) {
         User loggedUser = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
-        User receiveUser = USER_REPOSITORY.getByUsername(username);
+        User receiveUser = USER_REPOSITORY.getById(userId);
+        String username = receiveUser.getUsername();
         for (Chat chat : loggedUser.getChats()) {
             if (chat.getUserChats().size() == 2 &&
                     (chat.getUserChats().get(0).getUser().getUsername().equals(username)
@@ -275,7 +271,7 @@ public class MessageController {
                     }
                 });
                 CHAT_REPOSITORY.insert(newChat);
-                Chat chat = getChatWithUsername(receiver.getUsername());
+                Chat chat = getChatWithId(receiver.getId());
                 CHAT_REPOSITORY.addMessageToChat(chat.getId(), newMessage);
             }
         }
@@ -284,6 +280,13 @@ public class MessageController {
     public void addSavedMessage(String messageText, byte[] chosenImageByteArray) {
         Message message = new Message(messageText, chosenImageByteArray, LoggedUser.getLoggedUser());
         MESSAGE_REPOSITORY.addMessageToSavedMessage(LoggedUser.getLoggedUser().getId(), message);
+    }
+
+    public long getChatWithUser(long userId) {
+        Chat chat = getChatWithId(userId);
+        if (chat == null)
+            chat = getChatWithId(userId);
+        return chat.getId();
     }
 
 

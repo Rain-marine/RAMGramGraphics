@@ -3,7 +3,7 @@ package gui.controllers.personalpage.factions;
 import controllers.ProfileAccessController;
 import gui.controllers.Controllers;
 import gui.controllers.SceneLoader;
-import gui.controllers.popups.AddUserToFactionBox;
+import gui.controllers.popups.factions.AddUserToFactionBox;
 import gui.controllers.popups.SimpleConfirmBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,5 +1,6 @@
-package gui.controllers.popups;
+package gui.controllers.popups.password;
 
+import gui.controllers.popups.ConfirmBox;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

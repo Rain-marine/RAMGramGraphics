@@ -3,8 +3,8 @@ package gui.controllers.messages;
 import controllers.MessageController;
 import gui.controllers.Controllers;
 import gui.controllers.ImageController;
-import gui.controllers.popups.EditMessage;
-import gui.controllers.popups.Forward;
+import gui.controllers.popups.messaging.EditMessage;
+import gui.controllers.popups.messaging.Forward;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -13,10 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import models.Message;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MessageCard implements Controllers {
 

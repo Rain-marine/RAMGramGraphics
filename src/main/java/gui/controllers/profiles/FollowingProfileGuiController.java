@@ -2,6 +2,7 @@ package gui.controllers.profiles;
 
 import controllers.ProfileAccessController;
 import gui.controllers.*;
+import gui.controllers.messages.ChatShowerGuiController;
 import gui.controllers.personalpage.factions.DefaultFactionsGuiController;
 import gui.controllers.personalpage.factions.FactionUsersGuiController;
 import gui.controllers.popups.AlertBox;
@@ -98,11 +99,10 @@ public class FollowingProfileGuiController implements Initializable, Controllers
     }
 
     public void messageButtonClicked(ActionEvent actionEvent) {
-//        Chat chat = messageController.getChatWithUsername(user.getUsername());
-//        if (chat == null)
-//            chat = messageController.getChatWithUsername(user.getUsername());
-//        new ChatMenu(chat, new FollowingProfile(user, previousMenu)).run();
-        //todo
+        ChatShowerGuiController.setProfileAccessController(profileAccessController);
+        ChatShowerGuiController.setPreviousMenu(ChatShowerGuiController.PREVIOUS.PROFILE);
+        ChatShowerGuiController.setChatId(MESSAGE_CONTROLLER.getChatWithUser(userId));
+        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("chat"), actionEvent);
     }
 
     public void tweetsButtonClicked(ActionEvent actionEvent) {

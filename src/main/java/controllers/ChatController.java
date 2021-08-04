@@ -73,9 +73,10 @@ public class ChatController {
         CHAT_REPOSITORY.insert(chat);
     }
 
-    public void addMembersToGroupChat(List<String> members, long chatId) {
+    public void addMemberToGroupChat(String member, long chatId) {
         Chat chat = CHAT_REPOSITORY.getById(chatId);
-        members.forEach(it -> CHAT_REPOSITORY.addMemberToGroupChat(chatId, new UserChat(USER_REPOSITORY.getByUsername(it), chat)));
+        if (!chat.getUserChats().stream().anyMatch(it -> it.getUser().getUsername().equals(member)))
+            CHAT_REPOSITORY.addMemberToGroupChat(chatId, new UserChat(USER_REPOSITORY.getByUsername(member), chat));
     }
 
     public void addNewMessageToGroupChat(String message, byte[] image, long chatId) {
@@ -101,5 +102,15 @@ public class ChatController {
     public boolean isGroup(Long chatId) {
         Chat chat = CHAT_REPOSITORY.getById(chatId);
         return chat.isGroup();
+    }
+
+    public ArrayList<String> getMembersNames(long groupId) {
+        Chat chat = CHAT_REPOSITORY.getById(groupId);
+        List<UserChat> userChats = chat.getUserChats();
+        ArrayList<String> names = new ArrayList<>();
+        for (UserChat userChat : userChats) {
+            names.add(userChat.getUser().getUsername());
+        }
+        return names;
     }
 }

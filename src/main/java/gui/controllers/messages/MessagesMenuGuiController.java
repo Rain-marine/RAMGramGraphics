@@ -2,8 +2,8 @@ package gui.controllers.messages;
 
 import gui.controllers.Controllers;
 import gui.controllers.SceneLoader;
-import gui.controllers.popups.NewGroup;
-import gui.controllers.popups.SendNewMessage;
+import gui.controllers.popups.messaging.NewGroup;
+import gui.controllers.popups.messaging.SendNewMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import util.ConfigLoader;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -28,6 +27,7 @@ public class MessagesMenuGuiController implements Initializable, Controllers {
     }
 
     private void loadChats() {
+        ChatShowerGuiController.setPreviousMenu(ChatShowerGuiController.PREVIOUS.DEFAULT);
         List<Long> chatIds = CHAT_CONTROLLER.getChatsIds();
         if (chatIds.size() == 0){
             chatsArea.setContent(new Label("you have no chats"));

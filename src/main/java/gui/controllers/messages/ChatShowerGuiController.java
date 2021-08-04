@@ -45,7 +45,6 @@ public class ChatShowerGuiController implements Initializable, Controllers {
 
     private static long chatId;
     private static PREVIOUS previousMenu;
-    private static long previousProfileId;
     private static ProfileAccessController profileAccessController;
 
     @Override
@@ -69,7 +68,10 @@ public class ChatShowerGuiController implements Initializable, Controllers {
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().messaging(actionEvent);
+        switch (previousMenu){
+            case DEFAULT -> SceneLoader.getInstance().messaging(actionEvent);
+            case PROFILE -> SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), actionEvent);
+        }
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
@@ -118,14 +120,6 @@ public class ChatShowerGuiController implements Initializable, Controllers {
 
     public static void setPreviousMenu(PREVIOUS previousMenu) {
         ChatShowerGuiController.previousMenu = previousMenu;
-    }
-
-    public static long getPreviousProfileId() {
-        return previousProfileId;
-    }
-
-    public static void setPreviousProfileId(long previousProfileId) {
-        ChatShowerGuiController.previousProfileId = previousProfileId;
     }
 
     public static ProfileAccessController getProfileAccessController() {

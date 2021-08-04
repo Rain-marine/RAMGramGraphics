@@ -19,7 +19,6 @@ public class UserRepository {
 
     public User getById(Long userId){
         EntityManager em = EntityManagerProvider.getEntityManager();
-
         try {
             return em.find(User.class, userId);
         } catch (Exception e) {

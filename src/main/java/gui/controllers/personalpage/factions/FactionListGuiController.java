@@ -2,7 +2,7 @@ package gui.controllers.personalpage.factions;
 
 import gui.controllers.Controllers;
 import gui.controllers.SceneLoader;
-import gui.controllers.popups.CreatFactionBox;
+import gui.controllers.popups.factions.CreatFactionBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
