@@ -108,8 +108,9 @@ public class TweetCard implements Controllers {
         forward = new Button("forward");
         forward.setStyle("-fx-background-color: #dea0ff");
         forward.setOnAction(event -> {
+            ForwardTweet.display(tweetId);
         });
-        //todo
+
 
         comments = new Button("comments");
         comments.setStyle("-fx-background-color: #dea0ff");

@@ -96,7 +96,7 @@
 //                            System.out.println("Tweet Saved!");
 //                            continue;
 //                        case 5:
-//                            forwardTweet(currentTweet);
+//                            ForwardTweet(currentTweet);
 //                            break;
 //                        case 9:
 //                            ProfileAccessController profileAccessController = new ProfileAccessController(
@@ -134,7 +134,7 @@
 //        tweetController.addComment(comment,null, parentTweet);
 //    }
 //
-//    private void forwardTweet(Tweet tweet) {
+//    private void ForwardTweet(Tweet tweet) {
 //        //todo : forward tweet is done!. check?
 //        while(true) {
 //            System.out.println("type username of receiver and press enter or *back to return!");
@@ -142,7 +142,7 @@
 //            if(receiver.equals("*back"))
 //                return;
 //            if(messageController.canSendMessageToUser(receiver)) {
-//                messageController.forwardTweet(tweet, tweet.getUser(), receiver);
+//                messageController.ForwardTweet(tweet, tweet.getUser(), receiver);
 //                System.out.println("The tweet forwarded!");
 //                return;
 //            }

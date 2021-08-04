@@ -116,7 +116,7 @@
 //                            break;
 //                        case 5:
 //                            //ToDo
-//                            forwardTweet(currentTweet);
+//                            ForwardTweet(currentTweet);
 //                            break;
 //                        case 6:
 //                            //ToDo try catch if user is already blocked
@@ -186,14 +186,14 @@
 //        tweetController.addComment(comment,null, parentTweet);
 //    }
 //
-//    private void forwardTweet(Tweet tweet) {
+//    private void ForwardTweet(Tweet tweet) {
 //        while(true) {
 //            System.out.println("type username of receiver and press enter or *back to return!");
 //            String receiver = scanner.nextLine();
 //            if(receiver.equals("*back"))
 //                return;
 //            if(messageController.canSendMessageToUser(receiver)) {
-//                messageController.forwardTweet(tweet, tweet.getUser(), receiver);
+//                messageController.ForwardTweet(tweet, tweet.getUser(), receiver);
 //                System.out.println("The tweet forwarded!");
 //                return;
 //            }

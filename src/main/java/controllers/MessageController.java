@@ -3,10 +3,7 @@ package controllers;
 import models.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import repository.ChatRepository;
-import repository.FactionRepository;
-import repository.MessageRepository;
-import repository.UserRepository;
+import repository.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,12 +15,14 @@ public class MessageController {
     private final ChatRepository CHAT_REPOSITORY;
     private final UserRepository USER_REPOSITORY;
     private final FactionRepository FACTION_REPOSITORY;
+    private final TweetRepository TWEET_REPOSITORY;
 
     public MessageController() {
         MESSAGE_REPOSITORY = new MessageRepository();
         USER_REPOSITORY = new UserRepository();
         CHAT_REPOSITORY = new ChatRepository();
         FACTION_REPOSITORY = new FactionRepository();
+        TWEET_REPOSITORY = new TweetRepository();
     }
 
     public ArrayList<Long> getSavedMessage() {
@@ -141,12 +140,13 @@ public class MessageController {
         return groupNameToGroup;
     }
 
-    public void forwardTweet(Tweet tweet, User tweetUser, String receiver) {
-        String message = "Tweet forwarded from " + tweetUser.getUsername() + "\n" + tweet.getText();
+    public void forwardTweet(long tweetId , String receiver) {
+        Tweet tweet = TWEET_REPOSITORY.getById(tweetId);
+        String message = "Tweet forwarded from " + tweet.getUser().getUsername() + "\n" + tweet.getText();
         User loggedUser = USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId());
         User receiveUser = USER_REPOSITORY.getByUsername(receiver);
-        Message newMessage = new Message(message, null, loggedUser, receiveUser);
-        newMessage.setGrandSender(tweetUser);
+        Message newMessage = new Message(message, tweet.getImage(), loggedUser, receiveUser);
+        newMessage.setGrandSender(tweet.getUser());
 
         for (Chat chat : loggedUser.getChats()) {
             if (chat.getUserChats().size() == 2 &&
