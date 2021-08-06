@@ -168,4 +168,12 @@ public class TweetController implements Repository {
         }
         return commentId;
     }
+
+    public ArrayList<String> getLikedList(long tweetId) {
+        ArrayList<String> liked = new ArrayList<>();
+        for (User user : TWEET_REPOSITORY.getById(tweetId).getUsersWhoLiked()) {
+            liked.add(user.getUsername());
+        }
+        return liked;
+    }
 }

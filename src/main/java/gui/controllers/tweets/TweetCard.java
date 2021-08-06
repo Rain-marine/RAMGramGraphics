@@ -19,6 +19,7 @@ import javafx.scene.text.FontWeight;
 import util.ConfigLoader;
 
 import javax.naming.SizeLimitExceededException;
+import java.util.ArrayList;
 
 public class TweetCard implements Controllers {
 
@@ -50,6 +51,7 @@ public class TweetCard implements Controllers {
     private HBox buttons = new HBox(10);
     private HBox generalButtons = new HBox(10);
     private ImageView tweetPhoto;
+    private Label likedNumber;
 
     public enum MODE {OWNER, TIMELINE, EXPLORER, PROFILE}
 
@@ -165,6 +167,11 @@ public class TweetCard implements Controllers {
         addCommentLayout.getChildren().addAll(commentText, row);
         generalButtons.getChildren().addAll(save , forward, comments);
 
+        likedNumber = new Label();
+        likedNumber.setTextFill(Color.MAGENTA);
+        ArrayList<String> peopleLiked = TWEET_CONTROLLER.getLikedList(tweetId);
+        likedNumber.setText("liked by " + peopleLiked.size() + " people: "+ String.join(", ", peopleLiked));
+
         if (finalMode != MODE.OWNER) {
 
             retweet = new Button("retweet");
@@ -211,16 +218,24 @@ public class TweetCard implements Controllers {
                 if (!isLiked) {
                     TWEET_CONTROLLER.like(tweetId);
                     like.setText("liked");
+                    updateLikedList();
                 }
             });
             header.getChildren().addAll(profilePhoto, writerName );
             header.getChildren().add(new VBox(5, dateTime , generalButtons));
             buttons.getChildren().addAll(like, report, retweet, block, mute);
-            vBox.getChildren().addAll(header, tweetText, tweetPhoto, buttons ,  addCommentLayout , separator);
+            vBox.getChildren().addAll(header, tweetText, tweetPhoto , likedNumber, buttons ,  addCommentLayout , separator);
         } else {
-            vBox.getChildren().addAll(header, tweetText, tweetPhoto,  addCommentLayout , separator);
+            vBox.getChildren().addAll(header, tweetText, tweetPhoto , likedNumber ,  addCommentLayout , separator);
         }
 
+
+    }
+
+    public void updateLikedList(){
+        likedNumber.setTextFill(Color.MAGENTA);
+        ArrayList<String> peopleLiked = TWEET_CONTROLLER.getLikedList(tweetId);
+        likedNumber.setText("liked by " + peopleLiked.size() + " people: "+ String.join(", ", peopleLiked));
 
     }
 
