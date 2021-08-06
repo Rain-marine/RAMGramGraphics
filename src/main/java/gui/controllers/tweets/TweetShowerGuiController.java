@@ -1,18 +1,17 @@
 package gui.controllers.tweets;
 
 import controllers.ProfileAccessController;
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import models.Tweet;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class TweetShowerGuiController implements Initializable, Controllers {
@@ -27,7 +26,8 @@ public class TweetShowerGuiController implements Initializable, Controllers {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        VBox list = new VBox(10);
+        VBox list = new VBox(0);
+        list.setPadding(new Insets(0,0,0,0));
         for (Long tweet : listOfTweets) {
             TweetCard.MODE mode = TweetCard.MODE.EXPLORER;
             switch (previousMenu){

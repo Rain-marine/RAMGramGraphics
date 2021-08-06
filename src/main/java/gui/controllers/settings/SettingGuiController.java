@@ -1,7 +1,7 @@
 package gui.controllers.settings;
 
 import controllers.DateFormat;
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import gui.controllers.popups.SimpleConfirmBox;
 import gui.controllers.popups.password.NewPasswordBoxSimple;
@@ -89,7 +89,7 @@ public class SettingGuiController implements Initializable, Controllers {
     }
 
     public void PrivacySettingButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("privacySetting"),actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("privacySetting"),actionEvent);
     }
 
 

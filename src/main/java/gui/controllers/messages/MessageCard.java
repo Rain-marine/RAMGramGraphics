@@ -1,7 +1,7 @@
 package gui.controllers.messages;
 
 import controllers.MessageController;
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.ImageController;
 import gui.controllers.popups.messaging.EditMessage;
 import gui.controllers.popups.messaging.Forward;

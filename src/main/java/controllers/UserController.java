@@ -1,32 +1,20 @@
 package controllers;
 
-import javafx.scene.shape.Path;
 import models.Group;
 import models.LoggedUser;
 import models.User;
-import org.apache.logging.log4j.core.net.UrlConnectionFactory;
-import repository.FactionRepository;
-import repository.NotificationRepository;
-import repository.UserRepository;
-import util.ConfigLoader;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import repository.Repository;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.nio.file.Files;
 import java.util.Date;
 
-public class UserController {
-    private final UserRepository USER_REPOSITORY;
-    private final FactionRepository FACTION_REPOSITORY;
-    private final NotificationRepository NOTIFICATION_REPOSITORY;
-    private final RegisterManager REGISTER_MANAGER;
+public class UserController implements Repository {
+    final RegisterManager REGISTER_MANAGER ;
+    private final static Logger log = LogManager.getLogger(UserController.class);
+
 
     public UserController() {
-        USER_REPOSITORY = new UserRepository();
-        FACTION_REPOSITORY = new FactionRepository();
-        NOTIFICATION_REPOSITORY = new NotificationRepository();
         REGISTER_MANAGER = new RegisterManager();
     }
 
@@ -68,11 +56,13 @@ public class UserController {
 
     public void reportUser(long userId) {
         USER_REPOSITORY.increaseReportCount(userId);
+        log.warn(userId + " account was reported");
     }
 
     public boolean ChangeUsername(String newUsername) {
         if (REGISTER_MANAGER.isUsernameAvailable(newUsername)) {
             USER_REPOSITORY.changeUsername(LoggedUser.getLoggedUser().getId(), newUsername);
+            log.info(LoggedUser.getLoggedUser().getId() + " user name was changed to "+ newUsername);
             return true;
         }
         return false;
@@ -93,6 +83,8 @@ public class UserController {
     public boolean changeEmail(String newEmail) {
         if (REGISTER_MANAGER.isEmailAvailable(newEmail)) {
             USER_REPOSITORY.changeEmail(LoggedUser.getLoggedUser().getId(), newEmail);
+            log.info(LoggedUser.getLoggedUser().getId() + " email name was changed to "+ newEmail);
+
             return true;
         }
         return false;

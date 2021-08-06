@@ -1,6 +1,6 @@
 package gui.controllers.tweets;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.ImageController;
 import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;

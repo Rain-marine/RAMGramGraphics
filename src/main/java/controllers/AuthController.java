@@ -5,17 +5,16 @@ import models.LoggedUser;
 import models.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import repository.UserRepository;
+import repository.Repository;
 
 import java.util.Date;
 
 
-public class AuthController {
+public class AuthController implements Repository {
     private final static Logger log = LogManager.getLogger(AuthController.class);
-    private final UserRepository userRepository = new UserRepository();
 
     public User login(String username, String password) throws InvalidInputException {
-        User user = userRepository.getByUsername(username);
+        User user = USER_REPOSITORY.getByUsername(username);
         if (user == null) {
             throw new InvalidInputException("Username not found");
         } else {
@@ -28,8 +27,8 @@ public class AuthController {
                 LoggedUser.setLoggedUser(user);
                 log.info(username + " logged in");
                 if (user.isActive()) {
-                    log.info(username + " last seen updated");
-                    userRepository.setLastSeen(user.getId(), new Date());
+                    log.info(username + " last seen updated: " + user.getLastSeen().toString());
+                    USER_REPOSITORY.setLastSeen(user.getId(), new Date());
                 }
                 return user;
             }

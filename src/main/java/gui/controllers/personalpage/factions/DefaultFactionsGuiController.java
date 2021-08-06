@@ -1,7 +1,7 @@
 package gui.controllers.personalpage.factions;
 
 import controllers.ProfileAccessController;
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,7 +66,7 @@ public class DefaultFactionsGuiController implements Initializable, Controllers 
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionList"),actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("factionList"),actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {

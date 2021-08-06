@@ -2,7 +2,7 @@ package gui.controllers.personalpage;
 
 import controllers.DateFormat;
 import controllers.UserController;
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.ImageController;
 import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;
@@ -154,7 +154,7 @@ public class PersonalPageGuiController implements Initializable , Controllers {
     }
 
     public void newTweetButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("newTweet"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("newTweet"), actionEvent);
     }
 
     public void yourTweetsButtonClicked(ActionEvent actionEvent) {
@@ -162,11 +162,11 @@ public class PersonalPageGuiController implements Initializable , Controllers {
     }
 
     public void factionsButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionList"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("factionList"), actionEvent);
     }
 
     public void notificationButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("notificationAdd"),actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("notificationAdd"),actionEvent);
     }
 
 

@@ -1,6 +1,6 @@
 package gui.controllers.popups.messaging;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.ImageController;
 import gui.controllers.popups.ConfirmBox;
 import javafx.geometry.Pos;
@@ -29,7 +29,7 @@ public class SendNewMessage implements ConfirmBox, Controllers {
         Label message = new Label();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("start messaging");
-        window.setResizable(false);
+        window.setResizable(true);
         window.getIcons().add(icon);
         message.setText("enter the name of the receiver(s)");
 
@@ -76,6 +76,7 @@ public class SendNewMessage implements ConfirmBox, Controllers {
                 }
                 else{
                     factions.add(factionName);
+                    factionError.setText("");
                     addedFactions.setText(String.join(", " , factions));
                 }
             }
@@ -93,6 +94,7 @@ public class SendNewMessage implements ConfirmBox, Controllers {
                 }
                 else{
                     users.add(username);
+                    userError.setText("");
                     addedUsers.setText(String.join(", " , users));
                 }
             }

@@ -13,6 +13,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import util.ConfigLoader;
 
+import java.util.Objects;
+
 public class RegisterGuiController {
     static Logger log = LogManager.getLogger(RegisterGuiController.class);
 
@@ -47,9 +49,6 @@ public class RegisterGuiController {
     @FXML
     private DatePicker birthdayTextField;
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     private final RegisterManager registerManager = new RegisterManager();
 
     public void registerButtonClicked(ActionEvent actionEvent) {
@@ -128,9 +127,9 @@ public class RegisterGuiController {
 
     public void backButtonClicked(ActionEvent actionEvent) {
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource(ConfigLoader.readProperty("loginFXMLAddress")));
-            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            scene = new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(ConfigLoader.loadFXML("loginFXMLAddress"))));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {

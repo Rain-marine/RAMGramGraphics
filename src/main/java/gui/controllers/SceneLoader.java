@@ -1,6 +1,6 @@
 package gui.controllers;
 
-import controllers.SettingController;
+import controllers.Controllers;
 import gui.controllers.popups.SimpleConfirmBox;
 import gui.controllers.tweets.TweetShowerGuiController;
 import javafx.event.ActionEvent;
@@ -10,17 +10,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import models.LoggedUser;
-import models.Tweet;
 import util.ConfigLoader;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
-public class SceneLoader implements Controllers{
+public class SceneLoader implements Controllers {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     private static SceneLoader sceneLoader;
 
     private SceneLoader() {
@@ -35,11 +31,9 @@ public class SceneLoader implements Controllers{
 
     public void changeScene(String address, ActionEvent actionEvent){
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            root =fxmlLoader.load(getClass().getClassLoader().getResource(address));
-            fxmlLoader.getController();
-            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            scene = new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(address)));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
@@ -49,15 +43,15 @@ public class SceneLoader implements Controllers{
     }
 
     public void mainMenu(ActionEvent actionEvent) {
-        changeScene(ConfigLoader.readProperty("mainMenuAdd"),actionEvent);
+        changeScene(ConfigLoader.loadFXML("mainMenuAdd"),actionEvent);
     }
 
     public void explorer(ActionEvent actionEvent) {
-        changeScene(ConfigLoader.readProperty("explorerAdd"),actionEvent);
+        changeScene(ConfigLoader.loadFXML("explorerAdd"),actionEvent);
     }
 
     public void timeline(ActionEvent actionEvent) {
-        changeScene(ConfigLoader.readProperty("timelineAdd"),actionEvent);
+        changeScene(ConfigLoader.loadFXML("timelineAdd"),actionEvent);
     }
 
 
@@ -66,27 +60,31 @@ public class SceneLoader implements Controllers{
         boolean answer = SimpleConfirmBox.display("Log out confirmation", "Are you sure you want to Log out??");
         if (answer) {
             SETTING_CONTROLLER.logout();
-            changeScene(ConfigLoader.readProperty("loginFXMLAddress"),actionEvent);
+            changeScene(ConfigLoader.loadFXML("loginFXMLAddress"),actionEvent);
         }
     }
 
     public void noConfirmLogout(ActionEvent actionEvent) {
         SETTING_CONTROLLER.logout();
-        changeScene(ConfigLoader.readProperty("loginFXMLAddress"),actionEvent);
+        changeScene(ConfigLoader.loadFXML("loginFXMLAddress"),actionEvent);
     }
 
     public void personalPage(ActionEvent actionEvent) {
-        changeScene(ConfigLoader.readProperty("personalPageAdd"),actionEvent);
+        changeScene(ConfigLoader.loadFXML("personalPageAdd"),actionEvent);
     }
 
     public void yourTweets(ActionEvent actionEvent){
         ArrayList<Long> listOfTweets = TWEET_CONTROLLER.getAllTweets(LoggedUser.getLoggedUser().getId());
         TweetShowerGuiController.setListOfTweets(listOfTweets);
-        TweetShowerGuiController.setPreviousMenu(6);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("yourTweets"), actionEvent);
+        TweetShowerGuiController.setPreviousMenu(ConfigLoader.getPreviousMenuCode("personalPage"));
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("yourTweets"), actionEvent);
     }
 
     public void messaging(ActionEvent actionEvent) {
-        changeScene(ConfigLoader.readProperty("messageMenu"),actionEvent);
+        changeScene(ConfigLoader.loadFXML("messageMenu"),actionEvent);
+    }
+
+    public void setting(ActionEvent actionEvent) {
+        changeScene(ConfigLoader.loadFXML("setting"), actionEvent);
     }
 }

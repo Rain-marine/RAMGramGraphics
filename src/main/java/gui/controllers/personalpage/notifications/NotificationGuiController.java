@@ -1,6 +1,6 @@
 package gui.controllers.personalpage.notifications;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,16 +39,16 @@ public class NotificationGuiController implements Initializable, Controllers {
     }
 
     public void requestsToMe(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("reqToMe"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("reqToMe"), actionEvent);
     }
 
     public void myRequests(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("myReq"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("myReq"), actionEvent);
 
     }
 
     public void systemNotif(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("systemNotif"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("systemNotif"), actionEvent);
 
     }
 }

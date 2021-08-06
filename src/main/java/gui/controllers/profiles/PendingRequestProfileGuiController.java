@@ -1,6 +1,6 @@
 package gui.controllers.profiles;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.ImageController;
 import gui.controllers.InfoLoader;
 import gui.controllers.SceneLoader;
@@ -11,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import models.User;
 import util.ConfigLoader;
 
 import java.net.URL;
@@ -61,7 +60,7 @@ public class PendingRequestProfileGuiController implements Initializable, Contro
         NOTIFICATION_CONTROLLER.deleteRequest(userId);
         PrivateProfileGuiController.setPrevious(previous);
         PrivateProfileGuiController.setUser(userId);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("privateProf"),actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("privateProf"),actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
@@ -73,7 +72,7 @@ public class PendingRequestProfileGuiController implements Initializable, Contro
         USER_CONTROLLER.blockUser(userId);
         BlockedProfileGuiController.setUser(userId);
         BlockedProfileGuiController.setPrevious(previous);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("blockedProf"),actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("blockedProf"),actionEvent);
     }
 
     public static long getUser() {

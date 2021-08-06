@@ -1,7 +1,7 @@
 package gui.controllers.personalpage.factions;
 
 import controllers.ProfileAccessController;
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import gui.controllers.popups.factions.AddUserToFactionBox;
 import gui.controllers.popups.SimpleConfirmBox;
@@ -49,7 +49,7 @@ public class FactionUsersGuiController implements Initializable, Controllers {
             Button profile = new Button("profile");
             profile.setId(String.valueOf(member.getId()));
             profile.setOnAction(event -> {
-                ProfileAccessController profileAccessController = new ProfileAccessController(4, member.getId(), factionID);
+                ProfileAccessController profileAccessController = new ProfileAccessController(ConfigLoader.getPreviousMenuCode("factions"), member.getId(), factionID);
                 SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), event);
             });
 
@@ -63,7 +63,7 @@ public class FactionUsersGuiController implements Initializable, Controllers {
         boolean answer = SimpleConfirmBox.display("confirmation" , "Are you sure to delete the faction?");
         if (answer){
             FACTIONS_CONTROLLER.deleteFaction(factionID);
-            SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionList"),actionEvent);
+            SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("factionList"),actionEvent);
         }
 
     }
@@ -78,7 +78,7 @@ public class FactionUsersGuiController implements Initializable, Controllers {
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionList"),actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("factionList"),actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {

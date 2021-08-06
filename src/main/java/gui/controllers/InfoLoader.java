@@ -1,5 +1,7 @@
 package gui.controllers;
 
+import controllers.Controllers;
+
 public class InfoLoader implements Controllers {
 
     public static String load(long userId){

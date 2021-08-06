@@ -9,20 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MessageController {
+public class MessageController implements Repository{
     private final static Logger log = LogManager.getLogger(MessageController.class);
-    private final MessageRepository MESSAGE_REPOSITORY;
-    private final ChatRepository CHAT_REPOSITORY;
-    private final UserRepository USER_REPOSITORY;
-    private final FactionRepository FACTION_REPOSITORY;
-    private final TweetRepository TWEET_REPOSITORY;
 
     public MessageController() {
-        MESSAGE_REPOSITORY = new MessageRepository();
-        USER_REPOSITORY = new UserRepository();
-        CHAT_REPOSITORY = new ChatRepository();
-        FACTION_REPOSITORY = new FactionRepository();
-        TWEET_REPOSITORY = new TweetRepository();
     }
 
     public ArrayList<Long> getSavedMessage() {
@@ -196,6 +186,7 @@ public class MessageController {
 
     public void deleteMessage(long id) {
         MESSAGE_REPOSITORY.delete(id);
+        log.info("message " + id + " was deleted");
     }
 
     public void editMessage(long messageId, String newText) {

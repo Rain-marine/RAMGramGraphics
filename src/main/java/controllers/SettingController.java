@@ -3,65 +3,70 @@ package controllers;
 
 import models.LoggedUser;
 import models.User;
-import repository.UserRepository;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import repository.Repository;
 
 import java.util.Date;
 import java.util.List;
 
 
-public class SettingController {
-    private final UserRepository userRepository;
+public class SettingController implements Repository {
+    private final static Logger log = LogManager.getLogger(SettingController.class);
+
 
     public SettingController() {
-        this.userRepository = new UserRepository();
     }
 
     public void logout() {
         if (!(LoggedUser.getLoggedUser() == null))
-            userRepository.setLastSeen(LoggedUser.getLoggedUser().getId(), new Date());
+            USER_REPOSITORY.setLastSeen(LoggedUser.getLoggedUser().getId(), new Date());
         LoggedUser.setLoggedUser(null);
     }
 
     public void deleteAccount() {
-        userRepository.deleteAccount(LoggedUser.getLoggedUser().getId());
+        USER_REPOSITORY.deleteAccount(LoggedUser.getLoggedUser().getId());
+        log.info("account deleted: " + LoggedUser.getLoggedUser().getUsername());
         LoggedUser.setLoggedUser(null);
     }
 
     public boolean isPasswordCorrect(String password) {
-        return userRepository.getById(LoggedUser.getLoggedUser().getId()).getPassword().equals(password);
+        return USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId()).getPassword().equals(password);
     }
 
     public boolean isAccountPublic(String username) {
-        User user = userRepository.getByUsername(username);
+        User user = USER_REPOSITORY.getByUsername(username);
         return user.isPublic();
     }
 
     public void changeAccountVisibility(boolean newVisibility) {
-        userRepository.changeAccountVisibility(LoggedUser.getLoggedUser().getId(), newVisibility);
+        USER_REPOSITORY.changeAccountVisibility(LoggedUser.getLoggedUser().getId(), newVisibility);
     }
 
     public void deActiveAccount() {
-        userRepository.deactivateAccount(LoggedUser.getLoggedUser().getId());
+        USER_REPOSITORY.deactivateAccount(LoggedUser.getLoggedUser().getId());
+        log.info(LoggedUser.getLoggedUser().getUsername() + " account deActivated");
         logout();
     }
 
     public String getUserLastSeenStatus(String username) {
-        User user = userRepository.getByUsername(username);
+        User user = USER_REPOSITORY.getByUsername(username);
         return user.getLastSeenStatus();
     }
 
     public void changeLastSeenStatus(String newStatus) {
-        userRepository.changeLastSeenStatus(LoggedUser.getLoggedUser().getId(), newStatus);
+        USER_REPOSITORY.changeLastSeenStatus(LoggedUser.getLoggedUser().getId(), newStatus);
+        log.info("lastseen status for " + LoggedUser.getLoggedUser().getUsername() + " was changed to " + newStatus);
     }
 
     public void changePassword(String newPassword) {
-        userRepository.changePassword(LoggedUser.getLoggedUser().getId(), newPassword);
+        USER_REPOSITORY.changePassword(LoggedUser.getLoggedUser().getId(), newPassword);
     }
 
     public String lastSeenForLoggedUser(long rawUserId) {
-        User user = userRepository.getById(rawUserId);
+        User user = USER_REPOSITORY.getById(rawUserId);
         long loggedUserId = LoggedUser.getLoggedUser().getId();
-        String status = userRepository.getById(user.getId()).getLastSeenStatus();
+        String status = USER_REPOSITORY.getById(user.getId()).getLastSeenStatus();
         if (user.getFollowings().stream().noneMatch(it -> it.getId() == loggedUserId)) {
             return ("last seen recently");
         } else if (status.equals("everybody"))
@@ -78,7 +83,7 @@ public class SettingController {
     }
 
     public String birthdayForLoggedUser(long userId) {
-        User user = userRepository.getById(userId);
+        User user = USER_REPOSITORY.getById(userId);
         User.Level status = user.isBirthDayVisible();
         if (user.getBirthday() != null){
             if (status == User.Level.FOLLOWING) {
@@ -102,7 +107,7 @@ public class SettingController {
 
 
     public String emailForLoggedUser(long userId) {
-        User user = userRepository.getById(userId);
+        User user = USER_REPOSITORY.getById(userId);
         User.Level status = user.isEmailVisible();
         if (status == User.Level.FOLLOWING) {
             long loggedUserId = LoggedUser.getLoggedUser().getId();
@@ -122,7 +127,7 @@ public class SettingController {
     }
 
     public String phoneNumberForLoggedUser(long userId) {
-        User user = userRepository.getById(userId);
+        User user = USER_REPOSITORY.getById(userId);
         User.Level status = user.isPhoneNumberVisible();
         if (!user.getPhoneNumber().equals("")){
             if (status == User.Level.FOLLOWING) {
@@ -148,15 +153,15 @@ public class SettingController {
     }
 
     public User.Level getUserNumberStatus(User loggedUser) {
-        return userRepository.getById(loggedUser.getId()).isPhoneNumberVisible();
+        return USER_REPOSITORY.getById(loggedUser.getId()).isPhoneNumberVisible();
     }
 
     public User.Level getUserEmailStatus(User loggedUser) {
-        return userRepository.getById(loggedUser.getId()).isEmailVisible();
+        return USER_REPOSITORY.getById(loggedUser.getId()).isEmailVisible();
     }
 
     public User.Level getUserBirthdayStatus(User loggedUser) {
-        return userRepository.getById(loggedUser.getId()).isBirthDayVisible();
+        return USER_REPOSITORY.getById(loggedUser.getId()).isBirthDayVisible();
     }
 
     public void changeNumberStatus(String newStatus) {
@@ -165,7 +170,7 @@ public class SettingController {
             case "ALL" -> User.Level.ALL;
             default -> User.Level.NONE;
         };
-        userRepository.changeNumberStatus(LoggedUser.getLoggedUser().getId(), status);
+        USER_REPOSITORY.changeNumberStatus(LoggedUser.getLoggedUser().getId(), status);
     }
 
     public void changeEmailStatus(String newStatus) {
@@ -174,7 +179,7 @@ public class SettingController {
             case "ALL" -> User.Level.ALL;
             default -> User.Level.NONE;
         };
-        userRepository.changeEmailStatus(LoggedUser.getLoggedUser().getId(), status);
+        USER_REPOSITORY.changeEmailStatus(LoggedUser.getLoggedUser().getId(), status);
     }
 
     public void changeBirthdayStatus(String newStatus) {
@@ -183,11 +188,12 @@ public class SettingController {
             case "ALL" -> User.Level.ALL;
             default -> User.Level.NONE;
         };
-        userRepository.changeBirthdayStatus(LoggedUser.getLoggedUser().getId(), status);
+        USER_REPOSITORY.changeBirthdayStatus(LoggedUser.getLoggedUser().getId(), status);
     }
 
     public void activateAccount(String username) {
-        User deActiveUser = userRepository.getByUsername(username);
-        userRepository.activateAccount(deActiveUser.getId());
+        User deActiveUser = USER_REPOSITORY.getByUsername(username);
+        USER_REPOSITORY.activateAccount(deActiveUser.getId());
+        log.info(username + " account activated");
     }
 }

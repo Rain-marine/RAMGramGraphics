@@ -1,17 +1,15 @@
 package gui.controllers;
 
+import gui.controllers.popups.AlertBox;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import util.ConfigLoader;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import javax.imageio.ImageIO;
 import javax.naming.SizeLimitExceededException;
 
 public class ImageController {
@@ -42,7 +40,6 @@ public class ImageController {
         Image image;
         if (byteArray != null) {
             image = new Image(new ByteArrayInputStream(byteArray));
-            return image;
         } else {
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
             image = new Image(classloader.getResourceAsStream(ConfigLoader.readProperty("defaultPicAdd")));

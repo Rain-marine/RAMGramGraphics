@@ -3,16 +3,15 @@ package repository;
 import models.Tweet;
 import models.User;
 import repository.utils.EntityManagerProvider;
-import views.ConsoleColors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
-import java.util.ArrayList;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserRepository {

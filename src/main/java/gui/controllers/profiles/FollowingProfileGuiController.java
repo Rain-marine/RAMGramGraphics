@@ -1,5 +1,6 @@
 package gui.controllers.profiles;
 
+import controllers.Controllers;
 import controllers.ProfileAccessController;
 import gui.controllers.*;
 import gui.controllers.messages.ChatShowerGuiController;
@@ -13,13 +14,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import models.Tweet;
-import models.User;
 import util.ConfigLoader;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class FollowingProfileGuiController implements Initializable, Controllers {
@@ -62,19 +60,19 @@ public class FollowingProfileGuiController implements Initializable, Controllers
                 switch (factionId){
                     case -1 -> {
                         DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.FOLLOWER);
-                        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("defaultFactions"), actionEvent);
+                        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("defaultFactions"), actionEvent);
                     }
                     case -2 -> {
                         DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.FOLLOWING);
-                        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("defaultFactions"), actionEvent);
+                        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("defaultFactions"), actionEvent);
                     }
                     case -3 ->{
                         DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.BLACKLIST);
-                        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("defaultFactions"), actionEvent);
+                        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("defaultFactions"), actionEvent);
                     }
                     default -> {
                         FactionUsersGuiController.setFactionID(factionId);
-                        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionUsers"), actionEvent);
+                        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("factionUsers"), actionEvent);
                     }
                 }
 
@@ -102,7 +100,7 @@ public class FollowingProfileGuiController implements Initializable, Controllers
         ChatShowerGuiController.setProfileAccessController(profileAccessController);
         ChatShowerGuiController.setPreviousMenu(ChatShowerGuiController.PREVIOUS.PROFILE);
         ChatShowerGuiController.setChatId(MESSAGE_CONTROLLER.getChatWithUser(userId));
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("chat"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("chat"), actionEvent);
     }
 
     public void tweetsButtonClicked(ActionEvent actionEvent) {
@@ -110,7 +108,7 @@ public class FollowingProfileGuiController implements Initializable, Controllers
         TweetShowerGuiController.setProfileAccessController(profileAccessController);
         TweetShowerGuiController.setListOfTweets(listOfTweets);
         TweetShowerGuiController.setPreviousMenu(5);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("tweetShower"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("tweetShower"), actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
@@ -123,7 +121,7 @@ public class FollowingProfileGuiController implements Initializable, Controllers
         BlockedProfileGuiController.setUser(userId);
         BlockedProfileGuiController.setPrevious(previous);
         BlockedProfileGuiController.setFactionId(factionId);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("blockedProf"),actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("blockedProf"),actionEvent);
     }
 
     public static long getUser() {

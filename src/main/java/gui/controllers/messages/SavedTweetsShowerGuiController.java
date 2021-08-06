@@ -1,6 +1,6 @@
 package gui.controllers.messages;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import gui.controllers.tweets.TweetCard;
 import javafx.event.ActionEvent;

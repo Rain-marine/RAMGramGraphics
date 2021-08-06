@@ -1,7 +1,4 @@
-package gui.controllers;
-
-import controllers.*;
-import models.Message;
+package controllers;
 
 public interface Controllers {
     NotificationController NOTIFICATION_CONTROLLER = new NotificationController();

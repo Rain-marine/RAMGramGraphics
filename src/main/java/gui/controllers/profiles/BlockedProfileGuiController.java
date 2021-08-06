@@ -1,5 +1,6 @@
 package gui.controllers.profiles;
 
+import controllers.Controllers;
 import controllers.ProfileAccessController;
 import gui.controllers.*;
 import gui.controllers.personalpage.factions.FactionUsersGuiController;
@@ -11,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import models.User;
 import util.ConfigLoader;
 
 import java.net.URL;
@@ -55,14 +55,14 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
             case (3) -> SceneLoader.getInstance().yourTweets(actionEvent);
             case (4) -> {
                 FactionUsersGuiController.setFactionID(factionId);
-                SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionUsers"), actionEvent);
+                SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("factionUsers"), actionEvent);
             }
         }
     }
 
     public void unblockButtonClicked(ActionEvent actionEvent) {
         USER_CONTROLLER.unblockUser(userId);
-        ProfileAccessController profileAccessController = new ProfileAccessController(1, userId,0);
+        ProfileAccessController profileAccessController = new ProfileAccessController(ConfigLoader.getPreviousMenuCode("explorer"), userId,0);
         SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(),actionEvent);
     }
 
@@ -70,8 +70,8 @@ public class BlockedProfileGuiController implements Initializable , Controllers 
         ArrayList<Long> listOfTweets = TWEET_CONTROLLER.getAllTweets(userId);
         TweetShowerGuiController.setProfileAccessController(profileAccessController);
         TweetShowerGuiController.setListOfTweets(listOfTweets);
-        TweetShowerGuiController.setPreviousMenu(5);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("tweetShower"), actionEvent);
+        TweetShowerGuiController.setPreviousMenu(ConfigLoader.getPreviousMenuCode("profile"));
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("tweetShower"), actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {

@@ -3,22 +3,17 @@ package controllers;
 import models.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import repository.ChatRepository;
-import repository.UserRepository;
+import repository.Repository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ChatController {
+public class ChatController implements Repository {
     private final static Logger log = LogManager.getLogger(ChatController.class);
-    private final ChatRepository CHAT_REPOSITORY;
-    private final UserRepository USER_REPOSITORY;
 
     public ChatController() {
-        CHAT_REPOSITORY = new ChatRepository();
-        USER_REPOSITORY = new UserRepository();
     }
 
     public List<Long> getChatsIds() {
@@ -31,6 +26,7 @@ public class ChatController {
     }
 
     public void seeChat(long chatId) {
+        log.info("the chat " + chatId + " was seen by :" + LoggedUser.getLoggedUser().getUsername());
         CHAT_REPOSITORY.clearUnSeenCount(chatId, LoggedUser.getLoggedUser().getId());
     }
 
@@ -40,6 +36,7 @@ public class ChatController {
                 USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId()),
                 USER_REPOSITORY.getById(frontUserId));
         CHAT_REPOSITORY.addMessageToChat(chatId, newMessage);
+        log.info(LoggedUser.getLoggedUser().getUsername() + " sent message to " + chatId);
     }
 
     public long getFrontUserId(long chatId) {
@@ -71,6 +68,7 @@ public class ChatController {
         List<User> groupMembers = members.stream().map(USER_REPOSITORY::getByUsername).collect(Collectors.toList());
         Chat chat = new Chat(groupMembers, name);
         CHAT_REPOSITORY.insert(chat);
+        log.info(" group chat " + chat.getId() + " was created by " + LoggedUser.getLoggedUser().getUsername());
     }
 
     public void addMemberToGroupChat(String member, long chatId) {

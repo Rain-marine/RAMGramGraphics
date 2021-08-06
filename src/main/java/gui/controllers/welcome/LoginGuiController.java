@@ -45,7 +45,7 @@ public class LoginGuiController {
                     SceneLoader.getInstance().mainMenu(actionEvent);
                 }
                 else{
-                    SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("deactiveSelfProf"),actionEvent);
+                    SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("deactiveSelfProf"),actionEvent);
                 }
             }
             catch (InvalidInputException e) {
@@ -55,17 +55,7 @@ public class LoginGuiController {
     }
 
     public void registerButtonClicked(ActionEvent actionEvent) {
-        try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource(ConfigLoader.readProperty("register")));
-            stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("register"), actionEvent);
     }
 
 

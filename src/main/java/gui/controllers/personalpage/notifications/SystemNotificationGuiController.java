@@ -1,6 +1,6 @@
 package gui.controllers.personalpage.notifications;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,7 +54,7 @@ public class SystemNotificationGuiController implements Initializable, Controlle
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("notificationAdd"),actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("notificationAdd"),actionEvent);
     }
 
     public void mainMenuButtonClicked(ActionEvent actionEvent) {

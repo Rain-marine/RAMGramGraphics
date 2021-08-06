@@ -1,5 +1,6 @@
 package gui.controllers.profiles;
 
+import controllers.Controllers;
 import controllers.ProfileAccessController;
 import gui.controllers.*;
 import gui.controllers.popups.AlertBox;
@@ -10,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import models.User;
 import util.ConfigLoader;
 
 import java.net.URL;
@@ -63,15 +63,15 @@ public class PublicProfileGuiController implements Initializable, Controllers {
         NOTIFICATION_CONTROLLER.FollowUser(userId);
         FollowingProfileGuiController.setUser(userId);
         FollowingProfileGuiController.setPrevious(previous);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("followingProf"),actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("followingProf"),actionEvent);
     }
 
     public void tweetsButtonClicked(ActionEvent actionEvent) {
         ArrayList<Long> listOfTweets = TWEET_CONTROLLER.getAllTweets(userId);
         TweetShowerGuiController.setProfileAccessController(profileAccessController);
         TweetShowerGuiController.setListOfTweets(listOfTweets);
-        TweetShowerGuiController.setPreviousMenu(5);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("tweetShower"), actionEvent);
+        TweetShowerGuiController.setPreviousMenu(ConfigLoader.getPreviousMenuCode("profile"));
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("tweetShower"), actionEvent);
     }
 
     public void reportButtonClicked(ActionEvent actionEvent) {
@@ -83,7 +83,7 @@ public class PublicProfileGuiController implements Initializable, Controllers {
         USER_CONTROLLER.blockUser(userId);
         BlockedProfileGuiController.setUser(userId);
         BlockedProfileGuiController.setPrevious(previous);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("blockedProf"),actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("blockedProf"),actionEvent);
     }
 
     public static long getUser() {

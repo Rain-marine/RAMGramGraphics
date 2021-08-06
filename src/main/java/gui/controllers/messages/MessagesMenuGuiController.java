@@ -1,6 +1,6 @@
 package gui.controllers.messages;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import gui.controllers.popups.messaging.NewGroup;
 import gui.controllers.popups.messaging.SendNewMessage;
@@ -65,10 +65,10 @@ public class MessagesMenuGuiController implements Initializable, Controllers {
     }
 
     public void savedMessagesButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("savedMessages"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("savedMessages"), actionEvent);
     }
 
     public void savedTweetsButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("savedTweets"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("savedTweets"), actionEvent);
     }
 }

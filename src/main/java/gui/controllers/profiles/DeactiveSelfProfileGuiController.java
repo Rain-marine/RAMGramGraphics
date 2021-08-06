@@ -1,6 +1,6 @@
 package gui.controllers.profiles;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import javafx.event.ActionEvent;
 import models.LoggedUser;

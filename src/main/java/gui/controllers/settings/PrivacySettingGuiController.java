@@ -1,6 +1,6 @@
 package gui.controllers.settings;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,7 +56,7 @@ public class PrivacySettingGuiController implements Initializable, Controllers {
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("setting"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("setting"), actionEvent);
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {

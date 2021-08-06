@@ -1,6 +1,6 @@
 package gui.controllers.popups.messaging;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.popups.ConfirmBox;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,12 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EditMessage implements ConfirmBox, Controllers {
 

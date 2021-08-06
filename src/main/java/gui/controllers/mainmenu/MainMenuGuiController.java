@@ -1,6 +1,5 @@
 package gui.controllers.mainmenu;
 
-import controllers.SettingController;
 import gui.controllers.SceneLoader;
 import gui.controllers.popups.AlertBox;
 import javafx.event.ActionEvent;
@@ -61,6 +60,6 @@ public class MainMenuGuiController {
     }
 
     public void settingButtonClicked(ActionEvent actionEvent) {
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("setting"),actionEvent);
+        SceneLoader.getInstance().setting(actionEvent);
     }
 }

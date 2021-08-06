@@ -1,6 +1,6 @@
 package gui.controllers.messages;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -34,11 +34,11 @@ public class ChatCard implements Controllers {
         goToChat.setOnAction(event -> {
             if (this.isGroup){
                 GroupChatShowerGuiController.setGroupId(chatId);
-                SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("groupChat"), event);
+                SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("groupChat"), event);
             }
             else{
                 ChatShowerGuiController.setChatId(chatId);
-                SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("chat"), event);
+                SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("chat"), event);
             }
 
         });

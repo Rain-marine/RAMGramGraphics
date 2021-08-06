@@ -1,6 +1,6 @@
 package gui.controllers.popups.factions;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.popups.ConfirmBox;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

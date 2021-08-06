@@ -10,6 +10,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import util.ConfigLoader;
 
+import java.io.IOException;
+import java.util.Objects;
+
 
 public class Main extends Application {
     static Logger log = LogManager.getLogger(Main.class);
@@ -21,20 +24,27 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        final SettingController settingsController = new SettingController();
-        Parent root = FXMLLoader.load(getClass().getResource(ConfigLoader.readProperty("loginFXMLAddress")));
-        primaryStage.setTitle("RAMGram");
-        primaryStage.setOnCloseRequest(e -> {
-            e.consume();
-            boolean answer = SimpleConfirmBox.display("Exit confirmation" , "Are you sure to Exit?");
-            if (answer){
-                settingsController.logout();
-                primaryStage.close();
-            }
-        });
-        Image icon = new Image(String.valueOf(getClass().getResource(ConfigLoader.readProperty("appIconAddress"))));
-        primaryStage.getIcons().add(icon);
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        try {
+            final SettingController settingsController = new SettingController();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(Objects.requireNonNull(ConfigLoader.loadFXML("loginFXMLAddress")))));
+            primaryStage.setTitle("RAMGram");
+            primaryStage.setOnCloseRequest(e -> {
+                e.consume();
+                boolean answer = SimpleConfirmBox.display("Exit confirmation", "Are you sure to Exit?");
+                if (answer) {
+                    settingsController.logout();
+                    primaryStage.close();
+                }
+            });
+            Image icon = new Image(String.valueOf(getClass().getResource(ConfigLoader.readProperty("appIconAddress"))));
+            primaryStage.getIcons().add(icon);
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setResizable(Boolean.parseBoolean(ConfigLoader.readProperty("appWindowResizable")));
+            primaryStage.show();
+        }
+        catch (IOException fxmlLoadException){
+            System.err.println("FXML URLs configuration is missing");
+            log.error("fxml missing: login menu");
+        }
     }
 }

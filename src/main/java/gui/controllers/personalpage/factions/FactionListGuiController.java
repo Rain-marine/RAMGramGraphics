@@ -1,6 +1,6 @@
 package gui.controllers.personalpage.factions;
 
-import gui.controllers.Controllers;
+import controllers.Controllers;
 import gui.controllers.SceneLoader;
 import gui.controllers.popups.factions.CreatFactionBox;
 import javafx.event.ActionEvent;
@@ -41,7 +41,7 @@ public class FactionListGuiController implements Initializable , Controllers {
             show.setId(String.valueOf(faction.getId()));
             show.setOnAction(event -> {
                 FactionUsersGuiController.setFactionID(Integer.parseInt(show.getId()));
-                SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("factionUsers"), event);
+                SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("factionUsers"), event);
             });
 
             HBox factionRow = new HBox(5);
@@ -72,16 +72,16 @@ public class FactionListGuiController implements Initializable , Controllers {
 
     public void blackListButtonClicked(ActionEvent actionEvent) {
         DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.BLACKLIST);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("defaultFactions"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("defaultFactions"), actionEvent);
     }
 
     public void followingButtonClicked(ActionEvent actionEvent) {
         DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.FOLLOWING);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("defaultFactions"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("defaultFactions"), actionEvent);
     }
 
     public void followerButtonClicked(ActionEvent actionEvent) {
         DefaultFactionsGuiController.setList(DefaultFactionsGuiController.LIST.FOLLOWER);
-        SceneLoader.getInstance().changeScene(ConfigLoader.readProperty("defaultFactions"), actionEvent);
+        SceneLoader.getInstance().changeScene(ConfigLoader.loadFXML("defaultFactions"), actionEvent);
     }
 }
