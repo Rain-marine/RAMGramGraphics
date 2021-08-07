@@ -27,7 +27,7 @@ public class AuthController implements Repository {
                 LoggedUser.setLoggedUser(user);
                 log.info(username + " logged in");
                 if (user.isActive()) {
-                    log.info(username + " last seen updated: " + user.getLastSeen().toString());
+                    log.info(username + " last seen updated ");
                     USER_REPOSITORY.setLastSeen(user.getId(), new Date());
                 }
                 return user;
