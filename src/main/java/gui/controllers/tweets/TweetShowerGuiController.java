@@ -42,14 +42,12 @@ public class TweetShowerGuiController implements Initializable, Controllers {
     }
 
     public void backButtonClicked(ActionEvent actionEvent) {
-        System.out.println(previousMenu);
         switch (previousMenu) {
             case 1 -> SceneLoader.getInstance().explorer(actionEvent);
             case 2 -> SceneLoader.getInstance().timeline(actionEvent);
             case 5 -> SceneLoader.getInstance().changeScene(profileAccessController.checkAccessibility(), actionEvent);
             case 6 -> SceneLoader.getInstance().personalPage(actionEvent);
         }
-        //todo
     }
 
     public void logoutButtonClicked(ActionEvent actionEvent) {
