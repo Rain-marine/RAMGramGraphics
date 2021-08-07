@@ -31,9 +31,6 @@ public class FactionListGuiController implements Initializable , Controllers {
 
     private void loadFactions() {
         List<Group> factions = FACTIONS_CONTROLLER.getFactions();
-        for (Group faction : factions) {
-            System.out.println(faction.getName());
-        }
         VBox list = new VBox(10);
         for (Group faction : factions) {
             Label factionName = new Label(faction.getName());

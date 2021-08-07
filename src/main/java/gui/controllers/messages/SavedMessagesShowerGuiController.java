@@ -39,7 +39,7 @@ public class SavedMessagesShowerGuiController implements Initializable, Controll
     }
 
     private void loadMessages() {
-        VBox list = new VBox(5);
+        VBox list = new VBox(0);
         ArrayList<Long> messageIDs = MESSAGE_CONTROLLER.getSavedMessage();
         for (Long messageID : messageIDs) {
             list.getChildren().add(new MessageCard(messageID).getCard());

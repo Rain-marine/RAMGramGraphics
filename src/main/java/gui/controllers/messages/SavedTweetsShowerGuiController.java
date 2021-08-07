@@ -24,7 +24,7 @@ public class SavedTweetsShowerGuiController implements Initializable, Controller
     }
 
     private void loadMessages() {
-        VBox list = new VBox(5);
+        VBox list = new VBox(0);
         ArrayList<Long> tweetIDs = MESSAGE_CONTROLLER.getSavedTweets();
         for (Long tweetId : tweetIDs) {
             list.getChildren().add(new TweetCard(tweetId , TweetCard.MODE.PROFILE).getVBox());
