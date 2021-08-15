@@ -226,6 +226,8 @@ public class TweetCard implements Controllers {
             buttons.getChildren().addAll(like, report, retweet, block, mute);
             vBox.getChildren().addAll(header, tweetText, tweetPhoto , likedNumber, buttons ,  addCommentLayout , separator);
         } else {
+            header.getChildren().addAll(profilePhoto, writerName );
+            header.getChildren().add(new VBox(5, dateTime , generalButtons));
             vBox.getChildren().addAll(header, tweetText, tweetPhoto , likedNumber ,  addCommentLayout , separator);
         }
 
