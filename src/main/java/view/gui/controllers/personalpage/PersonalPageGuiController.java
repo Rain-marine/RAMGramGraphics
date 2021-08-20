@@ -119,7 +119,7 @@ public class PersonalPageGuiController implements Initializable , Controllers {
             if (!newEmail.contains("@") || !newEmail.contains(".")) {
                 emailEdit.setText("invalid email address");
             } else if (!userController.changeEmail(newEmail)) {
-                usernameEdit.setText("email already exists");
+                emailEdit.setText("email already exists");
             }
         }
 
@@ -133,7 +133,7 @@ public class PersonalPageGuiController implements Initializable , Controllers {
             Integer.parseInt(newNumber);
             if (!newNumber.equals(phoneNumber)) {
                 if (!userController.changeNumber(newNumber)) {
-                    emailEdit.setText("phone number already exists");
+                    phoneNumberEdit.setText("phone number already exists");
                 }
             }
 
