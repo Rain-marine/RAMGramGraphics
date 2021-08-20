@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.welcome.RegisterGuiController">
+<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.gui.controllers.welcome.RegisterGuiController">
    <center>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="358.0" prefWidth="309.0" BorderPane.alignment="CENTER" />
    </center>

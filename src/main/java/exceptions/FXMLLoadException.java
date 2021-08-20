@@ -1,7 +1,6 @@
 package exceptions;
 
-import controllers.FactionsController;
-import gui.controllers.popups.AlertBox;
+import view.popups.AlertBox;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
