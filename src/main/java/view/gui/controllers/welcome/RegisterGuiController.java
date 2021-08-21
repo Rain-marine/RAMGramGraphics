@@ -52,6 +52,8 @@ public class RegisterGuiController {
     private final RegisterManager registerManager = new RegisterManager();
 
     public void registerButtonClicked(ActionEvent actionEvent) {
+        System.out.println("checking registration...");
+        registerSuccessful.setText("");
         String fullName = fullNameTextField.getText();
         if (fullName.isEmpty()) {
             fullNameError.setText("you must enter your fullName");

@@ -111,4 +111,24 @@ public class ProfileAccessController implements Repository {
         PublicProfileGuiController.setProfileAccessController(this);
         return "FXMLs/Profiles/PublicProfile.fxml";
     }
+
+    public User getLoggedUser() {
+        return loggedUser;
+    }
+
+    public User getOtherUser() {
+        return otherUser;
+    }
+
+    public int getPreviousMenu() {
+        return previousMenu;
+    }
+
+    public long getOtherUserId() {
+        return otherUserId;
+    }
+
+    public int getFactionId() {
+        return factionId;
+    }
 }
