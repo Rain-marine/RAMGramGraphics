@@ -32,11 +32,13 @@ public class ChatController implements Repository {
 
     public void addMessageToChat(long chatId, String message, byte[] images) {
         long frontUserId = getFrontUserId(chatId);
-        Message newMessage = new Message(message, images,
-                USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId()),
-                USER_REPOSITORY.getById(frontUserId));
-        CHAT_REPOSITORY.addMessageToChat(chatId, newMessage);
-        log.info(LoggedUser.getLoggedUser().getUsername() + " sent message to " + chatId);
+        if (!hasReceiverBlocked(frontUserId)) {
+            Message newMessage = new Message(message, images,
+                    USER_REPOSITORY.getById(LoggedUser.getLoggedUser().getId()),
+                    USER_REPOSITORY.getById(frontUserId));
+            CHAT_REPOSITORY.addMessageToChat(chatId, newMessage);
+            log.info(LoggedUser.getLoggedUser().getUsername() + " sent message to " + chatId);
+        }
     }
 
     public long getFrontUserId(long chatId) {
@@ -110,6 +112,15 @@ public class ChatController implements Repository {
             names.add(userChat.getUser().getUsername());
         }
         return names;
+    }
+
+    private boolean hasReceiverBlocked( long frontUserId) {
+        List<User> blocked = USER_REPOSITORY.getById(frontUserId).getBlackList();
+        for (User user : blocked) {
+            if(user.getId() == LoggedUser.getLoggedUser().getId())
+                return true;
+        }
+        return false;
     }
 
     public void leaveGroup(long groupId) {

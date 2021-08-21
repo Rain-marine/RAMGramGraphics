@@ -155,6 +155,7 @@ public class TweetCard implements Controllers {
             String commentTextString = commentText.getText();
             if(!commentTextString.equals("")){
                 TWEET_CONTROLLER.addComment(commentTextString , commentImageArray == null ? null :commentImageArray , tweetId);
+                commentText.setText("");
             }
         });
         commentImage.setStyle("-fx-background-color: #690081");
